@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="app">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+        <script src="https://code.angularjs.org/1.5.0/angular-route.js"></script>
+        <link rel="stylesheet" type="text/css" href="content/app.css">
+
+    </head>
+    <body>
+        <!-- Navbar-->
+        <ob-navbar></ob-navbar>
+
+        <!-- main view -->
+        <ng-view></ng-view>
+
+        <!-- Main Module -->
+        <script src="modules/app.module.js"></script>
+
+        <!-- auth module-->
+        <script src="modules/auth/auth.module.js"></script>
+        <script src="modules/auth/auth.controller.js"></script>
+        <script src="modules/auth/auth.service.js"></script>
+        <script src="modules/auth/config.route.js"></script>
+        
+        <!--  Navbar-->
+        <script src="modules/layout/layout.module.js"></script>
+        <script src="modules/layout/navbar.directive.js"></script>
+
+    </body>
+</html>

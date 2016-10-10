@@ -1,0 +1,24 @@
+<form name="authForm" id="register" ng-submit="authForm.$valid && vm.register(vm.user)" novalidate>
+    name:<input name="user" ng-model="vm.user.user" required autofocus placeholder="name">
+    
+    <!--Name error-->
+    <div ng-show="authForm.$submitted">
+        <p class="error" ng-show="authForm.user.$error.required">Name required</p>
+    </div>
+    email:<input type="email" name="email" ng-model="vm.user.email" ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }"  required placeholder="email">
+    
+    <!--Email error-->
+    <div ng-show="authForm.$submitted">
+        <p ng-show="authForm.email.$error.required" class="error">Email required</p>
+        <p ng-show="authForm.email.$error.email" class="error">Please enter a valid email.</p>
+    </div>
+    password:<input type="password" name="password" ng-model="vm.user.password" required placeholder="password">
+    
+    <!--Password error-->
+    <div ng-show="authForm.$submitted">
+        <p ng-show="authForm.password.$error.required" class="error">Password required</p>
+    </div>
+    <button class="button" type="submit">register</button>
+    <br>
+    <p class="error" ng-show="vm.error()" ng-bind="vm.error()"></p>
+</form>

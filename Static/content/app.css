@@ -1,0 +1,25 @@
+/*landing*/
+body {
+    margin: 0px;
+}
+
+textarea{
+    resize: none;
+    padding: 1%;
+}
+
+/* navbar */
+#navbar {
+    height: 50px;
+    margin: 0px;
+    padding: 0px;
+    background-color: darkblue;
+}
+
+#navbar a {
+    color: white;
+}
+/*auth*/
+.error {
+    color: red;
+}

@@ -1,0 +1,27 @@
+{
+  "name": "bookme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-session": "^2.0.0-alpha.1",
+    "express": "^4.14.0",
+    "pg": "^6.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/obay-mardini/bookMe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/obay-mardini/bookMe/issues"
+  },
+  "homepage": "https://github.com/obay-mardini/bookMe#readme"
+}
