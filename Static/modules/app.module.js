@@ -5,7 +5,8 @@
     .module('app', [
       'ngRoute',
       'app.layout',
-      'app.auth'
+      'app.auth',
+      'app.search'
   ])
 
 })();
