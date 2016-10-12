@@ -25,3 +25,33 @@ textarea{
 .error {
     color: red;
 }
+
+/*search*/
+.ticket {
+    height: 80px;
+    width: 600px;
+    border: 2px solid blue;
+    margin: 20px;
+}
+
+.price {
+    float: right;
+    font-size: 25px;
+}
+
+.destination {
+    border: 2px solid green;
+}
+
+.origin {
+    border: 2px solid green;
+}
+
+.carrier {
+    float: left;
+}
+
+.select {
+    float: right;
+    background-color: blue;
+}

@@ -125,8 +125,8 @@ app.post('/search', function(req, res, next) {
                 grouppricing:'on',
                 originplace:'BKK',
                 destinationplace:'LHR',
-                outbounddate:'2016-10-17',
-                inbounddate:'2016-10-24',
+                outbounddate:'2016-11-20',
+                inbounddate:'2016-12-20',
                 adults:1,
                 children:0,
                 infants:0,
@@ -169,7 +169,7 @@ app.get('/pollSession', function(req, res, next){
     var target = url.parse(req.session.key);
     var options = {
         host: target.host,
-        path: target.path + '?apikey=prtl6749387986743898559646983194',
+        path: target.path + '?apikey=prtl6749387986743898559646983194&pageindex=0&pagesize=20',
         method: 'GET'
     };
     

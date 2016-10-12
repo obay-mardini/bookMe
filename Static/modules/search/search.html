@@ -4,3 +4,23 @@
     <input name="arriving" placeholder="arriving" required>
     <button type="submit">Search</button>
 </form>
+
+<div class="results">
+    <div class="ticket" ng-repeat="flight in vm.flights">
+        <div class="top">
+            <span class="origin">{{flight.origin}}</span>
+            <span class="outboundDuration">{{flight.outboundDuration}} hr</span>
+            <span class="destination">{{flight.destination}}</span>
+            <span class="outboundDuration">{{flight.inboundDuration}} hr</span>
+            <span class="price">{{flight.pricingOptions.price}}</span>
+        </div>
+        <div>
+            <img class="carrier" src={{flight.carrierImage}}>
+            <button class="select" href={{flight.pricingOptions.DeeplinkUrl}}>Select</button>
+        </div>
+        <div>
+            <span>{{flight.pricingOptions.origin}}</span>
+        </div>
+       
+    </div>
+</div>
