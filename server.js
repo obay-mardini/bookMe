@@ -117,22 +117,22 @@ app.post('/search', function(req, res, next){
 
 //second way
 app.post('/search', function(req, res, next) {
+    var ticketInfo = req.body;  
     var data = querystring.stringify({country:'UK',
                 currency:'USD',
                 locale:'en-GB',
                 locationSchema:'iata',
                 apiKey:'prtl6749387986743898559646983194',
                 grouppricing:'on',
-                originplace:'BKK',
-                destinationplace:'LHR',
-                outbounddate:'2016-11-20',
-                inbounddate:'2016-12-20',
-                adults:1,
-                children:0,
-                infants:0,
-                cabinclass:'Economy'
+                originplace: ticketInfo.originplace,
+                destinationplace:ticketInfo.destinationplace,
+                outbounddate: ticketInfo.outbounddate.split('T')[0],
+                inbounddate: ticketInfo.inbounddate.split('T')[0],
+                adults:ticketInfo.adults,
+                children:ticketInfo.children,
+                infants:ticketInfo.infants,
+                cabinclass: ticketInfo.class
                 });
-    
      var options = {
         host: 'api.skyscanner.net',
         path: '/apiservices/pricing/v1.0?apikey=prtl6749387986743898559646983194',
@@ -145,7 +145,6 @@ app.post('/search', function(req, res, next) {
         };
     
     var request = http.request(options, function(response){
-        
         req.session.key = response.headers.location;
         response.on('data',function(){
             //
@@ -166,7 +165,7 @@ app.post('/search', function(req, res, next) {
 });
 
 app.get('/pollSession', function(req, res, next){
-    var target = url.parse(req.session.key);
+    var target = url.parse(req.session.key)
     var options = {
         host: target.host,
         path: target.path + '?apikey=prtl6749387986743898559646983194&pageindex=0&pagesize=20',
@@ -176,7 +175,6 @@ app.get('/pollSession', function(req, res, next){
     var request = http.request(options, function(response){
         console.log(response.statusCode);
        var str = '';
-       var count = 1;
        response.on('data', function(chunk){
            str += chunk;
        });
@@ -192,6 +190,38 @@ app.get('/pollSession', function(req, res, next){
     request.end();
 });
 
+app.post('/predict', function(req, res, next){
+    var target = url.parse(req.body.link);
+    var options = {
+        host: 'api.skyscanner.net',
+        path: target.path + '&apiKey=prtl6749387986743898559646983194',
+        method: 'GET'
+    };
+    var request = http.request(options, function(response) {
+        console.log(target.path )
+        var str = '';
+       response.on('data', function(chunk){
+           str += chunk;
+       });
+        
+        response.on('end', function(){
+            res.end(str)
+        });
+    });
+    
+    request.on('error', function(err) {
+        console.log(err)
+        res.status(500);
+        res.end('error in the sever');
+    });
+    
+    request.end();
+});
+//app.put('/bookingDetails', function(req, res, next){
+//    var options = {
+//        host: 
+//    }
+//})
 //comments
 app.post("/addComment",isLoggedIn, function(req,res) {
     var client = new pg.Client(dbUrl);

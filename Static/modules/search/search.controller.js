@@ -5,21 +5,46 @@
         .module('app.search')
         .controller('SearchController', SearchController);
     
-    SearchController.$inject = ["$http"]
-    function SearchController($http) {
+    SearchController.$inject = ["$http", "$q", "autoComplete"]
+    function SearchController($http, $q, autoComplete) {
         var vm = this;
         vm.flights;
-        $http.defaults.headers.common = {
-                'Access-Control-Allow-Origin': '*'
-        };
-        
-        
+        vm.deepUrl = deepUrl;
         vm.search = search;
-        search();
+        vm.selectTicket = selectTicket;
+        vm.data = null;
+        vm.suggestions = autoComplete.suggestions;
+        vm.predict = autoComplete.predict;
+        vm.active = autoComplete.active;
+        vm.inActive = autoComplete.inActive;
+        vm.chooseSuggestion = autoComplete.chooseSuggestion;
+        vm.input = autoComplete.input;
+        vm.currentInputElement = autoComplete.currentInputElement;
+        vm.cancelSuggestions = autoComplete.cancelSuggestions;
+        vm.showSuggestion = showSuggestion;
+        vm.error = null;
+        
+        function showSuggestion() {
+            return autoComplete.noS();
+        }
+        
+        function selectTicket() {
+            search(vm.data);
+        }
+        
+        function deepUrl(url) {
+            console.log(url)
+            window.open($(url).href, '_blank');
+            //$http.put("/deepLink")
+        }
+        
         
         function search(data) {
-            $http.post("/search").then(function(result){
+            $http.post("/search",data).then(function(result){
                 console.log(result)
+                if(result.data.Status === "UpdatesPending") {
+                    vm.error = 'please search again'
+                }
                 var agents = {};
                 result.data.Agents.forEach(function(agent){
                     agents[agent.Id.toString()] = agent.Name;

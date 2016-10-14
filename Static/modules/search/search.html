@@ -1,9 +1,18 @@
-<form id="searchBox" name="searchBox" ng-submit="vm.search()">
-    <input name="departureAirpot" placeholder="departute airport" required>
-    <input name="departing" placeholder="departing" required>
-    <input name="arriving" placeholder="arriving" required>
+<form id="searchBox" name="searchBox" ng-model="vm.data" ng-submit="vm.selectTicket()" novalidate>
+    <input id="originplace" type="text" autocomplete="off" ng-focus="vm.currentInputElement('#originplace')" ng-model="vm.data.originplace" ng-blur="vm.cancelSuggestions()" ng-change="vm.predict(vm.data.originplace)" name="originplace" placeholder="origin airport" required>
+    <input id="destinationplace" ng-blur="vm.cancelSuggestions()" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
+    <input ng-model="vm.data.outbounddate" name="outbounddate" type="date" placeholder="departing" required>
+    <input ng-model="vm.data.inbounddate" name="inbounddate" type="date" placeholder="arriving" required>
+    <input ng-model="vm.data.adults" name="adults" type="number" placeholder="1-8" required>
+    <input ng-model="vm.data.children" name="children" type="number" placeholder="children">
+    <input ng-model="vm.data.infants" name="infants" type="number" placeholder="infants">
+    <input ng-model="vm.data.class" name="class" placeholder="Economy">
     <button type="submit">Search</button>
+    <p class="error" ng-show="vm.error" ng-bind="vm.error"></p>
 </form>
+
+<div class="suggestions" ng-hide="vm.showSuggestion()"><div ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)">{{suggest}}</div></div>
+
 
 <div class="results">
     <div class="ticket" ng-repeat="flight in vm.flights">
@@ -16,7 +25,7 @@
         </div>
         <div>
             <img class="carrier" src={{flight.carrierImage}}>
-            <button class="select" href={{flight.pricingOptions.DeeplinkUrl}}>Select</button>
+            <button class="select" href={{flight.pricingOptions.DeeplinkUrl}} ng-click="vm.deepUrl($event)">Select</button>
         </div>
         <div>
             <span>{{flight.pricingOptions.origin}}</span>

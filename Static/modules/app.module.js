@@ -6,7 +6,8 @@
       'ngRoute',
       'app.layout',
       'app.auth',
-      'app.search'
+      'app.search',
+      'app.autoComplete'
   ])
 
 })();

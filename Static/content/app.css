@@ -8,6 +8,9 @@ textarea{
     padding: 1%;
 }
 
+.error {
+    color: red;
+}
 /* navbar */
 #navbar {
     text-align: center;
@@ -28,10 +31,14 @@ textarea{
 
 /*search*/
 .ticket {
-    height: 80px;
+    height: 100px;
     width: 600px;
     border: 2px solid blue;
     margin: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    position: relative;
 }
 
 .price {
@@ -45,13 +52,33 @@ textarea{
 
 .origin {
     border: 2px solid green;
+    margin-left: 15px;
 }
 
 .carrier {
     float: left;
+    margin-left: 10px;
 }
 
 .select {
     float: right;
     background-color: blue;
+    position: absolute;
+    top: 50%;
+    transform: translate(0,-50%);
+    margin-left: 200px;
 }
+
+/*auto complete*/
+.suggestions {
+    border-left: 1px black solid;
+    border-right:1px black solid;
+    border-bottom:1px black solid;
+    width: 200px;
+}
+
+.currentSuggestion {
+    background-color: green;
+    color: orange;
+}
+
