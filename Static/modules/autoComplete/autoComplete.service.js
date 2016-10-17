@@ -39,12 +39,13 @@
         service.input.input = element;
         noSuggestions = false;
     }
+      
     function chooseSuggestion(element) {
         $(service.input.input).val($(element.target).html()); 
     }
 
     function active(element) {
-        $(service.input.input).val($(element.target).html()); 
+        $(service.input.input).val($(element.target).html());
         $(element.currentTarget).addClass('currentSuggestion');
     }
 
@@ -59,7 +60,7 @@
         $http.post("/predict",{link: 'http://partners.api.skyscanner.net/apiservices/autosuggest/v1.0/UK/USD/en-GB/?query=' + quess}).success(function(result) {
             service.suggestions.suggestions = service.suggestions.suggestions || [];
             result.Places.forEach(function(place){
-                service.suggestions.suggestions.push(place.PlaceName);
+                service.suggestions.suggestions.push({'PlaceName':place.PlaceName, 'PlaceId': place.PlaceId});
             });
             deferred.resolve();
         }).error(function(err){

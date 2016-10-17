@@ -23,7 +23,7 @@
         vm.cancelSuggestions = autoComplete.cancelSuggestions;
         vm.showSuggestion = showSuggestion;
         vm.error = null;
-        
+        vm.today = new Date();
         function showSuggestion() {
             return autoComplete.noS();
         }
@@ -40,10 +40,25 @@
         
         
         function search(data) {
+            console.log(data.originplace)
+           data.originplace = vm.suggestions.suggestions.find(function(element) {
+               return element.PlaceName === $('#originplace').val();
+           }).PlaceId;
+             console.log(data.originplace);
+             console.log(data.destinationplace)
+           data.destinationplace = vm.suggestions.suggestions.find(function(element) {
+               return element.PlaceName === $('#destinationplace').val();
+           }).PlaceId;
+             console.log(data.destinationplace)
             $http.post("/search",data).then(function(result){
                 console.log(result)
+                if(result.data.Itineraries.length === 0) {
+                    vm.error = 'please changes the dates!!';
+                    return;
+                }
                 if(result.data.Status === "UpdatesPending") {
-                    vm.error = 'please search again'
+                    vm.error = 'please search again';
+                    return search(data);
                 }
                 var agents = {};
                 result.data.Agents.forEach(function(agent){
@@ -97,6 +112,7 @@
                 });
                 console.log(vm.flights)
             }).catch(function(err){
+                vm.error = err.statusText;
                 console.log(err)
             });
            

@@ -40,10 +40,10 @@ app.use(bodyParser.json({
     extended: false
 }));
 //ask David how to separate your sessions so some are stored in Redis and others in memory
-//app.use(cookieSession({
-//  name: 'session',
-//  keys: ['key1', 'key2']
-//}));
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}));
 
 var isLoggedIn = function(req,res,next){
     if(!req.session.user){
@@ -139,7 +139,9 @@ app.post('/search', function(req, res, next){
 
 //second way
 app.post('/search', function(req, res, next) {
+    
     var ticketInfo = req.body;  
+    console.log(ticketInfo);
     var data = querystring.stringify({country:'UK',
                 currency:'USD',
                 locale:'en-GB',
@@ -167,30 +169,20 @@ app.post('/search', function(req, res, next) {
         };
     
     var request = http.request(options, function(response){
-       console.log(req.session.key === response.headers.location)
-       console.log(response.headers.location)
-        if(req.session.key === response.headers.location){
-            console.log('data is cached already');
-            client.get(req.session.key, function(err, data) {
-                if (err) {
-                    return console.log(err);
-                }
-                
-                res.end(data)
-            });
+        if(!response.headers.location) {
             
+        } else {
+            req.session.key = response.headers.location;
+            response.on('data',function(){
+                //
+            });
+
+            response.on('end', function(){
+               console.log('end')
+               res.redirect('/pollSession');
+            });
         }
-        console.log('after the if')
-        req.session.key = response.headers.location;
-        response.on('data',function(){
-            //
-        });
-        
-        response.on('end', function(){
-           console.log('end')
-            res.redirect('/pollSession');
-        });
-        
+
     });
     request.on('error', function(err){
         res.status(500);
@@ -201,7 +193,8 @@ app.post('/search', function(req, res, next) {
 });
 
 app.get('/pollSession', function(req, res, next){
-    var target = url.parse(req.session.key)
+    console.log(req.session.key)
+    var target = url.parse(req.session.key);
     var options = {
         host: target.host,
         path: target.path + '?apikey=prtl6749387986743898559646983194&pageindex=0&pagesize=20',
@@ -216,10 +209,17 @@ app.get('/pollSession', function(req, res, next){
        });
         
         response.on('end', function(){
-            res.end(str)
-        });
+            if(str === '' && (response.statusCode === 200 || response.statusCode === 304)) {
+                console.log('redirecting again!!')
+                res.redirect('/pollSession');
+            } else {
+                res.end(str);
+            }
+            
+        }); 
     });
     request.on('error', function(err){
+        console.log(err);
         res.status(500);
         res.end('server error please try again later');
     });
@@ -229,13 +229,14 @@ app.get('/pollSession', function(req, res, next){
 app.post('/predict', function(req, res, next){
     var target = url.parse(req.body.link);
     var query = querystring.parse(target.query).query;
-    client.get(query, function(err, data) {
-        console.log(data)
+    client.hgetall('predictions', function(err, data) {
         if (err) {
             return console.log(err);
         }
-        if(data === null) {
-            console.log('send a request')
+        data = data || {}
+        console.log(data[query])
+        if(data[query] === undefined) {
+            console.log('send a request');
             var options = {
                 host: 'api.skyscanner.net',
                 path: target.path + '&apiKey=prtl6749387986743898559646983194',
@@ -250,7 +251,7 @@ app.post('/predict', function(req, res, next){
                 });
 
                 response.on('end', function(){
-                    client.set(query, str)
+                    client.hmset('predictions',query, str)
                     res.end(str)
                 });
             });
@@ -264,7 +265,7 @@ app.post('/predict', function(req, res, next){
             request.end();
         } else {
             console.log('thank you redis')
-           res.end(data)
+           res.end(data[query])
         }
     })
     
