@@ -6,7 +6,29 @@ var bodyParser = require('body-parser');
 var pg = require('pg');
 var querystring = require('querystring');
 var url = require('url');
+//var session = require('express-session');
 var dbUrl = process.env.DATABASE_URL || "postgres://spiced:spiced1@localhost:5432/encounter";
+//var configSession = require('connect-redis')(session);
+var redis = require('redis');
+var client = redis.createClient({
+    host: 'localhost',
+    port: 6379
+});
+
+client.on('error', function(err) {
+    console.log(err);
+});
+
+//app.use(session({
+//    store: new configSession({
+//        ttl: 3600,
+//        host: 'localhost',
+//        port: 6379
+//    }),
+//    resave: false,
+//    saveUninitialized: true,
+//    secret: 'nothing in my mind now'
+//}));
 
 app.use(express.static(__dirname + '/Static'));
 
@@ -17,11 +39,11 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json({
     extended: false
 }));
-
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2']
-}));
+//ask David how to separate your sessions so some are stored in Redis and others in memory
+//app.use(cookieSession({
+//  name: 'session',
+//  keys: ['key1', 'key2']
+//}));
 
 var isLoggedIn = function(req,res,next){
     if(!req.session.user){
@@ -145,6 +167,20 @@ app.post('/search', function(req, res, next) {
         };
     
     var request = http.request(options, function(response){
+       console.log(req.session.key === response.headers.location)
+       console.log(response.headers.location)
+        if(req.session.key === response.headers.location){
+            console.log('data is cached already');
+            client.get(req.session.key, function(err, data) {
+                if (err) {
+                    return console.log(err);
+                }
+                
+                res.end(data)
+            });
+            
+        }
+        console.log('after the if')
         req.session.key = response.headers.location;
         response.on('data',function(){
             //
@@ -192,30 +228,47 @@ app.get('/pollSession', function(req, res, next){
 
 app.post('/predict', function(req, res, next){
     var target = url.parse(req.body.link);
-    var options = {
-        host: 'api.skyscanner.net',
-        path: target.path + '&apiKey=prtl6749387986743898559646983194',
-        method: 'GET'
-    };
-    var request = http.request(options, function(response) {
-        console.log(target.path )
-        var str = '';
-       response.on('data', function(chunk){
-           str += chunk;
-       });
-        
-        response.on('end', function(){
-            res.end(str)
-        });
-    });
+    var query = querystring.parse(target.query).query;
+    client.get(query, function(err, data) {
+        console.log(data)
+        if (err) {
+            return console.log(err);
+        }
+        if(data === null) {
+            console.log('send a request')
+            var options = {
+                host: 'api.skyscanner.net',
+                path: target.path + '&apiKey=prtl6749387986743898559646983194',
+                method: 'GET'
+            };
+            var request = http.request(options, function(response) {
+
+                console.log(target.path )
+                var str = '';
+                response.on('data', function(chunk){
+                   str += chunk;
+                });
+
+                response.on('end', function(){
+                    client.set(query, str)
+                    res.end(str)
+                });
+            });
+
+            request.on('error', function(err) {
+                console.log(err)
+                res.status(500);
+                res.end('error in the sever');
+            });
     
-    request.on('error', function(err) {
-        console.log(err)
-        res.status(500);
-        res.end('error in the sever');
-    });
+            request.end();
+        } else {
+            console.log('thank you redis')
+           res.end(data)
+        }
+    })
     
-    request.end();
+    
 });
 //app.put('/bookingDetails', function(req, res, next){
 //    var options = {
