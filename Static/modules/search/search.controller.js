@@ -24,6 +24,19 @@
         vm.showSuggestion = showSuggestion;
         vm.error = null;
         vm.today = new Date();
+        vm.toggleWays = toggleWays;
+        vm.twoWays = true;
+        vm.ways = 'two ways'
+        
+        function toggleWays() {
+            console.log('toggle')
+            vm.twoWays = !vm.twoWays;
+            if(vm.twoWays) {
+                vm.ways = 'two ways'
+            } else {
+                vm.ways = 'one way'
+            }
+        }
         function showSuggestion() {
             return autoComplete.noS();
         }
@@ -33,8 +46,7 @@
         }
         
         function deepUrl(url) {
-            console.log(url)
-            window.open($(url).href, '_blank');
+            window.open($(url.currentTarget).attr('href'), '_blank');
             //$http.put("/deepLink")
         }
         
@@ -97,10 +109,6 @@
                        pricingOptions = {agent: agents[option.Agents[0]], price: option.Price, DeeplinkUrl: option.DeeplinkUrl}
                     });
                     
-                    console.log(originStops.reduce(function(originStops, start){
-                                originStops.push(places[start])
-                                return originStops
-                            }, []))
                     return {
                             destination: places[destination],
                             origin: places[origin],

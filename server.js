@@ -158,7 +158,6 @@
                     cabinclass: ticketInfo.class
                     });
        
-        console.log(data)
          var options = {
             host: 'api.skyscanner.net',
             path: '/apiservices/pricing/v1.0?apikey=prtl6749387986743898559646983194',
@@ -188,7 +187,7 @@
         });
         request.on('error', function(err){
             res.status(500);
-            res.end('server error please try again later');
+            res.end('oobs... server error can you search again in a moment');
         });
         request.write(data);
         request.end()
@@ -240,7 +239,6 @@
                 return console.log(err);
             }
             data = data || {}
-            console.log(data[query])
             if(data[query] === undefined) {
                 console.log('send a request');
                 var options = {

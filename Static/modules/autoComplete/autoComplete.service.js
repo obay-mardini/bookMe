@@ -34,6 +34,7 @@
     function capitalizeFirstLetter(word) {
         return word[0].toUpperCase() + word.slice(1);
     }
+      
     function cancelSuggestions(element) {
         var currentValue = $(element).val()
         var capitalizedVersion = [];
