@@ -28,8 +28,10 @@
         <div class="top">
             <span class="origin">{{flight.origin}}</span>
             <span class="outboundDuration">{{flight.outboundDuration}} hr</span>
+            stops: <span class="stops" ng-repeat="stop in flight.originStops">{{stop}}</span>
             <span class="destination">{{flight.destination}}</span>
             <span class="outboundDuration">{{flight.inboundDuration}} hr</span>
+            stops: <span class="stops" ng-repeat="stop in flight.destionationStops">{{stop}}</span>
             <span class="price">{{flight.pricingOptions.price}}</span>
         </div>
         <div>
