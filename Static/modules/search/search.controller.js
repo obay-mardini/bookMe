@@ -40,15 +40,13 @@
         
         
         function search(data) {
-            console.log(data.originplace)
-           data.originplace = vm.suggestions.suggestions.find(function(element) {
-               return element.PlaceName === $('#originplace').val();
-           }).PlaceId;
+            $('#originplaceshadow').trigger('input');
+            $('#destinationplaceshadow').trigger('input');
+            console.log(data)
+//           data.originplace = vm.suggestions.suggestions.find(function(element) {
+//               return element.PlaceName === $('#originplace').val();
+//           }).PlaceId;
              console.log(data.originplace);
-             console.log(data.destinationplace)
-           data.destinationplace = vm.suggestions.suggestions.find(function(element) {
-               return element.PlaceName === $('#destinationplace').val();
-           }).PlaceId;
              console.log(data.destinationplace)
             $http.post("/search",data).then(function(result){
                 console.log(result)

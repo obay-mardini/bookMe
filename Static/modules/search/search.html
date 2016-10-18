@@ -1,6 +1,8 @@
 <form id="searchBox" name="searchBox" ng-model="vm.data" ng-submit="vm.selectTicket()" novalidate>
-    <input id="originplace" type="text" autocomplete="off" ng-focus="vm.currentInputElement('#originplace')" ng-model="vm.data.originplace" ng-blur="vm.cancelSuggestions()" ng-change="vm.predict(vm.data.originplace)" name="originplace" placeholder="origin airport" required>
-    <input id="destinationplace" ng-blur="vm.cancelSuggestions()" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
+    <input id="originplace" type="text" autocomplete="off" ng-focus="vm.currentInputElement('#originplace')" ng-model="vm.data.originplace" ng-blur="vm.cancelSuggestions('#originplace')" ng-change="vm.predict(vm.data.originplace)" name="originplace" placeholder="origin airport" required>
+    <input id="originplaceshadow" ng-model="vm.data.originId" hidden></div>
+    <input id="destinationplace" ng-blur="vm.cancelSuggestions('#destinationplace')" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
+    <input id="destinationplaceshadow" ng-model="vm.data.destinationId" hidden>
     <input ng-model="vm.data.outbounddate" name="outbounddate" type="date" date-check placeholder="departing"  required>
     <input ng-model="vm.data.inbounddate" name="inbounddate" type="date" date-check placeholder="arriving" required>
     <input ng-model="vm.data.adults" name="adults" type="number" placeholder="1-8" required>

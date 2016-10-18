@@ -12,7 +12,7 @@
     var service = {
        cancelSuggestions: cancelSuggestions,
        currentInputElement: currentInputElement,
-       chooseSuggestion: chooseSuggestion,
+//       chooseSuggestion: chooseSuggestion,
        active: active,
        inActive: inActive,
         predict: predict,
@@ -30,8 +30,20 @@
     function noS() {
         return noSuggestions;
     }
-      
-    function cancelSuggestions() {
+    
+    function capitalizeFirstLetter(word) {
+        return word[0].toUpperCase() + word.slice(1);
+    }
+    function cancelSuggestions(element) {
+        var currentValue = $(element).val()
+        var capitalizedVersion = [];
+        currentValue.split(' ').forEach(function(currentWord) {
+            capitalizedVersion.push(capitalizeFirstLetter(currentWord));
+        });
+        var skyId = service.suggestions.suggestions.find(function(suggestion) {
+            return suggestion.PlaceName === capitalizedVersion.join(' ');
+        }).PlaceId;
+        $(element + 'shadow').val(skyId); 
         noSuggestions = true;
     }
 
@@ -40,12 +52,14 @@
         noSuggestions = false;
     }
       
-    function chooseSuggestion(element) {
-        $(service.input.input).val($(element.target).html()); 
-    }
+//    function chooseSuggestion(element) {
+//        $(service.input.input).val($(element.target).html()); 
+//        console.log(element.target)
+//    }
 
     function active(element) {
         $(service.input.input).val($(element.target).html());
+        $(service.input.input + 'shadow').val($(element.target).attr('data-skyscannervalue')); 
         $(element.currentTarget).addClass('currentSuggestion');
     }
 
