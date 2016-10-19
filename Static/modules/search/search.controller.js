@@ -5,12 +5,13 @@
         .module('app.search')
         .controller('SearchController', SearchController);
     
-    SearchController.$inject = ["$http", "$q","$routeParams", "autoComplete"]
-    function SearchController($http, $q, $routeParams, autoComplete) {
+    SearchController.$inject = ["$http", "$q","$routeParams", "autoComplete", "getFlights"]
+    function SearchController($http, $q, $routeParams, autoComplete, getFlights) {
+        console.log('searchCOntrollllllller')
         var vm = this;
-        vm.flights;
+        vm.flights = getFlights.getFlights;
         vm.deepUrl = deepUrl;
-        vm.search = search;
+        vm.search = getFlights.search;
         vm.selectTicket = selectTicket;
         vm.data = null;
         vm.suggestions = autoComplete.suggestions;
@@ -28,6 +29,9 @@
         vm.twoWays = true;
         vm.ways = 'two ways'
         vm.orderNextPage = orderNextPage;
+        vm.giveMe = function() {
+            console.log(vm.flights.currentPage)
+        }
         
         function toggleWays() {
             console.log('toggle')
@@ -43,7 +47,8 @@
         }
         
         function selectTicket() {
-            search(vm.data);
+            console.log('calling seach')
+            getFlights.search(vm.data);
         }
         
         function deepUrl(url) {
@@ -53,100 +58,15 @@
         
         function orderNextPage(page) {
             console.log(page)
-            $http.get("/pollSession/" + page).then(function(result){
-                console.log(result)
+            $http.get("/pollSession/" + page).then(setFlights).then(function(){
+                location.hash = 'search/' + page;
             }).catch(function(err) {
                 console.log(err);
             })
         }
         
-        function search(data) {
-            vm.error = null;
-            $('#originplaceshadow').trigger('input');
-            $('#destinationplaceshadow').trigger('input');
-//           data.originplace = vm.suggestions.suggestions.find(function(element) {
-//               return element.PlaceName === $('#originplace').val();
-//           }).PlaceId;
-            $http.post("/search",data).then(function(result){
-                console.log(result)
-                if(result.data.Status === "UpdatesComplete" && result.data.Itineraries.length === 0) {
-                    vm.error = 'please changes the dates!!';
-                    console.log('no resluts provided')
-                    return;
-                }
-                if(result.data.Status === "UpdatesPending") {
-                    vm.error = 'please wait';
-                    console.log('poll again')
-                    return search(data);
-                }
-                var agents = {};
-                result.data.Agents.forEach(function(agent){
-                    agents[agent.Id.toString()] = agent.Name;
-                })
-                var legs = {};
-                result.data.Legs.forEach(function(leg){
-                    legs[leg.Id] = [leg.Arrival, leg.Departure, leg.Directionality, leg.DestinationStation, leg.OriginStation, leg.Carriers, leg.Stops];
-                });
-                var places = {};
-                result.data.Places.forEach(function(place){
-                    places[place.Id] = place.Name;
-                })
-                
-                var carriers = {};
-                result.data.Carriers.forEach(function(carrier){
-                    carriers[carrier.Id] = carrier.ImageUrl
-                })
-                var id = parseInt($routeParams.id, 10);
-                
-                vm.flights = vm.flights || [];
-                vm.flights[id] =  result.data.Itineraries || vm.flights[id];
-                vm.flights[id] = vm.flights[id].map(function(flight){
-                    var outboundId = flight.OutboundLegId;
-                    var inboundId = flight.InboundLegId;
-                    var arrival = legs[outboundId][0];
-                    var departure = legs[outboundId][1];
-                    var arrivalR = inboundId && legs[inboundId][0];
-                    var departureR = legs[inboundId][1];
-                    var destination = legs[outboundId][3];
-                    var origin = legs[outboundId][4];
-                    var carrierImage = carriers[legs[outboundId][5]];
-                    var carrierImageR = carriers[legs[inboundId][5]];
-                    var originStops =  legs[inboundId][6];
-                    var destinationStops = legs[outboundId][6];
-                    var inboundDuration = Math.abs(new Date(arrival) - new Date(departure))/(1000*60*60);
-                    var outboundDuration = Math.abs(new Date(arrivalR) - new Date(departureR))/(1000*60*60);
-                    var pricingOptions = {}
-                    flight.PricingOptions.map(function(option){
-                       pricingOptions = {agent: agents[option.Agents[0]], price: option.Price, DeeplinkUrl: option.DeeplinkUrl}
-                    });
-                    
-                    return {
-                            destination: places[destination],
-                            origin: places[origin],
-                            pricingOptions: pricingOptions,
-                            inboundDuration: Math.round(inboundDuration),
-                            outboundDuration: Math.round(outboundDuration),
-                            carrierImage: carrierImage,
-                            carrierImageR: carrierImageR,
-                            originStops: originStops.reduce(function(originStops, start){
-                                originStops.push(places[start])
-                                return originStops;
-                            }, []),
-                            destinationStops: destinationStops.reduce(function(destinationStops, start){
-                                destinationStops.push(places[start]);
-                                return destinationStops;
-                            }, [])
-                           };
-                 
-                });
-                
-                vm.flights.currentPage = vm.flights[id];
-                console.log(vm.flights)
-            }).catch(function(err){
-                vm.error = err.statusText;
-                console.log(err)
-            });
-           
-        }
+        
+
+        
     }
 })();

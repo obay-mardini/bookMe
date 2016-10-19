@@ -3,7 +3,6 @@
     
     angular.module('app.search')
         .directive('outGreaterThanIn', function() {
-        console.log('here')
             return {
                 restrict: 'A',
                 require: 'ng-model',
@@ -12,9 +11,6 @@
                       
                       function outGreaterThanIn(viewValue){
                           var outboundDate = $('#outboundDate').val();
-                          console.log(outboundDate)
-                          console.log($('#outboundDate').val())
-                          console.log(new Date(viewValue) - new Date(outboundDate) > 0)
                         if(!outboundDate) {
                             console.log('outboundDate is not provided')
                             ctrl.$setValidity('outGreaterThanIn',false);

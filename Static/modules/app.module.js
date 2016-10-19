@@ -7,7 +7,8 @@
       'app.layout',
       'app.auth',
       'app.search',
-      'app.autoComplete'
+      'app.autoComplete',
+      'app.getFlights'
   ])
 
 })();
