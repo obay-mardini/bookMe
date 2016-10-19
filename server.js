@@ -155,7 +155,8 @@
                     adults:ticketInfo.adults,
                     children:ticketInfo.children,
                     infants:ticketInfo.infants,
-                    cabinclass: ticketInfo.class
+                    cabinclass: ticketInfo.class,
+                    groupPricing:true
                     });
        
          var options = {
@@ -180,7 +181,7 @@
 
                 response.on('end', function(){
                    console.log('end')
-                   res.redirect('/pollSession');
+                   res.redirect('/pollSession/0');
                 });
             }
 
@@ -193,16 +194,19 @@
         request.end()
     });
 
-    app.get('/pollSession', function(req, res, next){
+    app.get('/pollSession/:id', function(req, res, next){
         console.log(req.session.key)
+        var page = req.params.id;
+        console.log(page)
         var target = url.parse(req.session.key);
         var options = {
             host: target.host,
-            path: target.path + '?apikey=prtl6749387986743898559646983194&pageindex=0&pagesize=20',
+            path: target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page,
             method: 'GET'
         };
-
+        
         var request = http.request(options, function(response){
+            console.log(options.host + options.path)
             console.log(response.statusCode);
            var str = '';
            response.on('data', function(chunk){

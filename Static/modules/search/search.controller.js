@@ -5,8 +5,8 @@
         .module('app.search')
         .controller('SearchController', SearchController);
     
-    SearchController.$inject = ["$http", "$q", "autoComplete"]
-    function SearchController($http, $q, autoComplete) {
+    SearchController.$inject = ["$http", "$q","$routeParams", "autoComplete"]
+    function SearchController($http, $q, $routeParams, autoComplete) {
         var vm = this;
         vm.flights;
         vm.deepUrl = deepUrl;
@@ -27,14 +27,15 @@
         vm.toggleWays = toggleWays;
         vm.twoWays = true;
         vm.ways = 'two ways'
+        vm.orderNextPage = orderNextPage;
         
         function toggleWays() {
             console.log('toggle')
             vm.twoWays = !vm.twoWays;
             if(vm.twoWays) {
-                vm.ways = 'two ways'
+                vm.ways = 'two ways';
             } else {
-                vm.ways = 'one way'
+                vm.ways = 'one way';
             }
         }
         function showSuggestion() {
@@ -50,6 +51,14 @@
             //$http.put("/deepLink")
         }
         
+        function orderNextPage(page) {
+            console.log(page)
+            $http.get("/pollSession/" + page).then(function(result){
+                console.log(result)
+            }).catch(function(err) {
+                console.log(err);
+            })
+        }
         
         function search(data) {
             vm.error = null;
@@ -87,9 +96,11 @@
                 result.data.Carriers.forEach(function(carrier){
                     carriers[carrier.Id] = carrier.ImageUrl
                 })
+                var id = parseInt($routeParams.id, 10);
                 
-                vm.flights =  result.data.Itineraries || vm.flights;
-                vm.flights = vm.flights.map(function(flight){
+                vm.flights = vm.flights || [];
+                vm.flights[id] =  result.data.Itineraries || vm.flights[id];
+                vm.flights[id] = vm.flights[id].map(function(flight){
                     var outboundId = flight.OutboundLegId;
                     var inboundId = flight.InboundLegId;
                     var arrival = legs[outboundId][0];
@@ -128,6 +139,9 @@
                            };
                  
                 });
+                
+                vm.flights.currentPage = vm.flights[id];
+                console.log(vm.flights)
             }).catch(function(err){
                 vm.error = err.statusText;
                 console.log(err)
