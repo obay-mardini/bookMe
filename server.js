@@ -7,7 +7,7 @@
     var querystring = require('querystring');
     var url = require('url');
     //var session = require('express-session');
-    var dbUrl = process.env.DATABASE_URL || "postgres://spiced:spiced1@localhost:5432/encounter";
+    var dbUrl = process.env.DATABASE_URL || "postgres://spiced:spiced1@localhost:5432/bookMe";
     //var configSession = require('connect-redis')(session);
     var redis = require('redis');
     var client = redis.createClient({
@@ -171,8 +171,8 @@
             };
         console.log(data)
         var request = http.request(options, function(response){
-            if(response.statusCode != 200) {
-                console.log(response.statusCode)
+            console.log(response.statusCode)
+            if(response.statusCode != 200 && response.statusCode != 201 && response.statusCode != 304) {
                 response.on('data',function(chunks){
                     res.status(400)
                     res.end(chunks)
@@ -224,7 +224,7 @@
                     console.log('redirecting again!!')
                     function redirect() {
                         console.log(new Date() - now)
-                        res.redirect('/pollSession');
+                        res.redirect('/pollSession/' + page);
                     }
                     
                     setTimeout(redirect, 1000);

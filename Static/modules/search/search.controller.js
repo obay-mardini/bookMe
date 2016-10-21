@@ -37,7 +37,6 @@
         }
         
         vm.showMeError = function() {
-            console.log(getFlights.errors)
             return getFlights.errors;
         }
         

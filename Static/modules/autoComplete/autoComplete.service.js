@@ -41,7 +41,7 @@
         var capitalizedVersion = [];
         currentValue.split(' ').forEach(function(currentWord) {
             capitalizedVersion.push(capitalizeFirstLetter(currentWord));
-        });
+        }); 
         try {
             var skyId = service.suggestions.suggestions.find(function(suggestion) {
                 return suggestion.PlaceName === capitalizedVersion.join(' ');
@@ -52,6 +52,7 @@
         
         $(element + 'shadow').val(skyId); 
         noSuggestions = true;
+        return ''
     }
 
     function currentInputElement(element) {
