@@ -18,7 +18,8 @@
         predict: predict,
         input: {input: null},
         suggestions: {suggestions: null},
-        noS: noS
+        noS: noS,
+        error: {value: null}
     };
 
     return service;
@@ -41,9 +42,14 @@
         currentValue.split(' ').forEach(function(currentWord) {
             capitalizedVersion.push(capitalizeFirstLetter(currentWord));
         });
-        var skyId = service.suggestions.suggestions.find(function(suggestion) {
-            return suggestion.PlaceName === capitalizedVersion.join(' ');
-        }).PlaceId;
+        try {
+            var skyId = service.suggestions.suggestions.find(function(suggestion) {
+                return suggestion.PlaceName === capitalizedVersion.join(' ');
+            }).PlaceId;
+        } catch(err) {
+            return 'please enter a valid city name'
+        }
+        
         $(element + 'shadow').val(skyId); 
         noSuggestions = true;
     }

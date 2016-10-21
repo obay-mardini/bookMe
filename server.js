@@ -169,10 +169,14 @@
                     'Content-Length': Buffer.byteLength(data)
                  }
             };
-
+        console.log(data)
         var request = http.request(options, function(response){
-            if(!response.headers.location) {
-
+            if(response.statusCode != 200) {
+                console.log(response.statusCode)
+                response.on('data',function(chunks){
+                    res.status(400)
+                    res.end(chunks)
+                });
             } else {
                 req.session.key = response.headers.location;
                 response.on('data',function(){
@@ -187,6 +191,7 @@
 
         });
         request.on('error', function(err){
+            console.log(err)
             res.status(500);
             res.end('oobs... server error can you search again in a moment');
         });
@@ -195,6 +200,7 @@
     });
 
     app.get('/pollSession/:id', function(req, res, next){
+        var now = new Date();
         console.log(req.session.key)
         var page = req.params.id;
         console.log(page)
@@ -217,11 +223,13 @@
                 if(response.statusCode === 304) {
                     console.log('redirecting again!!')
                     function redirect() {
+                        console.log(new Date() - now)
                         res.redirect('/pollSession');
                     }
-
+                    
                     setTimeout(redirect, 1000);
                 } else {
+                    console.log(new Date() - now)
                     res.end(str);
                 }
 
@@ -272,7 +280,6 @@
 
                 request.end();
             } else {
-                console.log('thank you redis')
                res.end(data[query])
             }
         })

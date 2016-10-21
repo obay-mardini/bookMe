@@ -12,29 +12,71 @@
     var service = {
        search: search,
        error: 'null',
-       flights: {}
+       flights: {},
+       orderNextPage: orderNextPage,
+       orderPreviousPage: orderPreviousPage,
+       goToPage: goToPage,
+       errors: {}
     };
 
     return service;
 
     ////////////
+    var data = [];
       
-    function search(data) {
+    function orderNextPage() {
+        var page = parseInt($routeParams.id, 10) + 1;
+        page >= 0 ? page = page : page = 0;
+        $http.get("/pollSession/" + page).then(setFlights).then(function(){
+            location.hash = 'search/' + page;
+        }).catch(function(err) {
+            console.log(err);
+            service.errors[err.data] = err.data;
+        })
+    }
+      
+    function orderPreviousPage() {
+        var page = parseInt($routeParams.id, 10) - 1;
+        $http.get("/pollSession/" + page).then(setFlights).then(function(){
+            location.hash = 'search/' + page;
+        }).catch(function(err) {
+            console.log(err);
+            service.errors[err.data] = err.data;
+        })
+    }
+      
+    function goToPage(page) {
+        page >= 0 ? page = page : page = 0;
+        $http.get("/pollSession/" + page).then(setFlights).then(function(){
+            location.hash = 'search/' + page;
+        }).catch(function(err) {
+            console.log(err);
+            service.errors[err.data] = err.data;
+        })
+    }
+      
+    function search(formData) {
+        data = formData;  
         service.error = null;
         $('#originplaceshadow').trigger('input');
         $('#destinationplaceshadow').trigger('input');
 //           data.originplace = vm.suggestions.suggestions.find(function(element) {
 //               return element.PlaceName === $('#originplace').val();
 //           }).PlaceId;
-        $http.post("/search",data).then(service.setFlights).catch(function(err){
-            service.error = err.statusText;
-            console.log(err)
+        return $http.post("/search",formData).then(setFlights).catch(function(err){
+            //service.errors[err.data] = err.data;
+            err.data.ValidationErrors.forEach(function(error){
+                if(service.errors[error.Message]) {
+                    service.errors[error.Message + "1"] = error.Message + ',' + error.ParameterName;
+                } else {
+                    service.errors[error.Message] = error.Message + ',' + (error.ParameterName || '.');
+                }
+            });
         });
 
     }
       
     function setFlights(result) {
-        console.log('setting flights dude')
         console.log(result)
         if(result.data.Status === "UpdatesComplete" && result.data.Itineraries.length === 0) {
             service.error = 'please changes the dates!!';

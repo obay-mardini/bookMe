@@ -9,7 +9,7 @@
     function SearchController($http, $q, $routeParams, autoComplete, getFlights) {
         console.log('searchCOntrollllllller')
         var vm = this;
-        vm.flights = getFlights.getFlights;
+        vm.flights = getFlights.flights;
         vm.deepUrl = deepUrl;
         vm.search = getFlights.search;
         vm.selectTicket = selectTicket;
@@ -21,52 +21,54 @@
         vm.chooseSuggestion = autoComplete.chooseSuggestion;
         vm.input = autoComplete.input;
         vm.currentInputElement = autoComplete.currentInputElement;
-        vm.cancelSuggestions = autoComplete.cancelSuggestions;
         vm.showSuggestion = showSuggestion;
         vm.error = null;
         vm.today = new Date();
         vm.toggleWays = toggleWays;
         vm.twoWays = true;
         vm.ways = 'two ways'
-        vm.orderNextPage = orderNextPage;
+        vm.orderNextPage = getFlights.orderNextPage;
+        vm.orderPreviousPage = getFlights.orderPreviousPage;
+        vm.goToPage = getFlights.goToPage;
+        vm.currentPage = $routeParams.id;
+        vm.cancelSuggestions = cancelSuggestions;
         vm.giveMe = function() {
-            console.log(vm.flights.currentPage)
+            console.log(vm.currentPage)
+        }
+        
+        vm.showMeError = function() {
+            console.log(getFlights.errors)
+            return getFlights.errors;
+        }
+        
+        function cancelSuggestions(element) {
+            cancelSuggestions = autoComplete.cancelSuggestions(element);
+            if(cancelSuggestions) {
+                vm.error = cancelSuggestions;
+            }
         }
         
         function toggleWays() {
             console.log('toggle')
             vm.twoWays = !vm.twoWays;
             if(vm.twoWays) {
-                vm.ways = 'two ways';
-            } else {
                 vm.ways = 'one way';
+            } else {
+                vm.ways = 'two ways';
             }
         }
+        
         function showSuggestion() {
             return autoComplete.noS();
         }
         
         function selectTicket() {
-            console.log('calling seach')
-            getFlights.search(vm.data);
+            return getFlights.search(vm.data);
         }
         
         function deepUrl(url) {
             window.open($(url.currentTarget).attr('href'), '_blank');
             //$http.put("/deepLink")
         }
-        
-        function orderNextPage(page) {
-            console.log(page)
-            $http.get("/pollSession/" + page).then(setFlights).then(function(){
-                location.hash = 'search/' + page;
-            }).catch(function(err) {
-                console.log(err);
-            })
-        }
-        
-        
-
-        
     }
 })();
