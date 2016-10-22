@@ -227,8 +227,9 @@
                         res.redirect('/pollSession/' + page);
                     }
                     
-                    setTimeout(redirect, 1000);
+                    setTimeout(redirect, 100);
                 } else {
+                    
                     console.log(new Date() - now)
                     res.end(str);
                 }
