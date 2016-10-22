@@ -62,6 +62,7 @@
         }
         
         function selectTicket() {
+            vm.error = null
             return getFlights.search(vm.data);
         }
         

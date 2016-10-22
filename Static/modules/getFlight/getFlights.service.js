@@ -58,6 +58,7 @@
     function search(formData) {
         data = formData;  
         service.error = null;
+        service.errors = {};
         $('#originplaceshadow').trigger('input');
         $('#destinationplaceshadow').trigger('input');
 //           data.originplace = vm.suggestions.suggestions.find(function(element) {
