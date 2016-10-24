@@ -5,8 +5,8 @@
         .module('app.search')
         .controller('SearchController', SearchController);
     
-    SearchController.$inject = ["$http", "$q","$routeParams", "autoComplete", "getFlights"]
-    function SearchController($http, $q, $routeParams, autoComplete, getFlights) {
+    SearchController.$inject = ["$http", "$q","$routeParams", "autoComplete", "getFlights", "GeoLocationController"]
+    function SearchController($http, $q, $routeParams, autoComplete, getFlights, GeoLocationController) {
         console.log('searchCOntrollllllller')
         var vm = this;
         vm.flights = getFlights.flights;
@@ -36,6 +36,9 @@
             console.log(vm.currentPage)
         }
         
+        GeoLocationController.city().then(function(result){
+            vm.city =  result;
+        });
         vm.showMeError = function() {
             return getFlights.errors;
         }
@@ -48,7 +51,6 @@
         }
         
         function toggleWays() {
-            console.log('toggle')
             vm.twoWays = !vm.twoWays;
             if(vm.twoWays) {
                 vm.ways = 'one way';
@@ -63,6 +65,8 @@
         
         function selectTicket() {
             vm.error = null
+            vm.data.city = vm.city;
+            console.log(vm.city)
             return getFlights.search(vm.data);
         }
         

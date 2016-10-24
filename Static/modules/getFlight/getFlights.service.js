@@ -125,11 +125,10 @@
             var destinationStops = legs[outboundId][6];
             var inboundDuration = Math.abs(new Date(arrival) - new Date(departure))/(1000*60*60);
             var outboundDuration = Math.abs(new Date(arrivalR) - new Date(departureR))/(1000*60*60);
-            var pricingOptions = {}
+            var pricingOptions = {};
             flight.PricingOptions.map(function(option){
                pricingOptions = {agent: agents[option.Agents[0]], price: option.Price, DeeplinkUrl: option.DeeplinkUrl}
             });
-
             return {
                     destination: places[destination],
                     origin: places[origin],
@@ -149,13 +148,15 @@
                    };
 
         });
-
+        if (id === 0 ) {
+            console.log('newTicket');
+            $http.get('/newTicket');    
+        }
+        
         service.flights.currentPage = service.flights[id];
         console.log(service.flights)
     }
       
-      
-
   }
       
 })();

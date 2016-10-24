@@ -138,18 +138,42 @@
     */
 
     //second way
-    app.post('/search', function(req, res, next) {
+    app.get('/newTicket', function(req, res, next) {
+        console.log('hello')
+        var ticketInfo = req.session.formData;
+        var client = new pg.Client(dbUrl);
+        client.connect(function(err){
+        
+            if(err){
+                //should throw a real error
+                console.log('please check the connection with the DB');
+            }
 
+            var query = "INSERT INTO tickets (userId, origin, destination, location, depart, return, adult,children,infants,class) VALUES ($1, $2,$3,$4, $5,$6,$7,$8,$9,$10) returning *";
+
+            client.query(query,[req.session.user.email, ticketInfo.originId, ticketInfo.destinationId, ticketInfo.city, ticketInfo.outbounddate.split('T')[0], ticketInfo.inbounddate && ticketInfo.inbounddate.split('T')[0], ticketInfo.adults,ticketInfo.children, ticketInfo.infants, ticketInfo.class], function(error,result){
+
+                if(error){
+                    console.log(error);
+                } else {
+                    console.log('done')
+                }
+
+            });
+        });
+    });
+
+    app.post('/search', function(req, res, next) {
         var ticketInfo = req.body;  
         console.log(ticketInfo);
-        var data = querystring.stringify({country:'UK',
+        var formData = {country:'UK',
                     currency:'USD',
                     locale:'en-GB',
                     locationSchema:'iata',
                     apiKey:'prtl6749387986743898559646983194',
                     grouppricing:'on',
-                    originplace: ticketInfo.originId || 'BKK-sky',
-                    destinationplace:ticketInfo.destinationId || 'DXBA-sky',
+                    originplace: ticketInfo.originId,
+                    destinationplace:ticketInfo.destinationId,
                     outbounddate: ticketInfo.outbounddate.split('T')[0],
                     inbounddate: ticketInfo.inbounddate && ticketInfo.inbounddate.split('T')[0],
                     adults:ticketInfo.adults,
@@ -157,7 +181,8 @@
                     infants:ticketInfo.infants,
                     cabinclass: ticketInfo.class,
                     groupPricing:true
-                    });
+                    };
+        var data = querystring.stringify(formData);
        
          var options = {
             host: 'api.skyscanner.net',
@@ -174,8 +199,8 @@
             console.log(response.statusCode)
             if(response.statusCode != 200 && response.statusCode != 201 && response.statusCode != 304) {
                 response.on('data',function(chunks){
-                    res.status(400)
-                    res.end(chunks)
+                    res.status(400);
+                    res.end(chunks);
                 });
             } else {
                 req.session.key = response.headers.location;
@@ -183,8 +208,9 @@
                     //
                 });
 
-                response.on('end', function(){
-                   console.log('end')
+                response.on('end', function(){   
+                   console.log('end');
+                   req.session.formData = ticketInfo;
                    res.redirect('/pollSession/0');
                 });
             }
@@ -227,9 +253,8 @@
                         res.redirect('/pollSession/' + page);
                     }
                     
-                    setTimeout(redirect, 100);
+                    setTimeout(redirect, 1000);
                 } else {
-                    
                     console.log(new Date() - now)
                     res.end(str);
                 }
@@ -334,7 +359,7 @@
             var query = "SELECT * from comments WHERE linkid = $1";
             client.query(query,[req.query.id],function(err, result){
                 if(err){
-                console.log(err);
+                    console.log(err);
                 }
 
                 res.json(result.rows);
@@ -385,7 +410,8 @@
                 }else {
                     req.session.user = {
                         loggedin: true,
-                        user: result.rows[0].name
+                        user: result.rows[0].name,
+                        email: result.rows[0].email
                     }
                     res.json(result.rows);
                 }

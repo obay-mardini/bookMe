@@ -8,7 +8,8 @@
       'app.auth',
       'app.search',
       'app.autoComplete',
-      'app.getFlights'
+      'app.getFlights',
+      'app.geoLocation'
   ])
 
 })();
