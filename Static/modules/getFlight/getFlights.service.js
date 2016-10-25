@@ -16,7 +16,8 @@
        orderNextPage: orderNextPage,
        orderPreviousPage: orderPreviousPage,
        goToPage: goToPage,
-       errors: {}
+       errors: {},
+       loading : false
     };
 
     return service;
@@ -26,36 +27,43 @@
       
     function orderNextPage() {
         var page = parseInt($routeParams.id, 10) + 1;
+        service.loading = true;
         page >= 0 ? page = page : page = 0;
         $http.get("/pollSession/" + page).then(setFlights).then(function(){
             location.hash = 'search/' + page;
         }).catch(function(err) {
             console.log(err);
             service.errors[err.data] = err.data;
+            service.loading = false;
         })
     }
       
     function orderPreviousPage() {
         var page = parseInt($routeParams.id, 10) - 1;
+        service.loading = true;
         $http.get("/pollSession/" + page).then(setFlights).then(function(){
             location.hash = 'search/' + page;
         }).catch(function(err) {
             console.log(err);
             service.errors[err.data] = err.data;
+            service.loading = false;
         })
     }
       
     function goToPage(page) {
         page >= 0 ? page = page : page = 0;
+        service.loading = true;
         $http.get("/pollSession/" + page).then(setFlights).then(function(){
             location.hash = 'search/' + page;
         }).catch(function(err) {
             console.log(err);
             service.errors[err.data] = err.data;
+            service.loading = false;
         })
     }
       
     function search(formData) {
+        service.loading = true;
         data = formData;  
         service.error = null;
         service.errors = {};
@@ -130,6 +138,7 @@
             flight.PricingOptions.map(function(option){
                pricingOptions = {agent: agents[option.Agents[0]], price: option.Price, DeeplinkUrl: option.DeeplinkUrl}
             });
+            service.loading = false;
             return {
                     destination: places[destination],
                     origin: places[origin],

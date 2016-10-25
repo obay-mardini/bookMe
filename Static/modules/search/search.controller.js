@@ -35,6 +35,10 @@
         vm.giveMe = function() {
             console.log(vm.currentPage)
         }
+        vm.spiner = function() {
+            console.log(getFlights.loading)
+            return getFlights.loading;
+        }
         
         GeoLocationController.city().then(function(result){
             vm.city =  result;

@@ -35,7 +35,7 @@
         <p class="error" ng-repeat="error in vm.showMeError()">{{error}}</p>
     </div>
 </form>  
-
+<h1 ng-show="vm.spiner()">LOADING...</h1>
 Current Page: <p ng-bind="vm.currentPage"></p>
 <div class="suggestions" ng-hide="vm.showSuggestion()"><div ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}">{{suggest.PlaceName}}</div></div>
 
