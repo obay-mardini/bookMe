@@ -106,7 +106,8 @@
         result.data.Carriers.forEach(function(carrier){
             carriers[carrier.Id] = carrier.ImageUrl
         })
-        var id = parseInt($routeParams.id, 10);
+        var id = result.config.url.split('/')[2] || 0;
+        console.log(result.config.url.split('/'))
 
         service.flights = service.flights || [];
         service.flights[id] =  result.data.Itineraries || service.flights[id];
@@ -148,11 +149,12 @@
                    };
 
         });
+        console.log(id)
         if (id === 0 ) {
             console.log('newTicket');
             $http.get('/newTicket');    
         }
-        
+        //you should set up the _id 
         service.flights.currentPage = service.flights[id];
         console.log(service.flights)
     }

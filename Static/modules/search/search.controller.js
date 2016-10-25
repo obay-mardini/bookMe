@@ -64,14 +64,27 @@
         }
         
         function selectTicket() {
+            if(parseInt($routeParams.id, 10) !== 0) {
+                location.hash = '/search/0'
+            }
             vm.error = null
             vm.data.city = vm.city;
             console.log(vm.city)
             return getFlights.search(vm.data);
         }
         
-        function deepUrl(url) {
-            window.open($(url.currentTarget).attr('href'), '_blank');
+        function deepUrl(url) {    
+            var url = $(url.currentTarget);
+            var parentDiv = url.parent().parent();
+//            $http.post('/deepUrl', {
+//                
+//            });
+            console.log(parentDiv.getElementsByClassName('price')[0].innerHTML)
+            $http.post('/bookTicket', {
+                price: parentDiv.getElementsByClassName('price')[0].innerHTML,
+                
+            })
+            window.open(url.attr('href'), '_blank');
             //$http.put("/deepLink")
         }
     }

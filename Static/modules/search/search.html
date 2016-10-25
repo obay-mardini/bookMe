@@ -29,7 +29,7 @@
         <option value="Bussiness" >Bussiness</option>
         <option value="First">First Class</option>
     </select></br></br>
-    <button type="submit">Search</button>
+    <button type="submit" >Search</button>
     <p class="error" ng-show="vm.error" ng-bind="vm.error"></p>
     <div ng-show="vm.showMeError()">
         <p class="error" ng-repeat="error in vm.showMeError()">{{error}}</p>
@@ -53,7 +53,7 @@ Current Page: <p ng-bind="vm.currentPage"></p>
         </div>
         <div>
             <img class="carrier" src={{flight.carrierImage}}>
-            <button class="select" href={{flight.pricingOptions.DeeplinkUrl}} ng-click="vm.deepUrl($event)">Select</button>
+            <button class="select" href={{flight.pricingOptions.DeeplinkUrl}} ng-click="vm.deepUrl($event)" id={{flight._id}}>Select</button>
         </div>
         <div>
             <span>{{flight.pricingOptions.origin}}</span>

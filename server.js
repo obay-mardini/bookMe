@@ -138,6 +138,11 @@
     */
 
     //second way
+    app.post('/bookTicket', function(req, res, next) {
+        var body = req.body;
+        
+    });
+
     app.get('/newTicket', function(req, res, next) {
         console.log('hello')
         var ticketInfo = req.session.formData;
