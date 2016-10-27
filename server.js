@@ -59,7 +59,58 @@
                 isLoggedIn: req.session.user.loggedin
                 })
     });
+    
+    function cashNextPage(target,page) {
+        console.log(target.path)
+        var query = target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page; 
+        client.get(query, function(err, data) {
+            if (err) {
+                return console.log(err);
+            }
+            if(!data || data === {}) {
+                console.log('the page is not here anymore');
+                var options = {
+                    host: target.host,
+                    path: target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page,
+                    method: 'GET'
+                };
+                var request = http.request(options, function(response) {
 
+                   console.log(target.path )
+                    var str = '';
+                   response.on('data', function(chunk){
+                       str += chunk;
+                   });
+
+            response.on('end', function(){
+                if(response.statusCode === 304) {
+                    console.log('redirecting again!!')
+                    function redirect() {
+                        
+                        cashNextPage(target,page)
+                    }
+                    
+                    setTimeout(redirect, 1000);
+                    } else {
+                        console.log('setting the next page to redis')
+                        client.set(query, str);
+                        client.expire(query, 300);
+                        return;
+                    }
+                    
+
+                    }); 
+                });
+                request.on('error', function(err){
+                    console.log(err);
+                });
+                request.end();
+                } else {
+                   console.log('thank you redis')
+                   return;
+                }
+    });
+    }
     // sky scanner api
     /* first way
     app.post('/search', function(req, res, next){
@@ -140,11 +191,32 @@
     //second way
     app.post('/bookTicket', function(req, res, next) {
         var body = req.body;
+        var ticketInfo = body.ticket;
+        var client = new pg.Client(dbUrl);
+        client.connect(function(err){
         
+            if(err){
+                //should throw a real error
+                console.log('please check the connection with the DB');
+            }
+
+            var query = "INSERT INTO purchases ( ticketid, price, carrier, agent) VALUES ($1, $2,$3,$4)";
+
+            client.query(query, [body.journeyId, parseInt(ticketInfo.pricingOptions.price, 10) ,ticketInfo.carrierName, ticketInfo.pricingOptions.agent], function(error,result) {
+
+                if(error){
+                    console.log(error);
+                } else {
+                    console.log(result);
+                    res.end('thanks for using our website!!');
+                }
+
+            });
+        });
     });
 
     app.get('/newTicket', function(req, res, next) {
-        console.log('hello')
+        console.log('new ticket')
         var ticketInfo = req.session.formData;
         var client = new pg.Client(dbUrl);
         client.connect(function(err){
@@ -155,13 +227,19 @@
             }
 
             var query = "INSERT INTO tickets (userId, origin, destination, location, depart, return, adult,children,infants,class) VALUES ($1, $2,$3,$4, $5,$6,$7,$8,$9,$10) returning *";
-
-            client.query(query,[req.session.user.email, ticketInfo.originId, ticketInfo.destinationId, ticketInfo.city, ticketInfo.outbounddate.split('T')[0], ticketInfo.inbounddate && ticketInfo.inbounddate.split('T')[0], ticketInfo.adults,ticketInfo.children, ticketInfo.infants, ticketInfo.class], function(error,result){
+            if(!req.session.user) {
+                var userEmail = 'visitor'
+            } else {
+                var userEmail = req.session.user.email;
+            }
+            console.log(userEmail)
+            client.query(query,[userEmail, ticketInfo.originId, ticketInfo.destinationId, ticketInfo.city, ticketInfo.outbounddate.split('T')[0], ticketInfo.inbounddate && ticketInfo.inbounddate.split('T')[0], ticketInfo.adults,ticketInfo.children, ticketInfo.infants, ticketInfo.class], function(error,result){
 
                 if(error){
                     console.log(error);
                 } else {
-                    console.log('done')
+                    console.log(result);
+                    res.end(JSON.stringify(result.rows[0].ticketid))
                 }
 
             });
@@ -199,7 +277,6 @@
                     'Content-Length': Buffer.byteLength(data)
                  }
             };
-        console.log(data)
         var request = http.request(options, function(response){
             console.log(response.statusCode)
             if(response.statusCode != 200 && response.statusCode != 201 && response.statusCode != 304) {
@@ -236,19 +313,36 @@
         var page = req.params.id;
         console.log(page)
         var target = url.parse(req.session.key);
-        var options = {
-            host: target.host,
-            path: target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page,
-            method: 'GET'
-        };
+//        var options = {
+//            host: target.host,
+//            path: target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page,
+//            method: 'GET'
+//        };
         
-        var request = http.request(options, function(response){
-            console.log(options.host + options.path)
-            console.log(response.statusCode);
-           var str = '';
-           response.on('data', function(chunk){
-               str += chunk;
-           });
+//        var request = http.request(options, function(response){
+//            console.log(options.host + options.path)
+//            console.log(response.statusCode);
+            /////
+            var query = target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page;
+            client.get(query, function(err, data) {
+                
+            if (err) {
+                return console.log(err);
+            }
+            if(!data || data === {}) {
+                console.log('the page is not here anymore');
+                var options = {
+                    host: target.host,
+                    path: target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page,
+                    method: 'GET'
+                };
+                var request = http.request(options, function(response) {
+
+                   console.log(target.path )
+                    var str = '';
+                   response.on('data', function(chunk){
+                       str += chunk;
+                   });
 
             response.on('end', function(){
                 if(response.statusCode === 304) {
@@ -259,19 +353,60 @@
                     }
                     
                     setTimeout(redirect, 1000);
-                } else {
-                    console.log(new Date() - now)
-                    res.end(str);
-                }
+                    } else {
+                        console.log(new Date() - now);
+                        console.log('setting the page to redis')
+                        client.set(query, str);
+                        client.expire(query, 300);
+                        res.end(str);
+                        cashNextPage(target,parseInt(page,10) + 1);
+                    }
+                    
 
-            }); 
-        });
-        request.on('error', function(err){
-            console.log(err);
-            res.status(500);
-            res.end('server error please try again later');
-        });
-        request.end();
+                    }); 
+                });
+                request.on('error', function(err){
+                    console.log(err);
+                    res.status(500);
+                    res.end('server error please try again later');
+                });
+                
+                request.end();
+                } else {
+                   console.log('thank you redis')
+                   res.end(data)
+                   cashNextPage(target,parseInt(page,10) + 1);
+                }
+                
+        })
+            ///////
+//           var str = '';
+//           response.on('data', function(chunk){
+//               str += chunk;
+//           });
+//
+//            response.on('end', function(){
+//                if(response.statusCode === 304) {
+//                    console.log('redirecting again!!')
+//                    function redirect() {
+//                        console.log(new Date() - now)
+//                        res.redirect('/pollSession/' + page);
+//                    }
+//                    
+//                    setTimeout(redirect, 1000);
+//                } else {
+//                    console.log(new Date() - now)
+//                    res.end(str);
+//                }
+//
+//            }); 
+//        });
+//        request.on('error', function(err){
+//            console.log(err);
+//            res.status(500);
+//            res.end('server error please try again later');
+//        });
+//        request.end();
     });
 
     app.post('/predict', function(req, res, next){
@@ -281,7 +416,7 @@
             if (err) {
                 return console.log(err);
             }
-            data = data || {}
+            data = data || {};
             if(data[query] === undefined) {
                 console.log('send a request');
                 var options = {

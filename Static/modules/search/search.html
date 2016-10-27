@@ -1,4 +1,4 @@
-<form id="searchBox" name="searchBox" ng-model="vm.data" ng-submit="searchBox.$valid && vm.selectTicket()" novalidate>
+<form id="vm.searchBox" name="vm.searchBox" ng-model="vm.data" ng-submit="vm.searchBox.$valid && vm.selectTicket()" novalidate>
     <label for="originplace">Origin: </label>
     <input id="originplace" type="text" autocomplete="off" ng-focus="vm.currentInputElement('#originplace')" ng-model="vm.data.originplace" ng-blur="vm.cancelSuggestions('#originplace')" ng-change="vm.predict(vm.data.originplace)" name="originplace" placeholder="origin airport" required>
     <input id="originplaceshadow" ng-model="vm.data.originId" hidden>
@@ -7,15 +7,15 @@
     <input id="destinationplaceshadow" ng-model="vm.data.destinationId" hidden></br><br>
     <label for="outboundDate">Depart Date: </label>
     <input ng-model="vm.data.outbounddate" id="outboundDate" name="outbounddate" type="date"  date-check placeholder="departing"  required>
-    <div ng-show="searchBox.$submitted">
-        <p class="error" ng-show="searchBox.inbounddate.$error.outGreaterThanIn ">Depart can not be greater that return, I think :)</p>
-        <p class="error" ng-show="searchBox.outbounddate.$error.dateCheck">Date can not be more than a year from now (you need to write a more costumised message)</p>
+    <div ng-show="vm.searchBox.$submitted">
+        <p class="error" ng-show="vm.searchBox.inbounddate.$error.outGreaterThanIn ">Depart can not be greater that return, I think :)</p>
+        <p class="error" ng-show="vm.searchBox.outbounddate.$error.dateCheck">Date can not be more than a year from now (you need to write a more costumised message)</p>
     </div>
     <label for="inbounddate">Return Date: </label>
     <input ng-model="vm.data.inbounddate" name="inbounddate" id="inbounddate" type="date" ng-show="vm.twoWays" out-greater-than-in date-check placeholder="arriving" required></br><br>
-    <div ng-show="searchBox.$submitted">
-        <p class="error" ng-show="searchBox.inbounddate.$error.outGreaterThanIn && vm.twoWays">Depart can not be greater that return, I think :)</p>
-        <p class="error" ng-show="searchBox.inbounddate.$error.dateCheck && vm.twoWays">Date can not be more than a year from now</p>
+    <div ng-show="vm.searchBox.$submitted">
+        <p class="error" ng-show="vm.searchBox.inbounddate.$error.outGreaterThanIn && vm.twoWays">Depart can not be greater that return, I think :)</p>
+        <p class="error" ng-show="vm.searchBox.inbounddate.$error.dateCheck && vm.twoWays">Date can not be more than a year from now</p>
     </div>
     <label ng-bind="vm.ways"></label>
     <input type="checkbox" ng-click="vm.toggleWays()"></br><br>
@@ -39,7 +39,6 @@
 Current Page: <p ng-bind="vm.currentPage"></p>
 <div class="suggestions" ng-hide="vm.showSuggestion()"><div ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}">{{suggest.PlaceName}}</div></div>
 
-
 <div class="results">
     <div class="ticket" ng-repeat="flight in vm.flights.currentPage">
         <div class="top">
@@ -53,7 +52,7 @@ Current Page: <p ng-bind="vm.currentPage"></p>
         </div>
         <div>
             <img class="carrier" src={{flight.carrierImage}}>
-            <button class="select" href={{flight.pricingOptions.DeeplinkUrl}} ng-click="vm.deepUrl($event)" id={{flight._id}}>Select</button>
+            <button class="select" href={{flight.pricingOptions.DeeplinkUrl}} ng-click="vm.deepUrl($event)" ticketId={{flight._id}}>Select</button>
         </div>
         <div>
             <span>{{flight.pricingOptions.origin}}</span>

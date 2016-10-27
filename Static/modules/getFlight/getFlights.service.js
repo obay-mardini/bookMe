@@ -8,7 +8,6 @@
   getFlights.$inject = ["$http", "$q", "$routeParams"];
 
   function getFlights($http, $q, $routeParams) {
-      console.log('getFliggghts')
     var service = {
        search: search,
        error: 'null',
@@ -17,6 +16,7 @@
        orderPreviousPage: orderPreviousPage,
        goToPage: goToPage,
        errors: {},
+       journeyId: null,
        loading : false
     };
 
@@ -51,9 +51,11 @@
     }
       
     function goToPage(page) {
+        var start = new Date;
         page >= 0 ? page = page : page = 0;
         service.loading = true;
         $http.get("/pollSession/" + page).then(setFlights).then(function(){
+            console.log(new Date - start)
             location.hash = 'search/' + page;
         }).catch(function(err) {
             console.log(err);
@@ -112,14 +114,15 @@
 
         var carriers = {};
         result.data.Carriers.forEach(function(carrier){
-            carriers[carrier.Id] = carrier.ImageUrl
+            carriers[carrier.Id] = [carrier.ImageUrl, carrier.Name];
+            
         })
         var id = result.config.url.split('/')[2] || 0;
         console.log(result.config.url.split('/'))
 
         service.flights = service.flights || [];
         service.flights[id] =  result.data.Itineraries || service.flights[id];
-        service.flights[id] = service.flights[id].map(function(flight){
+        service.flights[id] = service.flights[id].map(function(flight,index){
             var outboundId = flight.OutboundLegId;
             var inboundId = flight.InboundLegId;
             var arrival = legs[outboundId][0];
@@ -128,18 +131,25 @@
             var departureR = legs[inboundId][1];
             var destination = legs[outboundId][3];
             var origin = legs[outboundId][4];
-            var carrierImage = carriers[legs[outboundId][5]];
-            var carrierImageR = carriers[legs[inboundId][5]];
+            var carrierImage = carriers[legs[outboundId][5]][0];
+            var carrierImageR = carriers[legs[inboundId][5]][0];
+            var carrierName = carriers[legs[outboundId][5]][1];
+            var carrierNameR = carriers[legs[inboundId][5]][1];
             var originStops =  legs[inboundId][6];
             var destinationStops = legs[outboundId][6];
             var inboundDuration = Math.abs(new Date(arrival) - new Date(departure))/(1000*60*60);
             var outboundDuration = Math.abs(new Date(arrivalR) - new Date(departureR))/(1000*60*60);
             var pricingOptions = {};
-            flight.PricingOptions.map(function(option){
-               pricingOptions = {agent: agents[option.Agents[0]], price: option.Price, DeeplinkUrl: option.DeeplinkUrl}
+            flight.PricingOptions.map(function(option) {
+               pricingOptions = {agent: agents[option.Agents[0]], price: Math.round(option.Price * 100)/100, DeeplinkUrl: option.DeeplinkUrl}
             });
+            console.log(index)
             service.loading = false;
+            $('.controller').show();
             return {
+                    _id: index,
+                    carrierName: carrierName,
+                    carrierNameR: carrierNameR,
                     destination: places[destination],
                     origin: places[origin],
                     pricingOptions: pricingOptions,
@@ -158,10 +168,16 @@
                    };
 
         });
-        console.log(id)
+        
         if (id === 0 ) {
             console.log('newTicket');
-            $http.get('/newTicket');    
+            $http.get('/newTicket').then(function(result,err){
+                console.log(result)
+                service.journeyId = result.data;
+            }).catch(function(err){
+                // you need to send a message to the admin to make sure the record is not lost
+                console.log(err);
+            });    
         }
         //you should set up the _id 
         service.flights.currentPage = service.flights[id];

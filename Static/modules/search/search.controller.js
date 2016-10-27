@@ -7,7 +7,6 @@
     
     SearchController.$inject = ["$http", "$q","$routeParams", "autoComplete", "getFlights", "GeoLocationController"]
     function SearchController($http, $q, $routeParams, autoComplete, getFlights, GeoLocationController) {
-        console.log('searchCOntrollllllller')
         var vm = this;
         vm.flights = getFlights.flights;
         vm.deepUrl = deepUrl;
@@ -32,18 +31,17 @@
         vm.goToPage = getFlights.goToPage;
         vm.currentPage = $routeParams.id;
         vm.cancelSuggestions = cancelSuggestions;
-        vm.giveMe = function() {
-            console.log(vm.currentPage)
-        }
-        vm.spiner = function() {
-            console.log(getFlights.loading)
+        vm.spiner = spiner;
+        vm.showMeError = showMeError;
+        function spiner() {
             return getFlights.loading;
         }
         
         GeoLocationController.city().then(function(result){
             vm.city =  result;
         });
-        vm.showMeError = function() {
+        
+        function showMeError() {
             return getFlights.errors;
         }
         
@@ -73,21 +71,19 @@
             }
             vm.error = null
             vm.data.city = vm.city;
-            console.log(vm.city)
             return getFlights.search(vm.data);
         }
         
         function deepUrl(url) {    
             var url = $(url.currentTarget);
+            var id = url.attr('ticketId');
             var parentDiv = url.parent().parent();
-//            $http.post('/deepUrl', {
-//                
-//            });
-            console.log(parentDiv.getElementsByClassName('price')[0].innerHTML)
+            var ticket = vm.flights['currentPage'][id];
             $http.post('/bookTicket', {
-                price: parentDiv.getElementsByClassName('price')[0].innerHTML,
-                
-            })
+                ticket: ticket,
+                journeyId: getFlights.journeyId
+            });
+            console.log(url.attr('href'))
             window.open(url.attr('href'), '_blank');
             //$http.put("/deepLink")
         }
