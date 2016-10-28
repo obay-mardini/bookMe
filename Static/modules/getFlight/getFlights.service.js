@@ -97,7 +97,10 @@
         if(result.data.Status === "UpdatesPending") {
             service.error = 'please wait';
             console.log('poll again')
-            return search(data);
+            
+            return setTimeout(function() {
+                        return search(data)
+                    }, 200);
         }
         var agents = {};
         result.data.Agents.forEach(function(agent){
@@ -115,7 +118,6 @@
         var carriers = {};
         result.data.Carriers.forEach(function(carrier){
             carriers[carrier.Id] = [carrier.ImageUrl, carrier.Name];
-            
         })
         var id = result.config.url.split('/')[2] || 0;
         console.log(result.config.url.split('/'))
@@ -123,6 +125,7 @@
         service.flights = service.flights || [];
         service.flights[id] =  result.data.Itineraries || service.flights[id];
         service.flights[id] = service.flights[id].map(function(flight,index){
+            
             var outboundId = flight.OutboundLegId;
             var inboundId = flight.InboundLegId;
             var arrival = legs[outboundId][0];
@@ -131,10 +134,33 @@
             var departureR = legs[inboundId][1];
             var destination = legs[outboundId][3];
             var origin = legs[outboundId][4];
-            var carrierImage = carriers[legs[outboundId][5]][0];
-            var carrierImageR = carriers[legs[inboundId][5]][0];
-            var carrierName = carriers[legs[outboundId][5]][1];
-            var carrierNameR = carriers[legs[inboundId][5]][1];
+            console.log(outboundId);
+            console.log(inboundId);
+            console.log(legs);
+            try {
+                var carrierImage = carriers[legs[outboundId][5]][0];
+                var carrierImageR = carriers[legs[inboundId][5]][0];
+                var carrierName = carriers[legs[outboundId][5]][1];
+                var carrierNameR = carriers[legs[inboundId][5]][1];
+            }catch(err) {
+                console.log(err)
+                var carrierImage = 'http://s1.apideeplink.com/images/airlines/AA.png';
+                var carrierImageR = 'http://s1.apideeplink.com/images/airlines/AA.png';
+                var carrierName = 'American Airlines';
+                var carrierNameR = 'American Airlines';
+            }
+            try {
+                var carrierImage = carriers[legs[outboundId][5]][0];
+                var carrierImageR = carriers[legs[inboundId][5]][0];
+                var carrierName = carriers[legs[outboundId][5]][1];
+                var carrierNameR = carriers[legs[inboundId][5]][1];
+            } catch(err) {
+                console.log(err)
+                var carrierImage = 'http://s1.apideeplink.com/images/airlines/AA.png';
+                var carrierImageR = 'http://s1.apideeplink.com/images/airlines/AA.png';
+                var carrierName = 'American Airlines';
+                var carrierNameR = 'American Airlines';
+            }
             var originStops =  legs[inboundId][6];
             var destinationStops = legs[outboundId][6];
             var inboundDuration = Math.abs(new Date(arrival) - new Date(departure))/(1000*60*60);
@@ -181,7 +207,7 @@
         }
         //you should set up the _id 
         service.flights.currentPage = service.flights[id];
-        console.log(service.flights)
+        console.log(new Date)
     }
       
   }

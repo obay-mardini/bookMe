@@ -66,6 +66,7 @@
         }
         
         function selectTicket() {
+            console.log(new Date)
             if(parseInt($routeParams.id, 10) !== 0) {
                 location.hash = '/search/0'
             }
