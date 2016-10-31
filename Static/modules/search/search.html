@@ -1,3 +1,4 @@
+<div id="formContainer">
 <form id="vm.searchBox" class="searchBox" name="vm.searchBox" ng-model="vm.data" ng-submit="vm.searchBox.$valid && vm.selectTicket()" novalidate>
     <label for="originplace">Origin: </label>
     <input id="originplace" type="text" autocomplete="off" ng-focus="vm.currentInputElement('#originplace')" ng-model="vm.data.originplace" ng-blur="vm.cancelSuggestions('#originplace')" ng-change="vm.predict(vm.data.originplace)" name="originplace" placeholder="origin airport" required>
@@ -34,7 +35,11 @@
     <div ng-show="vm.showMeError()">
         <p class="error" ng-repeat="error in vm.showMeError()">{{error}}</p>
     </div>
-</form>  
+</form>
+ 
+<div class="imageBox">
+</div>
+</div>
 <h1 ng-show="vm.spiner()">LOADING...</h1>
 Current Page: <p ng-bind="vm.currentPage"></p>
 <div class="suggestions" ng-hide="vm.showSuggestion()"><div ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}">{{suggest.PlaceName}}</div></div>

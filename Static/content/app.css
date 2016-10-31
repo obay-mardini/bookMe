@@ -30,13 +30,26 @@ textarea{
 }
 
 /*search*/
+#formContainer {
+    height: 50vh;
+    display: flex;
+}
+
+.searchBox {
+    border: 2px solid green;
+   display: inline-block; 
+    width: 50%;
+    
+}
 .controller {
     display: none;
 }
-.searchBox {
+.imageBox {
+    height: 100%;
   border: 2px solid blue;   
   background-image: url("6998024-airplane-fly-heart.jpg");
   background-size: cover;
+    width: 50%;
 }
 .ticket {
     height: 100px;
