@@ -1,4 +1,4 @@
-<form id="vm.searchBox" name="vm.searchBox" ng-model="vm.data" ng-submit="vm.searchBox.$valid && vm.selectTicket()" novalidate>
+<form id="vm.searchBox" class="searchBox" name="vm.searchBox" ng-model="vm.data" ng-submit="vm.searchBox.$valid && vm.selectTicket()" novalidate>
     <label for="originplace">Origin: </label>
     <input id="originplace" type="text" autocomplete="off" ng-focus="vm.currentInputElement('#originplace')" ng-model="vm.data.originplace" ng-blur="vm.cancelSuggestions('#originplace')" ng-change="vm.predict(vm.data.originplace)" name="originplace" placeholder="origin airport" required>
     <input id="originplaceshadow" ng-model="vm.data.originId" hidden>
@@ -48,7 +48,7 @@ Current Page: <p ng-bind="vm.currentPage"></p>
             <span class="destination">{{flight.destination}}</span>
             <span class="outboundDuration">{{flight.inboundDuration}} hr</span>
             stops: <span class="stops" ng-repeat="stop in flight.destionationStops">{{stop}}</span>
-            <span class="price">{{flight.pricingOptions.price}}</span>
+            <span class="price">{{flight.pricingOptions.price | currency}}</span>
         </div>
         <div>
             <img class="carrier" src={{flight.carrierImage}}>

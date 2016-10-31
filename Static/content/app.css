@@ -33,7 +33,7 @@ textarea{
 .controller {
     display: none;
 }
-#searchBox {
+.searchBox {
   border: 2px solid blue;   
   background-image: url("6998024-airplane-fly-heart.jpg");
   background-size: cover;
