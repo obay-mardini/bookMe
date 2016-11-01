@@ -83,9 +83,11 @@ textarea{
 }
 
 .top {
+    text-align: center;
     height: 74px;
 }
 .down {
+    text-align: center;
     border-top: 1px purple solid;
     height:74px;
 }
@@ -143,6 +145,11 @@ textarea{
     border-right:1px black solid;
     border-bottom:1px black solid;
     width: 200px;
+}
+
+.inlineBlock {
+    display: inline-block;
+    vertical-align: top;
 }
 
 .currentSuggestion {

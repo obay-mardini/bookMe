@@ -44,6 +44,7 @@
 Current Page: <p ng-bind="vm.currentPage"></p>
 <div class="suggestions" ng-hide="vm.showSuggestion()"><div ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}">{{suggest.PlaceName}}</div></div>
 
+
     <div class="results">
     <div class="ticket" ng-repeat="flight in vm.flights.currentPage">
         <div class="ticketLeft">
@@ -56,26 +57,49 @@ Current Page: <p ng-bind="vm.currentPage"></p>
         </div>
         <div class="ticketRight">
             <div class="top">
-                <span class="origin">{{flight.origin}}</span>
-                <span> {{flight.departureDate}} _ {{flight.departureTime}}  -----></span>
-                <span class="destination">{{flight.destination}}</span>
-                <span class="destination">{{flight.arrivalDate}} _ {{flight.arrivalTime}}</span>
-                <br>
-                <span class="outboundDuration">{{flight.outboundDuration}} hr</span>
-                <span ng-show="flight.originStops">
-                stops: <span class="stops" ng-repeat="stop in flight.originStops">{{stop}}</span></span>
-                
-               
+                <div class="inlineBlock">
+                    <span class="origin">{{flight.origin}}</span>
+                    <br>
+                    <span> {{flight.departureDate}} _ {{flight.departureTime}}</span>
+                </div>
+                <div class="inlineBlock">
+                    <span class="outboundDuration">{{flight.outboundDuration}} hr</span>
+                    <br>
+                    <span>--------></span>
+                    <br>
+                    <span ng-show="flight.originStops" class="stops" ng-repeat="stop in flight.originStops">
+                stops:{{stop}}</span>
+                </div>
+                <div class="inlineBlock">
+                    <span class="destination">{{flight.destination}}</span>
+                    <br>
+                    <span class="destination">{{flight.arrivalDate}} _ {{flight.arrivalTime}}</span>
+                </div>
+   
             </div>
                 
             <div class="down">
-                <span class="origin">{{flight.destination}}</span>
-                <span> {{flight.departureRDate}} _ {{flight.departureRTime}}  -----></span>
-                <span class="destination">{{flight.origin}}</span>
-                <span class="destination">{{flight.arrivalRDate}} _ {{flight.arrivalRTime}}</span>
+                <div class="inlineBlock">
+                    <span class="origin">{{flight.destination}}
+                <br> {{flight.departureRDate}} _ {{flight.departureRTime}}  </span>
+                </div>
+                <div class="inlineBlock">
+                    <span class="outboundDuration">{{flight.inboundDuration}} hr</span><br>
+                    <span>--------></span>
+                    <br>
+                    <span ng-show="flight.destionationStops" class="stops" ng-repeat="stop in flight.destionationStops">
+                        stops:  {{stop}}</span>
+                </div>
+                <div class="inlineBlock">
+                    
+                    <span class="destination">{{flight.origin}}<br>
+                 {{flight.arrivalRDate}} _ {{flight.arrivalRTime}}</span>
+                    
+                </div>
+                
                 <br>
-                <span class="outboundDuration">{{flight.inboundDuration}} hr</span><span ng-show="flight.destionationStops">
-                stops: <span class="stops" ng-repeat="stop in flight.destionationStops">{{stop}}</span></span>
+                
+                
                 
             </div>
         </div>  
@@ -94,29 +118,6 @@ Current Page: <p ng-bind="vm.currentPage"></p>
     </div>
 </div>
 
-<!--
-<div class="results">
-    <div class="ticket" ng-repeat="flight in vm.flights.currentPage">
-        <div class="top">
-            <span class="origin">{{flight.origin}}</span>
-            <span class="outboundDuration">{{flight.outboundDuration}} hr</span>
-            stops: <span class="stops" ng-repeat="stop in flight.originStops">{{stop}}</span>
-            <span class="destination">{{flight.destination}}</span>
-            <span class="outboundDuration">{{flight.inboundDuration}} hr</span>
-            stops: <span class="stops" ng-repeat="stop in flight.destionationStops">{{stop}}</span>
-            <span class="price">{{flight.pricingOptions.price | currency}}</span>
-        </div>
-        <div>
-            <img class="carrier" src={{flight.carrierImage}}>
-            <button class="select" href={{flight.pricingOptions.DeeplinkUrl}} ng-click="vm.deepUrl($event)" ticketId={{flight._id}}>Select</button>
-        </div>
-        <div>
-            <span>{{flight.pricingOptions.origin}}</span>
-        </div>
-       
-    </div>
-</div>
--->
 <div class="controller">
     <button ng-click="vm.orderNextPage()">Next</button>
     <a ng-click="vm.goToPage(1)">1</a>

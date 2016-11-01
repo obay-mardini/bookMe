@@ -214,7 +214,7 @@
         }
         //you should set up the _id 
         service.flights.currentPage = service.flights[id];
-        console.log(new Date)
+        console.log(service.flights)
     }
       
   }
