@@ -171,14 +171,6 @@
             $('.controller').show();
             var result = {
                     _id: index,
-                    arrivalDate: arrival.split('T')[0],
-                    departureDate: departure.split('T')[0],
-                    arrivalTime: arrival.split('T')[1].slice(0,5),
-                    departureTime: departure.split('T')[1].slice(0,5),
-                    arrivalRDate: arrivalR.split('T')[0],
-                    departureRDate: departureR.split('T')[0],
-                    arrivalRTime: arrivalR.split('T')[1].slice(0,5),
-                    departureRTime: departureR.split('T')[1].slice(0,5),
                     carrierName: carrierName,
                     carrierNameR: carrierNameR,
                     destination: places[destination],

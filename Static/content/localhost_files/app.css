@@ -41,7 +41,9 @@ textarea{
     width: 50%;
     
 }
-
+.controller {
+    display: none;
+}
 .imageBox {
     height: 100%;
   border: 2px solid blue;   
@@ -52,6 +54,7 @@ textarea{
 .ticket {
     height: 150px;
     width: 90%;
+    border: 2px solid blue;
     margin: 20px;
     margin-left: auto;
     margin-right: auto;
@@ -63,7 +66,7 @@ textarea{
 .ticketLeft {
     height: 100%;
     width: 60px;
-    background: purple;
+    background: cyan;
     display: inline-block;
     border-radius: 60px 0px 0px 60px;
 }
@@ -78,23 +81,20 @@ textarea{
     width: 150px;
     text-align: center;
     display: inline-flex;
-    border-top: 1px purple solid;
-    border-bottom: 1px purple solid;
 }
 
 .top {
     height: 74px;
 }
 .down {
-    border-top: 1px purple solid;
+    border-top: 1px black solid;
     height:74px;
 }
-.priceAndSelect {
-    border-top: 1px purple solid;
-    border-bottom: 1px purple solid;
-}
 .price {
+    float: right;
     font-size: 25px;
+    width: 150px;
+    border-left: 1px black solid;
     text-align: center;
 }
 
@@ -118,6 +118,7 @@ textarea{
     font: 16px/1 Arial, sans-serif;  /* reset the font property */
     
     padding: 5px;
+    border: 2px solid black;
 }
 .agents:before {      /* create a full-height inline block pseudo-element */
     content: ' ';
@@ -127,14 +128,12 @@ textarea{
 }
 
 .select {
+    
+    float: right;
+    background-color: blue;
     text-align: center;
-    transform: translate(0,37.5px);
+    transform: translate(-30px,37.5px);
     width: 100px;
-}
-.ticketR {
-    background: purple;
-    border-radius: 0px 60px 60px 0px;
-    width: 60px;
 }
 
 /*auto complete*/
@@ -152,7 +151,6 @@ textarea{
 
 .controller {
     text-align: center;
-    display: none;
 }
 
 /*datepicker*/

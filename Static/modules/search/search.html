@@ -1,41 +1,41 @@
 <div id="formContainer">
-<form id="vm.searchBox" class="searchBox" name="vm.searchBox" ng-model="vm.data" ng-submit="vm.searchBox.$valid && vm.selectTicket()" novalidate>
-    <label for="originplace">Origin: </label>
-    <input id="originplace" type="text" autocomplete="off" ng-focus="vm.currentInputElement('#originplace')" ng-model="vm.data.originplace" ng-blur="vm.cancelSuggestions('#originplace')" ng-change="vm.predict(vm.data.originplace)" name="originplace" placeholder="origin airport" required>
-    <input id="originplaceshadow" ng-model="vm.data.originId" hidden>
-    <label for="destinationplace">Destination: </label>
-    <input id="destinationplace" ng-blur="vm.cancelSuggestions('#destinationplace')" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
-    <input id="destinationplaceshadow" ng-model="vm.data.destinationId" hidden></br><br>
-    <label for="outboundDate">Depart Date: </label>
-    <input ng-model="vm.data.outbounddate" id="outboundDate" name="outbounddate" type="date"  date-check placeholder="departing"  required>
-    <div ng-show="vm.searchBox.$submitted">
-        <p class="error" ng-show="vm.searchBox.inbounddate.$error.outGreaterThanIn ">Depart can not be greater that return, I think :)</p>
-        <p class="error" ng-show="vm.searchBox.outbounddate.$error.dateCheck">Date can not be more than a year from now (you need to write a more costumised message)</p>
-    </div>
-    <label for="inbounddate">Return Date: </label>
-    <input ng-model="vm.data.inbounddate" name="inbounddate" id="inbounddate" type="date" ng-show="vm.twoWays" out-greater-than-in date-check placeholder="arriving" required></br><br>
-    <div ng-show="vm.searchBox.$submitted">
-        <p class="error" ng-show="vm.searchBox.inbounddate.$error.outGreaterThanIn && vm.twoWays">Depart can not be greater that return, I think :)</p>
-        <p class="error" ng-show="vm.searchBox.inbounddate.$error.dateCheck && vm.twoWays">Date can not be more than a year from now</p>
-    </div>
-    <label ng-bind="vm.ways"></label>
-    <input type="checkbox" ng-click="vm.toggleWays()"></br><br>
-    <input ng-model="vm.data.adults" name="adults" type="number" placeholder="Adults" required>
-    <input ng-model="vm.data.children" name="children" type="number" placeholder="Children">
-    <input ng-model="vm.data.infants" name="infants" type="number" placeholder="Infants"><br><br>
-    <label for="selectclass">Class</label>
-    <select id="selectclass" ng-init="vm.data.class = 'Economy'" ng-model="vm.data.class" name="class">
-        <option value="Economy" >Economy</option>
-        <option value="PremiumEconomy" >Premium Economy</option>
-        <option value="Bussiness" >Bussiness</option>
-        <option value="First">First Class</option>
-    </select></br></br>
-    <button type="submit" >Search</button>
-    <p class="error" ng-show="vm.error" ng-bind="vm.error"></p>
-    <div ng-show="vm.showMeError()">
-        <p class="error" ng-repeat="error in vm.showMeError()">{{error}}</p>
-    </div>
-</form>
+    <form id="vm.searchBox" class="searchBox" name="vm.searchBox" ng-model="vm.data" ng-submit="vm.searchBox.$valid && vm.selectTicket()" novalidate>
+        <label for="originplace">Origin: </label>
+        <input id="originplace" type="text" autocomplete="off" ng-focus="vm.currentInputElement('#originplace')" ng-model="vm.data.originplace" ng-blur="vm.cancelSuggestions('#originplace')" ng-change="vm.predict(vm.data.originplace)" name="originplace" placeholder="origin airport" required>
+        <input id="originplaceshadow" ng-model="vm.data.originId" hidden>
+        <label for="destinationplace">Destination: </label>
+        <input id="destinationplace" ng-blur="vm.cancelSuggestions('#destinationplace')" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
+        <input id="destinationplaceshadow" ng-model="vm.data.destinationId" hidden></br><br>
+        <label for="outboundDate">Depart Date: </label>
+        <input ng-model="vm.data.outbounddate" id="outboundDate" name="outbounddate" type="date"  date-check placeholder="departing"  required>
+        <div ng-show="vm.searchBox.$submitted">
+            <p class="error" ng-show="vm.searchBox.inbounddate.$error.outGreaterThanIn ">Depart can not be greater that return, I think :)</p>
+            <p class="error" ng-show="vm.searchBox.outbounddate.$error.dateCheck">Date can not be more than a year from now (you need to write a more costumised message)</p>
+        </div>
+        <label for="inbounddate">Return Date: </label>
+        <input ng-model="vm.data.inbounddate" name="inbounddate" id="inbounddate" type="date" ng-show="vm.twoWays" out-greater-than-in date-check placeholder="arriving" required></br><br>
+        <div ng-show="vm.searchBox.$submitted">
+            <p class="error" ng-show="vm.searchBox.inbounddate.$error.outGreaterThanIn && vm.twoWays">Depart can not be greater that return, I think :)</p>
+            <p class="error" ng-show="vm.searchBox.inbounddate.$error.dateCheck && vm.twoWays">Date can not be more than a year from now</p>
+        </div>
+        <label ng-bind="vm.ways"></label>
+        <input type="checkbox" ng-click="vm.toggleWays()"></br><br>
+        <input ng-model="vm.data.adults" name="adults" type="number" placeholder="Adults" required>
+        <input ng-model="vm.data.children" name="children" type="number" placeholder="Children">
+        <input ng-model="vm.data.infants" name="infants" type="number" placeholder="Infants"><br><br>
+        <label for="selectclass">Class</label>
+        <select id="selectclass" ng-init="vm.data.class = 'Economy'" ng-model="vm.data.class" name="class">
+            <option value="Economy" >Economy</option>
+            <option value="PremiumEconomy" >Premium Economy</option>
+            <option value="Bussiness" >Bussiness</option>
+            <option value="First">First Class</option>
+        </select></br></br>
+        <button type="submit" >Search</button>
+        <p class="error" ng-show="vm.error" ng-bind="vm.error"></p>
+        <div ng-show="vm.showMeError()">
+            <p class="error" ng-repeat="error in vm.showMeError()">{{error}}</p>
+        </div>
+    </form>
  
 <div class="imageBox">
 </div>
@@ -44,6 +44,57 @@
 Current Page: <p ng-bind="vm.currentPage"></p>
 <div class="suggestions" ng-hide="vm.showSuggestion()"><div ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}">{{suggest.PlaceName}}</div></div>
 
+    <div class="results">
+    <div class="ticket" ng-repeat="flight in vm.flights.currentPage">
+        <div class="ticketLeft">
+            
+        </div>
+        <div class="agents">
+            <div class="childbox">
+                <img class="carrier" src={{flight.carrierImage}}>
+            </div>     
+        </div>
+        <div class="ticketRight">
+            <div class="top">
+                <span class="origin">{{flight.origin}}</span>
+                <span> {{flight.departureDate}} _ {{flight.departureTime}}  -----></span>
+                <span class="destination">{{flight.destination}}</span>
+                <span class="destination">{{flight.arrivalDate}} _ {{flight.arrivalTime}}</span>
+                <br>
+                <span class="outboundDuration">{{flight.outboundDuration}} hr</span>
+                <span ng-show="flight.originStops">
+                stops: <span class="stops" ng-repeat="stop in flight.originStops">{{stop}}</span></span>
+                
+               
+            </div>
+                
+            <div class="down">
+                <span class="origin">{{flight.destination}}</span>
+                <span> {{flight.departureRDate}} _ {{flight.departureRTime}}  -----></span>
+                <span class="destination">{{flight.origin}}</span>
+                <span class="destination">{{flight.arrivalRDate}} _ {{flight.arrivalRTime}}</span>
+                <br>
+                <span class="outboundDuration">{{flight.inboundDuration}} hr</span><span ng-show="flight.destionationStops">
+                stops: <span class="stops" ng-repeat="stop in flight.destionationStops">{{stop}}</span></span>
+                
+            </div>
+        </div>  
+        <div class="priceAndSelect">
+            <div>
+                 <p class="price">{{flight.pricingOptions.price | currency}}</p>
+            </div>
+            <div>
+                <button class="select" href={{flight.pricingOptions.DeeplinkUrl}} ng-click="vm.deepUrl($event)" ticketId={{flight._id}}>Select</button>
+            </div>
+                
+            </div>
+            <div class="ticketR">
+                
+            </div>
+    </div>
+</div>
+
+<!--
 <div class="results">
     <div class="ticket" ng-repeat="flight in vm.flights.currentPage">
         <div class="top">
@@ -65,6 +116,7 @@ Current Page: <p ng-bind="vm.currentPage"></p>
        
     </div>
 </div>
+-->
 <div class="controller">
     <button ng-click="vm.orderNextPage()">Next</button>
     <a ng-click="vm.goToPage(1)">1</a>
