@@ -150,6 +150,7 @@ textarea{
 .inlineBlock {
     display: inline-block;
     vertical-align: top;
+    position: relative;
 }
 
 .currentSuggestion {
@@ -161,6 +162,17 @@ textarea{
     text-align: center;
     display: none;
 }
+
+.infoBox {
+    position: absolute;
+    left: 1px;
+    top: -40px;
+    border-radius: 2px;
+    width: 119px;
+    height: 34px;
+    background-color: rgb(255, 255, 255);
+}
+
 
 /*datepicker*/
 [type="date"] {

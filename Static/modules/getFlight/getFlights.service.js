@@ -88,7 +88,7 @@
     }
       
     function setFlights(result) {
-        console.log(result)
+       $('html, body').animate({ scrollTop: 0 }, 1500);
         if(result.data.Status === "UpdatesComplete" && result.data.Itineraries.length === 0) {
             service.error = 'please changes the dates!!';
             console.log('no resluts provided')
@@ -120,7 +120,6 @@
             carriers[carrier.Id] = [carrier.ImageUrl, carrier.Name];
         })
         var id = result.config.url.split('/')[2] || 0;
-        console.log(result.config.url.split('/'))
 
         service.flights = service.flights || [];
         service.flights[id] =  result.data.Itineraries || service.flights[id];
@@ -168,7 +167,6 @@
             });
      
             service.loading = false;
-            $('.controller').show();
             var result = {
                     _id: index,
                     arrivalDate: arrival.split('T')[0],
@@ -197,15 +195,13 @@
                         return destinationStops;
                     }, [])
                    };
-            console.log(result)
+            
             return result;
 
         });
         
         if (id === 0 ) {
-            console.log('newTicket');
             $http.get('/newTicket').then(function(result,err){
-                console.log(result)
                 service.journeyId = result.data;
             }).catch(function(err){
                 // you need to send a message to the admin to make sure the record is not lost
@@ -214,7 +210,10 @@
         }
         //you should set up the _id 
         service.flights.currentPage = service.flights[id];
-        console.log(service.flights)
+            setTimeout(function() {
+                $('.controller').show();
+            }, 20)
+            
     }
       
   }

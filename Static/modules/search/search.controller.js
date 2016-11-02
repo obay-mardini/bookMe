@@ -33,6 +33,14 @@
         vm.cancelSuggestions = cancelSuggestions;
         vm.spiner = spiner;
         vm.showMeError = showMeError;
+        vm.showInfoBox = showInfoBox;
+        
+        //show info box when click stops
+        function showInfoBox(id, event) {
+            console.log('helo')
+            console.log($(event.target).parent())
+            $(event.target).parent().append('<div class="infoBox">' + vm.flights[id].destinationStops + '</div>')
+        }
         function spiner() {
             return getFlights.loading;
         }
@@ -57,7 +65,7 @@
             if(vm.twoWays) {
                 vm.ways = 'one way';
             } else {
-                vm.ways = 'two ways';
+                vm.ways = 'return';
             }
         }
         
@@ -66,10 +74,11 @@
         }
         
         function selectTicket() {
-            console.log(new Date)
+           
             if(parseInt($routeParams.id, 10) !== 0) {
                 location.hash = '/search/0'
             }
+            
             vm.error = null
             vm.data.city = vm.city;
             return getFlights.search(vm.data);
