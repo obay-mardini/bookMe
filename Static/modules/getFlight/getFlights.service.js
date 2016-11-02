@@ -65,6 +65,7 @@
     }
       
     function search(formData) {
+        //service.flights = {};
         service.loading = true;
         data = formData;  
         service.error = null;

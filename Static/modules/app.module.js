@@ -9,7 +9,8 @@
       'app.search',
       'app.autoComplete',
       'app.getFlights',
-      'app.geoLocation'
+      'app.geoLocation',
+      'app.spinner'
   ])
 
 })();

@@ -5,8 +5,8 @@
         .module('app.search')
         .controller('SearchController', SearchController);
     
-    SearchController.$inject = ["$http", "$q","$routeParams", "autoComplete", "getFlights", "GeoLocationController"]
-    function SearchController($http, $q, $routeParams, autoComplete, getFlights, GeoLocationController) {
+    SearchController.$inject = ["$http", "$q","$routeParams", "autoComplete", "getFlights", "GeoLocationController", "spinner"]
+    function SearchController($http, $q, $routeParams, autoComplete, getFlights, GeoLocationController, spinner) {
         var vm = this;
         vm.flights = getFlights.flights;
         vm.deepUrl = deepUrl;
@@ -41,6 +41,7 @@
             console.log($(event.target).parent())
             $(event.target).parent().append('<div class="infoBox">' + vm.flights[id].destinationStops + '</div>')
         }
+         
         function spiner() {
             return getFlights.loading;
         }
@@ -74,7 +75,7 @@
         }
         
         function selectTicket() {
-           
+            spinner.start()
             if(parseInt($routeParams.id, 10) !== 0) {
                 location.hash = '/search/0'
             }

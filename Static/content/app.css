@@ -184,3 +184,10 @@ textarea{
 [type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
 }
+
+/*ticker*/
+
+#ticker {
+  white-space: nowrap;
+  transition-property: transform;
+}
