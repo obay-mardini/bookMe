@@ -163,7 +163,8 @@ CREATE TABLE tickets (
     children smallint,
     infants smallint,
     class character varying(50),
-    twoways character varying(20)
+    twoways character varying(20),
+    country character varying(50)
 );
 
 
@@ -311,6 +312,8 @@ COPY purchases (purchaseid, ticketid, price, carrier, agent) FROM stdin;
 4	136	591	Gulf Air	Expedia
 5	136	436	Jet Airways	Opodo
 6	136	766	Qatar Airways	Opodo
+7	144	1209	Air Berlin	airberlin
+8	153	595	Qatar Airways	Qatar Airways
 \.
 
 
@@ -318,137 +321,212 @@ COPY purchases (purchaseid, ticketid, price, carrier, agent) FROM stdin;
 -- Name: purchases_purchaseid_seq; Type: SEQUENCE SET; Schema: public; Owner: obay
 --
 
-SELECT pg_catalog.setval('purchases_purchaseid_seq', 6, true);
+SELECT pg_catalog.setval('purchases_purchaseid_seq', 8, true);
 
 
 --
 -- Data for Name: tickets; Type: TABLE DATA; Schema: public; Owner: obay
 --
 
-COPY tickets (userid, ticketid, origin, destination, location, depart, return, adult, children, infants, class, twoways) FROM stdin;
-\N	1	dubai	bangkok	germany	11-15-2016	12321	1	0	0	Economy	true
-\N	2	DXBA-sky	BKKT-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-\N	9	dubai	bangkok	germany	11-15-2016	12321	1	0	0	Economy	true
-\N	10	dubai	bangkok	germany	11-15-2016	12321	1	0	0	Economy	true
-dana@gmail.com	12	DXBA-sky	BKKT-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	13	DXBA-sky	BKKT-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	14	DXBA-sky	BKKT-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	15	DXBA-sky	BKKT-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	16	DXBA-sky	BKKT-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	17	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	18	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	19	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	20	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	21	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	22	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	23	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	24	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	25	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	26	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	27	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	28	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	29	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	30	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	31	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	32	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	33	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	34	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	35	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	36	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	37	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	38	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	39	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	40	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	41	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	42	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	43	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	44	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	45	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	46	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	47	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	48	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	49	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	50	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	51	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	52	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	53	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	54	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	55	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	56	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	57	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	58	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	59	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	60	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	61	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	62	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	63	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	64	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	65	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	66	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	67	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	68	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-dana@gmail.com	69	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	70	BEY-sky	CAI-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	71	BEY-sky	CAI-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	72	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	73	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	74	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	75	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	76	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	77	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	78	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	79	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	80	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	81	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	82	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	83	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	84	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	85	CAI-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	86	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	87	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	88	CAI-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	89	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	90	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	91	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	92	MCT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	93	MCT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	94	DXBA-sky	BKKT-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	95	DXBA-sky	BKKT-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	96	MCT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	97	MCT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	98	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	99	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	100	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	101	DXBA-sky	BKKT-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	102	DXBA-sky	BKKT-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	103	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	104	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	105	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	106	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	107	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	108	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	109	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	110	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	111	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	112	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	113	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	114	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	115	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	116	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	117	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	118	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	119	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	120	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	121	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	122	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	123	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	124	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	125	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	126	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	0	0	Economy	\N
-obay123@gmail.com	127	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-obay123@gmail.com	128	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-visitor	135	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
-visitor	136	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N
+COPY tickets (userid, ticketid, origin, destination, location, depart, return, adult, children, infants, class, twoways, country) FROM stdin;
+\N	1	dubai	bangkok	germany	11-15-2016	12321	1	0	0	Economy	true	\N
+\N	2	DXBA-sky	BKKT-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+\N	9	dubai	bangkok	germany	11-15-2016	12321	1	0	0	Economy	true	\N
+\N	10	dubai	bangkok	germany	11-15-2016	12321	1	0	0	Economy	true	\N
+dana@gmail.com	12	DXBA-sky	BKKT-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	13	DXBA-sky	BKKT-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	14	DXBA-sky	BKKT-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	15	DXBA-sky	BKKT-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	16	DXBA-sky	BKKT-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	17	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	18	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	19	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	20	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	21	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	22	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	23	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	24	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	25	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	26	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	27	BKKT-sky	DXBA-sky	{}	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	28	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	29	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	30	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	31	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	32	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	33	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	34	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	35	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	36	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	37	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	38	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	39	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	40	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	41	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	42	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	43	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	44	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	45	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	46	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	47	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	48	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	49	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	50	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	51	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	52	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	53	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	54	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	55	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	56	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	57	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	58	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	59	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	60	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	61	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	62	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	63	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	64	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	65	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	66	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	67	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	68	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+dana@gmail.com	69	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	70	BEY-sky	CAI-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	71	BEY-sky	CAI-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	72	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	73	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	74	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	75	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	76	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	77	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	78	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	79	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	80	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	81	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	82	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	83	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	84	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	85	CAI-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	86	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	87	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	88	CAI-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	89	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	90	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	91	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	92	MCT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	93	MCT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	94	DXBA-sky	BKKT-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	95	DXBA-sky	BKKT-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	96	MCT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	97	MCT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	98	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	99	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	100	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	101	DXBA-sky	BKKT-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	102	DXBA-sky	BKKT-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	103	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	104	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	105	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	106	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	107	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	108	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	109	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	110	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	111	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	112	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	113	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	114	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	115	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	116	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	117	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	118	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	119	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	120	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	121	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	122	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	123	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	124	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	125	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	126	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	0	0	Economy	\N	\N
+obay123@gmail.com	127	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+obay123@gmail.com	128	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	135	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	136	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	137	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	138	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	139	NYCA-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	140	NYCA-sky	CAI-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	141	NYCA-sky	MGQ-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	142	NYCA-sky	BKKT-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	143	BKKT-sky	MGQ-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	144	NYCA-sky	TXL-sky	Berlin (Reinickendorf)	2016-12-15	2016-12-31	1	0	\N	Economy	\N	\N
+visitor	145	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	146	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	147	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	148	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	149	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	150	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	151	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	152	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	153	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	154	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	155	DXBA-sky	BKKT-sky	Berlin	2016-11-04	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	156	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	157	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	158	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	159	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	160	BKKT-sky	DXBA-sky	Berlin	2016-11-04	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	161	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	162	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	163	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	164	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	165	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	166	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	167	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	168	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	169	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	170	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	171	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	172	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	173	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	174	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	175	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	176	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	177	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	178	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	179	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	180	NYCA-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	181	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	182	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	183	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	184	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	185	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	186	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	187	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	188	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	189	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	190	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	191	NYCA-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	192	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	193	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	194	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	195	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	196	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	197	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	198	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	199	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	200	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	201	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	202	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	203	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-20	1	\N	\N	Economy	\N	\N
+visitor	204	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	205	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	206	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	207	BKKT-sky	DXBA-sky	Berlin	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	208	DXBA-sky	BKKT-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	209	DXBA-sky	BKKT-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	210	MCT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
+visitor	211	MCT-sky	BKKT-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	\N	Economy	\N	\N
 \.
 
 
@@ -456,7 +534,7 @@ visitor	136	BKKT-sky	DXBA-sky	Berlin (Reinickendorf)	2016-11-14	2017-02-14	1	\N	
 -- Name: tickets_ticketid_seq; Type: SEQUENCE SET; Schema: public; Owner: obay
 --
 
-SELECT pg_catalog.setval('tickets_ticketid_seq', 136, true);
+SELECT pg_catalog.setval('tickets_ticketid_seq', 211, true);
 
 
 --

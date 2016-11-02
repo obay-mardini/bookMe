@@ -48,7 +48,8 @@
         }
         
         GeoLocationController.city().then(function(result){
-            vm.city =  result;
+            vm.city =  result.city;
+            vm.country = result.country;
         });
         
         function showMeError() {
@@ -87,6 +88,7 @@
             
             vm.error = null
             vm.data.city = vm.city;
+            vm.data.country = vm.country;
             return getFlights.search(vm.data);
         }
         

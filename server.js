@@ -226,14 +226,14 @@
                 console.log('please check the connection with the DB');
             }
 
-            var query = "INSERT INTO tickets (userId, origin, destination, location, depart, return, adult,children,infants,class) VALUES ($1, $2,$3,$4, $5,$6,$7,$8,$9,$10) returning *";
+            var query = "INSERT INTO tickets (userId, origin, destination, location, depart, return, adult,children,infants,class, country) VALUES ($1, $2,$3,$4, $5,$6,$7,$8,$9,$10, $11) returning *";
             if(!req.session.user) {
                 var userEmail = 'visitor'
             } else {
                 var userEmail = req.session.user.email;
             }
             console.log(userEmail)
-            client.query(query,[userEmail, ticketInfo.originId, ticketInfo.destinationId, ticketInfo.city, ticketInfo.outbounddate.split('T')[0], ticketInfo.inbounddate && ticketInfo.inbounddate.split('T')[0], ticketInfo.adults,ticketInfo.children, ticketInfo.infants, ticketInfo.class], function(error,result){
+            client.query(query,[userEmail, ticketInfo.originId, ticketInfo.destinationId, ticketInfo.city, ticketInfo.outbounddate.split('T')[0], ticketInfo.inbounddate && ticketInfo.inbounddate.split('T')[0], ticketInfo.adults,ticketInfo.children, ticketInfo.infants, ticketInfo.class, ticketInfo.country], function(error,result){
 
                 if(error){
                     console.log(error);
