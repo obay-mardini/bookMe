@@ -34,14 +34,15 @@
         vm.spiner = spiner;
         vm.showMeError = showMeError;
         vm.showInfoBox = showInfoBox;
+        // turn on the spinner
+        spinner.start();
         
         //show info box when click stops
         function showInfoBox(id, event) {
-            console.log('helo')
             console.log($(event.target).parent())
             $(event.target).parent().append('<div class="infoBox">' + vm.flights[id].destinationStops + '</div>')
         }
-         
+        
         function spiner() {
             return getFlights.loading;
         }
@@ -51,7 +52,12 @@
         });
         
         function showMeError() {
-            return getFlights.errors;
+             
+            if(JSON.stringify(getFlights.errors) === "{}") {
+                return false;
+            } else {
+                return getFlights.errors;
+            }
         }
         
         function cancelSuggestions(element) {
@@ -75,7 +81,6 @@
         }
         
         function selectTicket() {
-            spinner.start()
             if(parseInt($routeParams.id, 10) !== 0) {
                 location.hash = '/search/0'
             }

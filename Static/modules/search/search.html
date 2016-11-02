@@ -40,8 +40,11 @@
 <div class="imageBox">
 </div>
 </div>
-<div ng-show="vm.spiner()" id='ticker'><img src="../../content/airplane_311727.jpg">
+<div ng-hide="vm.showMeError()">
+    <div ng-show="vm.spiner()" id='ticker'><img src="../../content/airplane_311727.jpg">
       </div>
+</div>
+
 
 <div class="suggestions" ng-hide="vm.showSuggestion()"><div ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}">{{suggest.PlaceName}}</div></div>
 
