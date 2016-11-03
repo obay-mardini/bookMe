@@ -65,16 +65,13 @@
     }
       
     function search(formData) {
-        //service.flights = {};
         service.loading = true;
         data = formData;  
         service.error = null;
         service.errors = {};
         $('#originplaceshadow').trigger('input');
         $('#destinationplaceshadow').trigger('input');
-//           data.originplace = vm.suggestions.suggestions.find(function(element) {
-//               return element.PlaceName === $('#originplace').val();
-//           }).PlaceId;
+         $('#destinationplacecountry').trigger('input');
         return $http.post("/search",formData).then(setFlights).catch(function(err){
             //service.errors[err.data] = err.data;
             err.data.ValidationErrors.forEach(function(error){
@@ -89,7 +86,7 @@
     }
       
     function setFlights(result) {
-       $('html, body').animate({ scrollTop: 0 }, 1500);
+        console.log(result)
         if(result.data.Status === "UpdatesComplete" && result.data.Itineraries.length === 0) {
             service.error = 'please changes the dates!!';
             console.log('no resluts provided')
@@ -121,6 +118,7 @@
             carriers[carrier.Id] = [carrier.ImageUrl, carrier.Name];
         })
         var id = result.config.url.split('/')[2] || 0;
+        console.log(result.config.url.split('/'))
 
         service.flights = service.flights || [];
         service.flights[id] =  result.data.Itineraries || service.flights[id];
@@ -168,16 +166,9 @@
             });
      
             service.loading = false;
+            $('.controller').show();
             var result = {
                     _id: index,
-                    arrivalDate: arrival.split('T')[0],
-                    departureDate: departure.split('T')[0],
-                    arrivalTime: arrival.split('T')[1].slice(0,5),
-                    departureTime: departure.split('T')[1].slice(0,5),
-                    arrivalRDate: arrivalR.split('T')[0],
-                    departureRDate: departureR.split('T')[0],
-                    arrivalRTime: arrivalR.split('T')[1].slice(0,5),
-                    departureRTime: departureR.split('T')[1].slice(0,5),
                     carrierName: carrierName,
                     carrierNameR: carrierNameR,
                     destination: places[destination],
@@ -196,13 +187,15 @@
                         return destinationStops;
                     }, [])
                    };
-            
+            console.log(result)
             return result;
 
         });
         
         if (id === 0 ) {
+            console.log('newTicket');
             $http.get('/newTicket').then(function(result,err){
+                console.log(result)
                 service.journeyId = result.data;
             }).catch(function(err){
                 // you need to send a message to the admin to make sure the record is not lost
@@ -211,10 +204,7 @@
         }
         //you should set up the _id 
         service.flights.currentPage = service.flights[id];
-            setTimeout(function() {
-                $('.controller').show();
-            }, 20)
-            
+        console.log(new Date)
     }
       
   }

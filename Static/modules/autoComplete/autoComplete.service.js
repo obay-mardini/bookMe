@@ -45,12 +45,16 @@
         try {
             var skyId = service.suggestions.suggestions.find(function(suggestion) {
                 return suggestion.PlaceName === capitalizedVersion.join(' ');
-            }).PlaceId;
+            });
         } catch(err) {
             return 'please enter a valid city name'
         }
         
-        $(element + 'shadow').val(skyId); 
+        $(element + 'shadow').val(skyId.PlaceId);
+        if(element === "#destinationplace") {
+            $('#destinationplacecountry').val(skyId.CountryName);
+            console.log(skyId.CountryName)
+        }
         noSuggestions = true;
         return ''
     }
@@ -66,9 +70,15 @@
 //    }
 
     function active(element) {
+        
         $(service.input.input).val($(element.target).html());
         $(service.input.input + 'shadow').val($(element.target).attr('data-skyscannervalue')); 
         $(element.currentTarget).addClass('currentSuggestion');
+        console.log(element.target)
+        if(service.input.input === "#destinationplace") {
+            $("#destinationplacecountry").val($(element.target).attr('countryname'))
+            console.log($(element.target).attr('countryname'))
+        }
     }
 
     function inActive(element) {
@@ -82,7 +92,7 @@
         $http.post("/predict",{link: 'http://partners.api.skyscanner.net/apiservices/autosuggest/v1.0/UK/USD/en-GB/?query=' + quess}).success(function(result) {
             service.suggestions.suggestions = service.suggestions.suggestions || [];
             result.Places.forEach(function(place){
-                service.suggestions.suggestions.push({'PlaceName':place.PlaceName, 'PlaceId': place.PlaceId});
+                service.suggestions.suggestions.push({'PlaceName':place.PlaceName, 'PlaceId': place.PlaceId, 'CountryName': place.CountryName});
             });
             deferred.resolve();
         }).error(function(err){

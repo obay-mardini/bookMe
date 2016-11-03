@@ -89,6 +89,7 @@
             vm.error = null
             vm.data.city = vm.city;
             vm.data.country = vm.country;
+            console.log(vm.data);
             return getFlights.search(vm.data);
         }
         

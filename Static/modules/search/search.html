@@ -5,6 +5,7 @@
         <input id="originplaceshadow" ng-model="vm.data.originId" hidden>
         <label for="destinationplace">Destination: </label>
         <input id="destinationplace" ng-blur="vm.cancelSuggestions('#destinationplace')" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
+        <input id="destinationplacecountry" ng-model="vm.data.destinationCountry" hidden>
         <input id="destinationplaceshadow" ng-model="vm.data.destinationId" hidden></br><br>
         <label for="outboundDate">Depart Date: </label>
         <input ng-model="vm.data.outbounddate" id="outboundDate" name="outbounddate" type="date"  date-check placeholder="departing"  required>
@@ -47,7 +48,7 @@
 </div>
 
 
-<div class="suggestions" ng-hide="vm.showSuggestion()"><div ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}">{{suggest.PlaceName}}</div></div>
+<div class="suggestions" ng-hide="vm.showSuggestion()"><div ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
 
 
     <div class="results">

@@ -66,9 +66,15 @@
 //    }
 
     function active(element) {
+        
         $(service.input.input).val($(element.target).html());
         $(service.input.input + 'shadow').val($(element.target).attr('data-skyscannervalue')); 
         $(element.currentTarget).addClass('currentSuggestion');
+        console.log(service.input.input)
+        if(service.input.input === "destinationplace") {
+            $("#destinationplacecountry").val($(element.target).attr('countryname'))
+            console.log($(element.target).attr('countryname'))
+        }
     }
 
     function inActive(element) {

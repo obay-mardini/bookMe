@@ -131,6 +131,7 @@
     app.get('/newTicket', function(req, res, next) {
         console.log('new ticket')
         var ticketInfo = req.session.formData;
+        console.log(ticketInfo.destinationCountry)
         var client = new pg.Client(dbUrl);
         client.connect(function(err){
         
@@ -139,19 +140,17 @@
                 console.log('please check the connection with the DB');
             }
 
-            var query = "INSERT INTO tickets (userId, origin, destination, location, depart, return, adult,children,infants,class, country) VALUES ($1, $2,$3,$4, $5,$6,$7,$8,$9,$10, $11) returning *";
+            var query = "INSERT INTO tickets (userId, origin, destination, location, depart, return, adult,children,infants,class, country, destinationcountry) VALUES ($1, $2,$3,$4, $5,$6,$7,$8,$9,$10, $11, $12) returning *";
             if(!req.session.user) {
                 var userEmail = 'visitor'
             } else {
                 var userEmail = req.session.user.email;
             }
-            console.log(userEmail)
-            client.query(query,[userEmail, ticketInfo.originId, ticketInfo.destinationId, ticketInfo.city, ticketInfo.outbounddate.split('T')[0], ticketInfo.inbounddate && ticketInfo.inbounddate.split('T')[0], ticketInfo.adults,ticketInfo.children, ticketInfo.infants, ticketInfo.class, ticketInfo.country], function(error,result){
+            client.query(query,[userEmail, ticketInfo.originId, ticketInfo.destinationId, ticketInfo.city, ticketInfo.outbounddate.split('T')[0], ticketInfo.inbounddate && ticketInfo.inbounddate.split('T')[0], ticketInfo.adults,ticketInfo.children, ticketInfo.infants, ticketInfo.class, ticketInfo.country, ticketInfo.destinationCountry], function(error,result){
 
                 if(error){
                     console.log(error);
                 } else {
-                    console.log(result);
                     res.end(JSON.stringify(result.rows[0].ticketid))
                 }
 
@@ -170,6 +169,7 @@
                     grouppricing:'on',
                     originplace: ticketInfo.originId,
                     destinationplace:ticketInfo.destinationId,
+                    destinationCountry: ticketInfo.destinationplacecountry,
                     outbounddate: ticketInfo.outbounddate.split('T')[0],
                     inbounddate: ticketInfo.inbounddate && ticketInfo.inbounddate.split('T')[0],
                     adults:ticketInfo.adults,
@@ -222,20 +222,8 @@
 
     app.get('/pollSession/:id', function(req, res, next){
         var now = new Date();
-        console.log(req.session.key)
         var page = req.params.id;
-        console.log(page)
         var target = url.parse(req.session.key);
-//        var options = {
-//            host: target.host,
-//            path: target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page,
-//            method: 'GET'
-//        };
-        
-//        var request = http.request(options, function(response){
-//            console.log(options.host + options.path)
-//            console.log(response.statusCode);
-            /////
             var query = target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page;
             client.get(query, function(err, data) {
                 
@@ -250,8 +238,6 @@
                     method: 'GET'
                 };
                 var request = http.request(options, function(response) {
-
-                   console.log(target.path )
                     var str = '';
                    response.on('data', function(chunk){
                        str += chunk;
@@ -265,7 +251,7 @@
                         res.redirect('/pollSession/' + page);
                     }
                     
-                    setTimeout(redirect, 1000);
+                    setTimeout(redirect, 100);
                     } else {
                         console.log(new Date() - now);
                         console.log('setting the page to redis')
@@ -311,15 +297,14 @@
                     method: 'GET'
                 };
                 var request = http.request(options, function(response) {
-
-                    console.log(target.path )
                     var str = '';
                     response.on('data', function(chunk){
                        str += chunk;
                     });
 
                     response.on('end', function(){
-                        client.hmset('predictions',query, str)
+                        client.hmset('predictions',query, str);
+                        console.log(str);
                         res.end(str)
                     });
                 });

@@ -71,9 +71,7 @@
         service.errors = {};
         $('#originplaceshadow').trigger('input');
         $('#destinationplaceshadow').trigger('input');
-//           data.originplace = vm.suggestions.suggestions.find(function(element) {
-//               return element.PlaceName === $('#originplace').val();
-//           }).PlaceId;
+        
         return $http.post("/search",formData).then(setFlights).catch(function(err){
             //service.errors[err.data] = err.data;
             err.data.ValidationErrors.forEach(function(error){
