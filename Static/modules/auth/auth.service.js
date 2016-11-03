@@ -5,9 +5,9 @@
     .module('app.auth')
     .factory('authService', authService);
 
-  authService.$inject = ['$http', '$q'];
+  authService.$inject = ['$http', '$q', 'GeoLocationController'];
 
-  function authService($http, $q) {
+  function authService($http, $q, GeoLocationController) {
       
     var service = {
       userName: userName, 
@@ -36,26 +36,37 @@
         return service.error;
     }
       
-    function register(user) {
+    function checkDB(country, user) {
         var deferred = $q.defer();
-        
-        $http.post('/register', {
-            user: user.user,
-            email: user.email,
-            password: user.password
-        }).success(function(result,status) {
-            if(status === 200 && result){
-                login(user);
-                deferred.resolve();
-            } else {
-                deferred.reject();
-            }
+        console.log(country)
+           var newUser = {
+                user: user.user,
+                email: user.email,
+                password: user.password,
+                country: country.country
+            };
+           $http.post('/register', newUser).success(function(result,status) {
+        if(status === 200 && result){
+            login(user);
+            deferred.resolve();
+        } else {
+            deferred.reject();
+        }
         }).error(function(error) {
             service.error = error.data;
             deferred.reject();
         });
         
-         return deferred.promise;
+        return deferred.promise;
+    }
+      
+    function register(user) {
+       return new Promise(function(resolve, reject){
+           var country = GeoLocationController.city()
+           resolve(country);
+       }).then(function(country) {
+          return checkDB(country, user);
+       })           
     }
 
     function logout(user) {
