@@ -73,7 +73,6 @@
         $('#destinationplaceshadow').trigger('input');
          $('#destinationplacecountry').trigger('input');
         return $http.post("/search",formData).then(setFlights).catch(function(err){
-            //service.errors[err.data] = err.data;
             err.data.ValidationErrors.forEach(function(error){
                 if(service.errors[error.Message]) {
                     service.errors[error.Message + "1"] = error.Message + ',' + error.ParameterName;
@@ -98,7 +97,7 @@
             
             return setTimeout(function() {
                             return search(data)
-                    }, 200);
+                    }, 500);
         }
         var agents = {};
         result.data.Agents.forEach(function(agent){
