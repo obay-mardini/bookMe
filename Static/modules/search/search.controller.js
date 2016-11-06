@@ -39,7 +39,6 @@
         
         //show info box when click stops
         function showInfoBox(id, event) {
-            console.log($(event.target).parent())
             $(event.target).parent().append('<div class="infoBox">' + vm.flights[id].destinationStops + '</div>')
         }
         
@@ -89,7 +88,6 @@
             vm.error = null
             vm.data.city = vm.city;
             vm.data.country = vm.country;
-            console.log(vm.data);
             return getFlights.search(vm.data);
         }
         
@@ -102,7 +100,6 @@
                 ticket: ticket,
                 journeyId: getFlights.journeyId
             });
-            console.log(url.attr('href'))
             window.open(url.attr('href'), '_blank');
             //$http.put("/deepLink")
         }

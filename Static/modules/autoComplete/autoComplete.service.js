@@ -53,7 +53,6 @@
         $(element + 'shadow').val(skyId.PlaceId);
         if(element === "#destinationplace") {
             $('#destinationplacecountry').val(skyId.CountryName);
-            console.log(skyId.CountryName)
         }
         noSuggestions = true;
         return ''
@@ -63,21 +62,14 @@
         service.input.input = element;
         noSuggestions = false;
     }
-      
-//    function chooseSuggestion(element) {
-//        $(service.input.input).val($(element.target).html()); 
-//        console.log(element.target)
-//    }
 
     function active(element) {
         
         $(service.input.input).val($(element.target).html());
         $(service.input.input + 'shadow').val($(element.target).attr('data-skyscannervalue')); 
         $(element.currentTarget).addClass('currentSuggestion');
-        console.log(element.target)
         if(service.input.input === "#destinationplace") {
             $("#destinationplacecountry").val($(element.target).attr('countryname'))
-            console.log($(element.target).attr('countryname'))
         }
     }
 
