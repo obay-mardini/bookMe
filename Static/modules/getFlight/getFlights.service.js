@@ -124,13 +124,14 @@
             var outboundId = flight.OutboundLegId;
             var inboundId = flight.InboundLegId;
             var arrival = legs[outboundId][0];
-            var departure = legs[inboundId][0];
+            var departure = legs[outboundId][1];
             var arrivalDate = legs[outboundId][0].split('T')[0];
             var arrivalTime = legs[outboundId][0].split('T')[1].slice(0,5);
             var departureDate = legs[outboundId][1].split('T')[0];
             var departureTime = legs[outboundId][1].split('T')[1].slice(0,5);
             var arrivalR = inboundId && legs[inboundId][0];
             var departureR = inboundId && legs[inboundId][1];
+            
             var arrivalRDate = legs[inboundId][0].split('T')[0];
             var arrivalRTime = inboundId && legs[inboundId][0].split('T')[1].slice(0,5);
             var departureRDate = inboundId && legs[inboundId][1].split('T')[0];
@@ -163,8 +164,8 @@
             }
             var originStops =  legs[inboundId][6];
             var destinationStops = legs[outboundId][6];
-            var inboundDuration = Math.abs(new Date(arrival) - new Date(departure))/(1000*60*60);
-            var outboundDuration = Math.abs(new Date(arrivalR) - new Date(departureR))/(1000*60*60);
+            var outboundDuration = Math.abs(new Date(arrival) - new Date(departure))/(1000*60*60);
+            var inboundDuration = Math.abs(new Date(arrivalR) - new Date(departureR))/(1000*60*60);
             var pricingOptions = {};
             flight.PricingOptions.map(function(option) {
                pricingOptions = {agent: agents[option.Agents[0]], price: Math.round(option.Price * 100)/100, DeeplinkUrl: option.DeeplinkUrl}

@@ -6,6 +6,7 @@
         .controller('SearchController', SearchController);
     
     SearchController.$inject = ["$http", "$q","$routeParams", "autoComplete", "getFlights", "GeoLocationController", "spinner"]
+    
     function SearchController($http, $q, $routeParams, autoComplete, getFlights, GeoLocationController, spinner) {
         var vm = this;
         vm.flights = getFlights.flights;
@@ -19,7 +20,7 @@
         vm.inActive = autoComplete.inActive;
         vm.chooseSuggestion = autoComplete.chooseSuggestion;
         vm.input = autoComplete.input;
-        vm.currentInputElement = autoComplete.currentInputElement;
+        vm.currentInputElement = currentInputElement;
         vm.showSuggestion = showSuggestion;
         vm.error = null;
         vm.today = new Date();
@@ -34,9 +35,23 @@
         vm.spiner = spiner;
         vm.showMeError = showMeError;
         vm.showInfoBox = showInfoBox;
+        vm.origin = false;
+        vm.destionation = false;
+        
         // turn on the spinner
         spinner.start();
-        
+    
+        function currentInputElement(element) {
+            if(element === '#destinationplace'){
+                vm.origin = false;
+                vm.destionation = true;
+                
+            } else {
+                vm.destionation = false;
+                vm.origin = true;
+            }
+            setTimeout(function() {autoComplete.currentInputElement(element)}, 10);
+        }
         //show info box when click stops
         function showInfoBox(id, event) {
             $(event.target).parent().append('<div class="infoBox">' + vm.flights[id].destinationStops + '</div>')

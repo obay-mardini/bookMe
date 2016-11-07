@@ -36,6 +36,13 @@ textarea{
     display: flex;
 }
 
+#originplace {
+    width: 200px;
+}
+
+#destinationplace {
+    width: 200px;
+}
 .searchBox {
     border: 2px solid green;
    display: inline-block; 
@@ -146,6 +153,9 @@ textarea{
     border-right:1px black solid;
     border-bottom:1px black solid;
     width: 200px;
+    position: fixed;
+    background: gray;
+    
 }
 
 .inlineBlock {
