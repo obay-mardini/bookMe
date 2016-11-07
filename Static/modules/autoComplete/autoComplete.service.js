@@ -12,7 +12,6 @@
     var service = {
        cancelSuggestions: cancelSuggestions,
        currentInputElement: currentInputElement,
-//       chooseSuggestion: chooseSuggestion,
        active: active,
        inActive: inActive,
         predict: predict,

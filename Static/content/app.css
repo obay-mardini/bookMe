@@ -192,3 +192,16 @@ textarea{
   white-space: nowrap;
   transition-property: transform;
 }
+
+/*Media query*/
+@media (max-width: 300px) {
+  body {
+    font-size: xx-small;
+  }
+}
+
+@media (max-width: 670px) and (min-width: 300px) {
+  body {
+    font-size: x-small;
+  }
+}

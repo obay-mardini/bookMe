@@ -124,9 +124,17 @@
             var outboundId = flight.OutboundLegId;
             var inboundId = flight.InboundLegId;
             var arrival = legs[outboundId][0];
-            var departure = legs[outboundId][1];
+            var departure = legs[inboundId][0];
+            var arrivalDate = legs[outboundId][0].split('T')[0];
+            var arrivalTime = legs[outboundId][0].split('T')[1].slice(0,5);
+            var departureDate = legs[outboundId][1].split('T')[0];
+            var departureTime = legs[outboundId][1].split('T')[1].slice(0,5);
             var arrivalR = inboundId && legs[inboundId][0];
-            var departureR = legs[inboundId][1];
+            var departureR = inboundId && legs[inboundId][1];
+            var arrivalRDate = legs[inboundId][0].split('T')[0];
+            var arrivalRTime = inboundId && legs[inboundId][0].split('T')[1].slice(0,5);
+            var departureRDate = inboundId && legs[inboundId][1].split('T')[0];
+            var departureRTime = inboundId && legs[inboundId][1].split('T')[1].slice(0,5);
             var destination = legs[outboundId][3];
             var origin = legs[outboundId][4];
             try {
@@ -166,6 +174,14 @@
             $('.controller').show();
             var result = {
                     _id: index,
+                    arrivalRDate: arrivalRDate,
+                    arrivalRTime: arrivalRTime,
+                    departureRTime: departureRTime,
+                    departureRDate: departureRDate,
+                    arrivalDate: arrivalDate,
+                    arrivalTime: arrivalTime,
+                    departureTime: departureTime,
+                    departureDate: departureDate, 
                     carrierName: carrierName,
                     carrierNameR: carrierNameR,
                     destination: places[destination],
