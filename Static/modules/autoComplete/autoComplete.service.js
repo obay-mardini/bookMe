@@ -59,17 +59,14 @@
 
     function currentInputElement(element) {
         var inputElement = document.getElementById(element.slice(1));
-        console.log(inputElement.getBoundingClientRect().left)
         var suggestionsList;
         service.input.input = element;
         if(element === '#destinationplace'){
             suggestionsList = document.getElementsByClassName('suggestions')[1];
             suggestionsList.style.left = inputElement.getBoundingClientRect().left + 'px';
-            
         } else {
             suggestionsList = document.getElementsByClassName('suggestions')[0];
             suggestionsList.style.left = inputElement.getBoundingClientRect().left + 'px';
-            console.log(suggestionsList.style.left)
         }
         noSuggestions = false;
     }

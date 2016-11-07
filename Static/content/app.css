@@ -155,9 +155,11 @@ textarea{
     width: 200px;
     position: fixed;
     background: gray;
-    
 }
 
+.suggestionsContainer {
+    display: inherit;
+}
 .inlineBlock {
     display: inline-block;
     vertical-align: top;
