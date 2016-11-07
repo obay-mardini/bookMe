@@ -37,7 +37,12 @@
             service.loading = false;
         })
     }
-      
+    
+    function showController() {
+        $('.controller').show();
+        $("html, body").animate({ scrollTop: 0 }, 700);
+    }
+    
     function orderPreviousPage() {
         var page = parseInt($routeParams.id, 10) - 1;
         service.loading = true;
@@ -65,9 +70,9 @@
     }
       
     function search(formData) {
+        service.flights = {};
         service.loading = true;
         data = formData;  
-        service.error = null;
         service.errors = {};
         $('#originplaceshadow').trigger('input');
         $('#destinationplaceshadow').trigger('input');
@@ -86,17 +91,15 @@
       
     function setFlights(result) {
         if(result.data.Status === "UpdatesComplete" && result.data.Itineraries.length === 0) {
-            service.error = 'please changes the dates!!';
+            service.errors.dates = 'No results found, please try another dates!!';
             console.log('no resluts provided')
             return;
         }
         if(result.data.Status === "UpdatesPending") {
-            service.error = 'please wait';
             console.log('poll again')
-            
             return setTimeout(function() {
                             return search(data)
-                    }, 500);
+                    }, 1000);
         }
         var agents = {};
         result.data.Agents.forEach(function(agent){
@@ -172,7 +175,6 @@
             });
      
             service.loading = false;
-            $('.controller').show();
             var result = {
                     _id: index,
                     arrivalRDate: arrivalRDate,
@@ -205,6 +207,8 @@
 
         });
         
+        // to use worker after the presentation
+        setTimeout(showController, 50);
         if (id === 0 ) {
             console.log('newTicket');
             $http.get('/newTicket').then(function(result,err){
@@ -218,7 +222,7 @@
         service.flights.currentPage = service.flights[id];
         console.log(new Date)
     }
-      
+
   }
       
 })();

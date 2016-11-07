@@ -163,33 +163,34 @@ app.get('/newTicket', function(req, res, next) {
 
 app.post('/search', function(req, res, next) {
     var ticketInfo = req.body;  
-    var formData = {country:'UK',
-                currency:'USD',
-                locale:'en-GB',
-                locationSchema:'iata',
-                apiKey:'prtl6749387986743898559646983194',
-                grouppricing:'on',
-                originplace: ticketInfo.originId,
-                destinationplace:ticketInfo.destinationId,
-                destinationCountry: ticketInfo.destinationplacecountry,
-                outbounddate: ticketInfo.outbounddate.split('T')[0],
-                inbounddate: ticketInfo.inbounddate && ticketInfo.inbounddate.split('T')[0],
-                adults:ticketInfo.adults,
-                children:ticketInfo.children,
-                infants:ticketInfo.infants,
-                cabinclass: ticketInfo.class,
-                groupPricing:true
-                };
+    var formData = {
+            country:'DE',
+            currency:'USD',
+            locale:'de-DE',
+            locationSchema:'iata',
+            apiKey:'prtl6749387986743898559646983194',
+            grouppricing:'on',
+            originplace: ticketInfo.originId,
+            destinationplace:ticketInfo.destinationId,
+            destinationCountry: ticketInfo.destinationplacecountry,
+            outbounddate: ticketInfo.outbounddate.split('T')[0],
+            inbounddate: ticketInfo.inbounddate && ticketInfo.inbounddate.split('T')[0],
+            adults:ticketInfo.adults,
+            children:ticketInfo.children,
+            infants:ticketInfo.infants,
+            cabinclass: ticketInfo.class,
+            groupPricing:true
+        };
     var data = querystring.stringify(formData);
     var options = {
-        host: 'api.skyscanner.net',
-        path: '/apiservices/pricing/v1.0?apikey=prtl6749387986743898559646983194',
-        method: 'POST',
-        headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'Accept': 'application/json',
-                'Content-Length': Buffer.byteLength(data)
-             }
+            host: 'api.skyscanner.net',
+            path: '/apiservices/pricing/v1.0?apikey=prtl6749387986743898559646983194',
+            method: 'POST',
+            headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                        'Accept': 'application/json',
+                        'Content-Length': Buffer.byteLength(data)
+                    }
         };
     var request = http.request(options, function(response){
         console.log(response.statusCode)
@@ -207,7 +208,10 @@ app.post('/search', function(req, res, next) {
             response.on('end', function(){   
                console.log('end');
                req.session.formData = ticketInfo;
-               res.redirect('/pollSession/0');
+               setTimeout(function() {
+                   res.redirect('/pollSession/0');
+               })    
+               
             });
         }
 
@@ -252,7 +256,7 @@ app.get('/pollSession/:id', function(req, res, next){
                     res.redirect('/pollSession/' + page);
                 }
 
-                setTimeout(redirect, 200);
+                setTimeout(redirect, 1000);
                 } else {
                     console.log(new Date() - now);
                     console.log('setting the page to redis')
