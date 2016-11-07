@@ -24,7 +24,7 @@
 
     ////////////
     var data = [];
-      
+  
     function orderNextPage() {
         var page = parseInt($routeParams.id, 10) + 1;
         service.loading = true;
@@ -40,7 +40,7 @@
     
     function showController() {
         $('.controller').show();
-        $("html, body").animate({ scrollTop: 0 }, 700);
+        $("html, body").animate({ scrollTop: 300 }, 900);
     }
     
     function orderPreviousPage() {
@@ -70,7 +70,6 @@
     }
       
     function search(formData) {
-        service.flights = {};
         service.loading = true;
         data = formData;  
         service.errors = {};
@@ -90,6 +89,7 @@
     }
       
     function setFlights(result) {
+        service.flights = {};
         if(result.data.Status === "UpdatesComplete" && result.data.Itineraries.length === 0) {
             service.errors.dates = 'No results found, please try another dates!!';
             console.log('no resluts provided')
@@ -210,7 +210,6 @@
         // to use worker after the presentation
         setTimeout(showController, 50);
         if (id === 0 ) {
-            console.log('newTicket');
             $http.get('/newTicket').then(function(result,err){
                 service.journeyId = result.data;
             }).catch(function(err){
@@ -218,6 +217,7 @@
                 console.log(err);
             });    
         }
+        
         //you should set up the _id 
         service.flights.currentPage = service.flights[id];
         console.log(new Date)

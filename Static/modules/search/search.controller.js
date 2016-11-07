@@ -5,13 +5,12 @@
         .module('app.search')
         .controller('SearchController', SearchController);
     
-    SearchController.$inject = ["$http", "$q","$routeParams", "autoComplete", "getFlights", "GeoLocationController", "spinner"]
+    SearchController.$inject = ["$http", "$q","$routeParams", "autoComplete", "getFlights", "GeoLocationController", "spinner", "$scope"]
     
-    function SearchController($http, $q, $routeParams, autoComplete, getFlights, GeoLocationController, spinner) {
+    function SearchController($http, $q, $routeParams, autoComplete, getFlights, GeoLocationController, spinner, $scope) {
         var vm = this;
         vm.flights = getFlights.flights;
         vm.deepUrl = deepUrl;
-        vm.search = getFlights.search;
         vm.selectTicket = selectTicket;
         vm.data = null;
         vm.suggestions = autoComplete.suggestions;
@@ -26,11 +25,11 @@
         vm.today = new Date();
         vm.toggleWays = toggleWays;
         vm.twoWays = true;
-        vm.ways = 'two ways'
+        vm.ways = 'return'
         vm.orderNextPage = getFlights.orderNextPage;
         vm.orderPreviousPage = getFlights.orderPreviousPage;
         vm.goToPage = getFlights.goToPage;
-        vm.currentPage = $routeParams.id;
+        vm.currentPage = parseInt($routeParams.id, 10) ;
         vm.cancelSuggestions = cancelSuggestions;
         vm.spiner = spiner;
         vm.showMeError = showMeError;
@@ -38,6 +37,7 @@
         vm.origin = false;
         vm.destionation = false;
         
+        console.log(vm.currentPage  )
         // turn on the spinner
         spinner.start();
     
@@ -103,7 +103,13 @@
             vm.error = null
             vm.data.city = vm.city;
             vm.data.country = vm.country;
-            return getFlights.search(vm.data);
+            return new Promise(function(resolve, reject) {
+                resolve(getFlights.search());
+            }).then(function() {
+                //update the scoop 
+                vm.flights = getFlights.flights;
+                $scope.$apply();
+            })
         }
         
         function deepUrl(url) {    

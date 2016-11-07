@@ -160,8 +160,12 @@ app.get('/newTicket', function(req, res, next) {
         
     });
 });
-
+var x;
 app.post('/search', function(req, res, next) {
+    if(x) {
+        res.end(x);
+        return;
+    }
     var ticketInfo = req.body;  
     var formData = {
             country:'DE',
@@ -262,6 +266,7 @@ app.get('/pollSession/:id', function(req, res, next){
                     console.log('setting the page to redis')
                     client.set(query, str);
                     client.expire(query, 300);
+                    x = str;
                     res.end(str);
                     cashNextPage(target,parseInt(page,10) + 1);
                 }

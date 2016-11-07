@@ -135,10 +135,11 @@
 </div>
 
 <div class="controller">
-    <button ng-click="vm.orderPreviousPage()">Previous</button>
-    <a ng-click="vm.goToPage(1)">1</a>
-    <a ng-click="vm.goToPage(2)">2</a>
-    <a ng-click="vm.goToPage(3)">3</a>
-    <a ng-click="vm.goToPage(4)">4</a>
+    <button ng-show="vm.currentPage" ng-click="vm.orderPreviousPage()">Previous</button>
+    <a ng-click="vm.goToPage(0)">1</a>
+    <a ng-click="vm.goToPage(1)">2</a>
+    <a ng-click="vm.goToPage(2)">3</a>
+    <a ng-click="vm.goToPage(3)">4</a>
+    <a ng-click="vm.goToPage(4)">5</a>
     <button ng-click="vm.orderNextPage()">Next</button>
 </div>
