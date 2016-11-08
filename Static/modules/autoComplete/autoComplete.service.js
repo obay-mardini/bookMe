@@ -78,7 +78,6 @@
     }
 
     function active(element) {
-        console.log($(element.currentTarget))
         $(service.input.input).val($(element.target).html());
         $(service.input.input + 'shadow').val($(element.target).attr('data-skyscannervalue')); 
         $(element.currentTarget).addClass('currentSuggestion');

@@ -11,8 +11,19 @@
         <input id="originplaceshadow" ng-model="vm.data.originId" hidden>
         <label for="destinationplace">Destination: 
             <input id="destinationplace" ng-blur="vm.cancelSuggestions('#destinationplace')" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
+<!--
             <div id="departSuggestions" class="suggestionsContainer" ng-show="vm.destionation">
-                <div class="suggestions" ng-hide="vm.showSuggestion()"><div ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
+                <div class="suggestions" ng-hide="vm.showSuggestion()"><div class="departSuggestions" ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
+            </div>
+-->
+            <div id="departSuggestions" class="suggestionsContainer" >
+                <div class="suggestions" >
+                    <div class="departSuggestions" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)">1</div>
+                    <div class="departSuggestions" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)">2</div>
+                    <div class="departSuggestions" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)">3</div>
+                    <div class="departSuggestions" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)">4</div>
+                
+                </div>
             </div>
         </label>
         <input id="destinationplacecountry" ng-model="vm.data.destinationCountry" hidden>
@@ -29,10 +40,10 @@
             <p class="error" ng-show="vm.searchBox.inbounddate.$error.outGreaterThanIn && vm.twoWays">Depart can not be greater that return, I think :)</p>
             <p class="error" ng-show="vm.searchBox.inbounddate.$error.dateCheck && vm.twoWays">Date can not be more than a year from now</p>
         </div>
-        <label ng-bind="vm.ways"></label>
-        <input type="checkbox" ng-click="vm.toggleWays()"></br><br>
-        <label>Price Filter</label>
-        <input type="checkbox" ng-click="vm.toggleFilter()"></br><br>
+        <label ng-bind="vm.ways" for="ways"></label>
+        <input id="ways" type="checkbox" ng-click="vm.toggleWays()">
+        <label for="priceFilter">Price Filter</label>
+        <input id="priceFilter" type="checkbox" ng-click="vm.toggleFilter()"></br><br>
         <input ng-model="vm.data.adults" name="adults" type="number" placeholder="Adults" required>
         <input ng-model="vm.data.children" name="children" type="number" placeholder="Children">
         <input ng-model="vm.data.infants" name="infants" type="number" placeholder="Infants"><br><br>
@@ -40,8 +51,13 @@
         <select id="selectclass" ng-init="vm.data.class = 'Economy'" ng-model="vm.data.class" name="class">
             <option value="Economy" >Economy</option>
             <option value="PremiumEconomy" >Premium Economy</option>
-            <option value="Business" >Bussiness</option>
+            <option value="Business" >Business</option>
             <option value="First">First Class</option>
+        </select>
+        <label for="selectCurrency">Class</label>
+        <select id="selectCurrency" ng-init="vm.data.currency = 'USD'" ng-model="vm.data.currency" name="selectCurrency">
+            <option value="USD" >USD</option>
+            <option value="EUR" >EURO</option>
         </select></br></br>
         <button type="submit" >Search</button>
         <p class="error" ng-show="vm.error" ng-bind="vm.error"></p>
@@ -55,8 +71,10 @@
 </div>
 <div ng-hide="vm.showMeError()">
     <br>
-    <div ng-show="vm.spiner()" id='ticker'><img src="../../content/airplane_311727.jpg">
-      </div>
+    <div ng-show="vm.spiner()" id='ticker'>
+        <span>Please Wait!!</span>
+        <img src="../../content/airplane_311727.jpg">
+    </div>
 </div>
 
 
@@ -123,7 +141,7 @@
         </div>  
         <div class="priceAndSelect">
             <div>
-                 <p class="price">{{flight.pricingOptions.price | currency}}</p>
+                 <p class="price">{{flight.pricingOptions.price | currency: "$" }}</p>
             </div>
             <div>
                 <button class="select" href={{flight.pricingOptions.DeeplinkUrl}} ng-click="vm.deepUrl($event)" ticketId={{flight._id}}>Select</button>
@@ -138,10 +156,5 @@
 
 <div class="controller">
     <button ng-show="vm.currentPage" ng-click="vm.orderPreviousPage()">Previous</button>
-    <a ng-click="vm.goToPage(0)">1</a>
-    <a ng-click="vm.goToPage(1)">2</a>
-    <a ng-click="vm.goToPage(2)">3</a>
-    <a ng-click="vm.goToPage(3)">4</a>
-    <a ng-click="vm.goToPage(4)">5</a>
     <button ng-click="vm.orderNextPage()">Next</button>
 </div>

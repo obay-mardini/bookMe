@@ -82,26 +82,26 @@ function cashNextPage(target,page) {
 
         response.on('end', function(){
             if(response.statusCode === 304) {
-                console.log('redirecting again!!')
+                console.log('redirecting again!!');
                 function redirect() {
-
-                    cashNextPage(target,page)
+                    cashNextPage(target,page);
                 }
 
                 setTimeout(redirect, 1000);
-                } else {
-                    console.log('setting the next page to redis')
-                    client.set(query, str);
-                    client.expire(query, 300);
-                    return;
-                }
-
+            } else {
+                console.log('setting the next page to redis')
+                client.set(query, str);
+                client.expire(query, 300);
+                return;
+            }
 
                 }); 
             });
+            
             request.on('error', function(err){
                 console.log(err);
             });
+            
             request.end();
             } else {
                console.log('thank you redis')
@@ -160,12 +160,8 @@ app.get('/newTicket', function(req, res, next) {
         
     });
 });
-var x;
+
 app.post('/search', function(req, res, next) {
-//    if(x) {
-//        res.end(x);
-//        return;
-//    }
     var ticketInfo = req.body;  
     var formData = {
             country:'DE',
@@ -238,7 +234,7 @@ app.get('/pollSession/:id', function(req, res, next){
     var now = new Date();
     var page = req.params.id;
     var target = url.parse(req.session.key);
-        var query = target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page;
+    var query = target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page;
         client.get(query, function(err, data) {
 
         if (err) {
@@ -259,7 +255,8 @@ app.get('/pollSession/:id', function(req, res, next){
 
         response.on('end', function(){
             if(response.statusCode === 304) {
-                console.log('redirecting again!!')
+                console.log('redirecting again!!');
+                
                 function redirect() {
                     console.log(new Date() - now)
                     res.redirect('/pollSession/' + page);
@@ -267,12 +264,27 @@ app.get('/pollSession/:id', function(req, res, next){
 
                 setTimeout(redirect, 1000);
                 } else {
-                    console.log(new Date() - now);
+                    try {
+                        console.log(JSON.parse(str))
+                    } catch(err) {
+                        return;
+                    }
+                    console.log(JSON.parse(str))
+                    console.log()
+                    console.log()
+                    console.log()
+                 console.log(JSON.parse(str).Status)
+                    if(JSON.parse(str).Status === "UpdatesPending" || JSON.parse(str).Itineraries.length === 0) {
+                        res.end(str);
+                        return;
+                    }
+                    console.log(JSON.parse(str).Itineraries.length);
                     console.log('setting the page to redis')
                     client.set(query, str);
                     client.expire(query, 300);
                     x = str;
                     res.end(str);
+                   
                     cashNextPage(target,parseInt(page,10) + 1);
                 }
 
@@ -282,7 +294,8 @@ app.get('/pollSession/:id', function(req, res, next){
             request.on('error', function(err){
                 console.log(err);
                 res.status(500);
-                res.end('server error please try again later');
+                res.end('Server error please try again in a moment!');
+                return;
             });
 
             request.end();

@@ -7,6 +7,10 @@ body {
 a {
     cursor: pointer;
 }
+
+form {
+    padding: 15px 15px;
+}
 textarea{
     resize: none;
     padding: 1%;
@@ -206,6 +210,12 @@ textarea{
 #ticker {
   white-space: nowrap;
   transition-property: transform;
+  position: absolute
+}
+
+#ticker span {
+    position: relative;
+    top: -15px;
 }
 
 /*Media query*/

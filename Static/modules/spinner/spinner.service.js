@@ -19,13 +19,6 @@
       var n = 0;
       var myAnimationFrame;
 
-    //  ticker.addEventListener('mouseenter', function() {
-    //      window.cancelAnimationFrame(myAnimationFrame);
-    //  });
-    //  ticker.addEventListener('mouseleave', function() {
-    //      myAnimationFrame = window.requestAnimationFrame(anim)
-    //  });
-
         myAnimationFrame = window.requestAnimationFrame(anim);
 
         function anim() {

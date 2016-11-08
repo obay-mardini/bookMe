@@ -90,13 +90,20 @@
         $('#destinationplaceshadow').trigger('input');
          $('#destinationplacecountry').trigger('input');
         return $http.post("/search",formData).then(setFlights).catch(function(err){
-            err.data.ValidationErrors.forEach(function(error){
-                if(service.errors[error.Message]) {
-                    service.errors[error.Message + "1"] = error.Message + ',' + error.ParameterName;
-                } else {
-                    service.errors[error.Message] = error.Message + ',' + (error.ParameterName || '.');
-                }
-            });
+            // check the error message
+            console.log(err)
+            if(err.data.ValidationErrors) {
+               err.data.ValidationErrors.forEach(function(error){
+                    if(service.errors[error.Message]) {
+                        service.errors[error.Message + "1"] = error.Message + ',' + error.ParameterName;
+                    } else {
+                        service.errors[error.Message] = error.Message + ',' + (error.ParameterName || '.');
+                    }
+                }); 
+            } else {
+                service.errors[err.data] = err.data;
+            }
+            
         });
 
     }
@@ -158,7 +165,6 @@
                 var carrierName = carriers[legs[outboundId][5]][1];
                 var carrierNameR = carriers[legs[inboundId][5]][1];
             }catch(err) {
-                console.log(err)
                 var carrierImage = 'http://s1.apideeplink.com/images/airlines/AA.png';
                 var carrierImageR = 'http://s1.apideeplink.com/images/airlines/AA.png';
                 var carrierName = 'American Airlines';
@@ -180,11 +186,12 @@
             var destinationStops = legs[outboundId][6];
             var outboundDuration = legs[outboundId][7] / 60;
             var inboundDuration = legs[inboundId][7] / 60;
+            
             var pricingOptions = {};
 //            flight.PricingOptions.map(function(option) {
 //               pricingOptions = {agent: agents[option.Agents[0]], price: Math.round(option.Price * 100)/100, DeeplinkUrl: option.DeeplinkUrl}
 //            });
-            flight.PricingOpetions
+
             var pricingOptions = {
                 'agent': agents[flight.PricingOptions[0].Agents[0]],
                 'price': Math.round(flight.PricingOptions[0].Price * 100)/100,

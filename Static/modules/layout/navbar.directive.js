@@ -17,7 +17,7 @@
     
     NavbarController.$inject = ['$location', 'authService'];
     
-    function NavbarController($location, authService, $http) {
+    function NavbarController($location, authService) {
         var vm = this;
         var user = null;
         
