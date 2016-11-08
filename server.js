@@ -162,10 +162,10 @@ app.get('/newTicket', function(req, res, next) {
 });
 var x;
 app.post('/search', function(req, res, next) {
-    if(x) {
-        res.end(x);
-        return;
-    }
+//    if(x) {
+//        res.end(x);
+//        return;
+//    }
     var ticketInfo = req.body;  
     var formData = {
             country:'DE',
@@ -183,8 +183,12 @@ app.post('/search', function(req, res, next) {
             children:ticketInfo.children,
             infants:ticketInfo.infants,
             cabinclass: ticketInfo.class,
-            groupPricing:true
+            groupPricing:true,
         };
+        if(ticketInfo.filter) {
+            formData.sortorder = 'asc'
+            formData.sorttype = 'price'
+        }
     var data = querystring.stringify(formData);
     var options = {
             host: 'api.skyscanner.net',
@@ -196,6 +200,7 @@ app.post('/search', function(req, res, next) {
                         'Content-Length': Buffer.byteLength(data)
                     }
         };
+    console.log(data)
     var request = http.request(options, function(response){
         console.log(response.statusCode)
         if(response.statusCode != 200 && response.statusCode != 201 && response.statusCode != 304) {

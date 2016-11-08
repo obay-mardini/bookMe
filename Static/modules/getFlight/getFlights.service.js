@@ -24,13 +24,24 @@
 
     ////////////
     var data = [];
-  
+    
+    function pageNavigator(element) {
+        var controller = document.getElementsByClassName('controller')[0];
+        var navigators = $(controller).children().filter('a');
+        for (var i = 0; i < navigators.length; i++) {
+            console.log('navigating')
+          navigators[i].className = ''
+        }
+        navigators[element].className = 'error';  
+    }
+      
     function orderNextPage() {
         var page = parseInt($routeParams.id, 10) + 1;
         service.loading = true;
         page >= 0 ? page = page : page = 0;
         $http.get("/pollSession/" + page).then(setFlights).then(function(){
             location.hash = 'search/' + page;
+            pageNavigator(page);
         }).catch(function(err) {
             console.log(err);
             service.errors[err.data] = err.data;
@@ -48,6 +59,7 @@
         service.loading = true;
         $http.get("/pollSession/" + page).then(setFlights).then(function(){
             location.hash = 'search/' + page;
+            pageNavigator(page);
         }).catch(function(err) {
             console.log(err);
             service.errors[err.data] = err.data;
@@ -62,6 +74,7 @@
         $http.get("/pollSession/" + page).then(setFlights).then(function(){
             console.log(new Date - start)
             location.hash = 'search/' + page;
+            pageNavigator(page);
         }).catch(function(err) {
             console.log(err);
             service.errors[err.data] = err.data;
@@ -89,10 +102,8 @@
     }
       
     function setFlights(result) {
-        service.flights = {};
         if(result.data.Status === "UpdatesComplete" && result.data.Itineraries.length === 0) {
             service.errors.dates = 'No results found, please try another dates!!';
-            console.log('no resluts provided')
             return;
         }
         if(result.data.Status === "UpdatesPending") {
@@ -107,7 +118,7 @@
         })
         var legs = {};
         result.data.Legs.forEach(function(leg){
-            legs[leg.Id] = [leg.Arrival, leg.Departure, leg.Directionality, leg.DestinationStation, leg.OriginStation, leg.Carriers, leg.Stops];
+            legs[leg.Id] = [leg.Arrival, leg.Departure, leg.Directionality, leg.DestinationStation, leg.OriginStation, leg.Carriers, leg.Stops, leg.Duration];
         });
         var places = {};
         result.data.Places.forEach(function(place){
@@ -167,13 +178,18 @@
             }
             var originStops =  legs[inboundId][6];
             var destinationStops = legs[outboundId][6];
-            var outboundDuration = Math.abs(new Date(arrival) - new Date(departure))/(1000*60*60);
-            var inboundDuration = Math.abs(new Date(arrivalR) - new Date(departureR))/(1000*60*60);
+            var outboundDuration = legs[outboundId][7] / 60;
+            var inboundDuration = legs[inboundId][7] / 60;
             var pricingOptions = {};
-            flight.PricingOptions.map(function(option) {
-               pricingOptions = {agent: agents[option.Agents[0]], price: Math.round(option.Price * 100)/100, DeeplinkUrl: option.DeeplinkUrl}
-            });
-     
+//            flight.PricingOptions.map(function(option) {
+//               pricingOptions = {agent: agents[option.Agents[0]], price: Math.round(option.Price * 100)/100, DeeplinkUrl: option.DeeplinkUrl}
+//            });
+            flight.PricingOpetions
+            var pricingOptions = {
+                'agent': agents[flight.PricingOptions[0].Agents[0]],
+                'price': Math.round(flight.PricingOptions[0].Price * 100)/100,
+                'DeeplinkUrl': flight.PricingOptions[0].DeeplinkUrl
+            }
             service.loading = false;
             var result = {
                     _id: index,

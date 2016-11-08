@@ -11,7 +11,7 @@
         <input id="originplaceshadow" ng-model="vm.data.originId" hidden>
         <label for="destinationplace">Destination: 
             <input id="destinationplace" ng-blur="vm.cancelSuggestions('#destinationplace')" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
-            <div class="suggestionsContainer" ng-show="vm.destionation">
+            <div id="departSuggestions" class="suggestionsContainer" ng-show="vm.destionation">
                 <div class="suggestions" ng-hide="vm.showSuggestion()"><div ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
             </div>
         </label>
@@ -31,6 +31,8 @@
         </div>
         <label ng-bind="vm.ways"></label>
         <input type="checkbox" ng-click="vm.toggleWays()"></br><br>
+        <label>Price Filter</label>
+        <input type="checkbox" ng-click="vm.toggleFilter()"></br><br>
         <input ng-model="vm.data.adults" name="adults" type="number" placeholder="Adults" required>
         <input ng-model="vm.data.children" name="children" type="number" placeholder="Children">
         <input ng-model="vm.data.infants" name="infants" type="number" placeholder="Infants"><br><br>
@@ -38,7 +40,7 @@
         <select id="selectclass" ng-init="vm.data.class = 'Economy'" ng-model="vm.data.class" name="class">
             <option value="Economy" >Economy</option>
             <option value="PremiumEconomy" >Premium Economy</option>
-            <option value="Bussiness" >Bussiness</option>
+            <option value="Business" >Bussiness</option>
             <option value="First">First Class</option>
         </select></br></br>
         <button type="submit" >Search</button>
@@ -103,7 +105,7 @@
                     <span class="outboundDuration">{{flight.inboundDuration}} hr</span><br>
                     <span>--------></span>
                     <br>
-                    <span ng-show="flight.destionationStops" class="stops" ng-repeat="stop in flight.destionationStops">
+                    <span ng-show="flight.destinationStops" class="stops" ng-repeat="stop in flight.destinationStops">
                         Stops:  {{stop}}</span>
                 </div>
                 <div class="inlineBlock">

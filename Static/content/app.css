@@ -4,6 +4,9 @@ body {
     overflow-x: hidden;
 }
 
+a {
+    cursor: pointer;
+}
 textarea{
     resize: none;
     padding: 1%;

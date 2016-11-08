@@ -24,8 +24,9 @@
         vm.error = null;
         vm.today = new Date();
         vm.toggleWays = toggleWays;
+        vm.toggleFilter = toggleFilter;
         vm.twoWays = true;
-        vm.ways = 'return'
+        vm.ways = 'One Way';
         vm.orderNextPage = getFlights.orderNextPage;
         vm.orderPreviousPage = getFlights.orderPreviousPage;
         vm.goToPage = getFlights.goToPage;
@@ -36,7 +37,7 @@
         vm.showInfoBox = showInfoBox;
         vm.origin = false;
         vm.destionation = false;
-        
+        vm.filter = false;
         console.log(vm.currentPage  )
         // turn on the spinner
         spinner.start();
@@ -85,9 +86,18 @@
         function toggleWays() {
             vm.twoWays = !vm.twoWays;
             if(vm.twoWays) {
-                vm.ways = 'one way';
+                vm.ways = 'One Way';
             } else {
-                vm.ways = 'return';
+                vm.ways = 'Return';
+            }
+        }
+        
+        function toggleFilter() {
+            vm.filter = !vm.filter;
+            if(vm.filter) {
+                vm.data.filter = true;
+            } else {
+                vm.data.filter = false;
             }
         }
         
@@ -104,12 +114,15 @@
             vm.data.city = vm.city;
             vm.data.country = vm.country;
             return new Promise(function(resolve, reject) {
-                resolve(getFlights.search());
-            }).then(function() {
-                //update the scoop 
-                vm.flights = getFlights.flights;
-                $scope.$apply();
+                resolve(getFlights.search(vm.data));
             })
+//                .then(function() {
+//                console.log('update the scope')
+//                //update the scoop 
+//                vm.flights = getFlights.flights;
+//                setTimeout($scope.$apply, 17)
+//                //$scope.$apply();
+//            })
         }
         
         function deepUrl(url) {    
