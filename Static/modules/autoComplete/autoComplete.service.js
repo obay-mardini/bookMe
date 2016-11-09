@@ -32,7 +32,7 @@
 
         ////////////
         var noSuggestions = true;
-        var current = 0;
+        var current = -1;
 
         function call() {
             var suggestions = document.getElementsByClassName('inSuggestions');
@@ -44,10 +44,11 @@
                 if (e.keyCode === 38 || e.keyCode === 40) {
                   
                     if(service.input.input === null) {
+                        current = -1;
                         return;
                     }
 
-                    if (service.input.input === '#destinationplace') {
+                    if (service.input.input === '#destinationplace'){
                         suggestions = Array.prototype.slice.call(suggestions, suggestions.length / 2)
                     } else {
                         suggestions = Array.prototype.slice.call(suggestions, 0, suggestions.length / 2)
@@ -76,7 +77,8 @@
                         $(suggestions[current]).removeClass('currentSuggestion');
                         current--;
                     } else {
-                        return;
+                        current = 0;
+                        //return;
                     }
 
                     active(suggestions[current]);
@@ -95,7 +97,7 @@
         function cancelSuggestions(element) {
             var currentValue = $(element).val()
             var capitalizedVersion = [];
-            current = 0;
+            current = -1;
             currentInputElement(null)
             currentValue.split(' ').forEach(function(currentWord) {
                 capitalizedVersion.push(capitalizeFirstLetter(currentWord));
@@ -166,6 +168,7 @@
 
         function predict(quess) {
             noSuggestions = false;
+            current = -1;
             service.suggestions.suggestions = null;
             var deferred = $q.defer();
             $http.post("/predict", {
