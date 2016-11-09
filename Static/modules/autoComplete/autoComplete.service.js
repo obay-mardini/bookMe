@@ -43,7 +43,9 @@
                 var suggestionsLength;
                 if (e.keyCode === 38 || e.keyCode === 40) {
                   
-                    console.log(current)
+                    if(service.input.input === null) {
+                        return;
+                    }
 
                     if (service.input.input === '#destinationplace') {
                         suggestions = Array.prototype.slice.call(suggestions, suggestions.length / 2)
@@ -94,7 +96,7 @@
             var currentValue = $(element).val()
             var capitalizedVersion = [];
             current = 0;
-            console.log('currrrrrrrrrrrrrrrrent')
+            currentInputElement(null)
             currentValue.split(' ').forEach(function(currentWord) {
                 capitalizedVersion.push(capitalizeFirstLetter(currentWord));
             });
@@ -120,7 +122,11 @@
             //              active(element);
             //          }
             //        });
-
+            if (element === null) {
+                noSuggestions = true;
+                service.input.input = element;
+                return;
+            }
             var inputElement = document.getElementById(element.slice(1));
             var suggestionsList;
             service.input.input = element;
@@ -136,8 +142,6 @@
         }
 
         function active(element) {
-
-            console.log(service.input.input)
             if ($(element.target).length) {
                 var toBeAtive = $(element.target) || $(element);
                 var currentTarget = $(element.currentTarget) || element;

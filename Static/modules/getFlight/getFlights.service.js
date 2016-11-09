@@ -24,16 +24,6 @@
 
     ////////////
     var data = [];
-    
-    function pageNavigator(element) {
-        var controller = document.getElementsByClassName('controller')[0];
-        var navigators = $(controller).children().filter('a');
-        for (var i = 0; i < navigators.length; i++) {
-            console.log('navigating')
-          navigators[i].className = ''
-        }
-        navigators[element].className = 'error';  
-    }
       
     function orderNextPage() {
         var page = parseInt($routeParams.id, 10) + 1;
@@ -41,7 +31,6 @@
         page >= 0 ? page = page : page = 0;
         $http.get("/pollSession/" + page).then(setFlights).then(function(){
             location.hash = 'search/' + page;
-            pageNavigator(page);
         }).catch(function(err) {
             console.log(err);
             service.errors[err.data] = err.data;
@@ -59,7 +48,6 @@
         service.loading = true;
         $http.get("/pollSession/" + page).then(setFlights).then(function(){
             location.hash = 'search/' + page;
-            pageNavigator(page);
         }).catch(function(err) {
             console.log(err);
             service.errors[err.data] = err.data;
@@ -74,7 +62,6 @@
         $http.get("/pollSession/" + page).then(setFlights).then(function(){
             console.log(new Date - start)
             location.hash = 'search/' + page;
-            pageNavigator(page);
         }).catch(function(err) {
             console.log(err);
             service.errors[err.data] = err.data;
@@ -83,6 +70,8 @@
     }
       
     function search(formData) {
+        service.flights.currentPage = [];
+        $('.controller').hide();
         service.loading = true;
         data = formData;  
         service.errors = {};
@@ -141,7 +130,7 @@
         service.flights = service.flights || [];
         service.flights[id] =  result.data.Itineraries || service.flights[id];
         service.flights[id] = service.flights[id].map(function(flight,index){
-            
+            console.log(service.flights)
             var outboundId = flight.OutboundLegId;
             var inboundId = flight.InboundLegId;
             var arrival = legs[outboundId][0];
