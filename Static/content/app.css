@@ -39,8 +39,9 @@ textarea{
 
 /*search*/
 #formContainer {
-    height: 50vh;
+    min-height: 50vh;
     display: flex;
+    position: relative;
 }
 
 #originplace {
@@ -52,17 +53,22 @@ textarea{
 }
 .searchBox {
     border: 2px solid green;
-   display: inline-block; 
-    width: 50%;
-    
+    display: inline-block;
+    width: 100%;
+    padding-right: 50%;    
 }
 
 .imageBox {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    left: 50%;
     height: 100%;
-  border: 2px solid blue;   
-  background-image: url("6998024-airplane-fly-heart.jpg");
-  background-size: cover;
-    width: 50%;
+    border: 2px solid blue;
+    background-image: url("6998024-airplane-fly-heart.jpg");
+    background-size: cover;
+    background-position: center;
 }
 .ticket {
     height: 150px;
@@ -109,13 +115,17 @@ textarea{
 .priceAndSelect {
     border-top: 1px purple solid;
     border-bottom: 1px purple solid;
+    text-align: center;
 }
 .price {
     font-size: 25px;
     text-align: center;
+    padding: 0px 10px;
 }
 
-
+.priceAndSelect button {
+    padding: 0px 10px;
+}
 
 .origin {
     margin-left: 15px;
@@ -147,6 +157,7 @@ textarea{
     text-align: center;
     transform: translate(0,37.5px);
     width: 100px;
+    margin: 0px 10px;
 }
 .ticketR {
     background: purple;

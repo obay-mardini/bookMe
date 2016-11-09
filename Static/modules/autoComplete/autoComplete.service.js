@@ -32,15 +32,36 @@
 
         ////////////
         var noSuggestions = true;
+        var autoCompleteEvents = false;
         var current = -1;
-
+        
         function call() {
             var suggestions = document.getElementsByClassName('inSuggestions');
+            if(autoCompleteEvents) {
+                return;
+            }
             document.addEventListener('keydown', arrowTracker)
-
+            autoCompleteEvents = true;
             function arrowTracker(e) {
+                console.log(current);
                 var suggestions = document.getElementsByClassName('inSuggestions');
                 var suggestionsLength;
+                
+                if(e.keyCode === 13) {
+                    console.log(service.input.input);
+                    if(service.input.input !== null) {
+                        e.preventDefault();
+                        if(service.input.input === '#originplace') {
+                            cancelSuggestions('#originplace');
+                            $('#destinationplace').focus();
+                        } else {
+                            cancelSuggestions('#destinationplace');
+                            $('#outboundDate').focus();
+                        }
+                        return false;
+                    }
+                
+                }
                 if (e.keyCode === 38 || e.keyCode === 40) {
                   
                     if(service.input.input === null) {
@@ -119,11 +140,6 @@
         }
 
         function currentInputElement(element) {
-            //        document.addEventListener('keydown', function() {
-            //          if(keyCode == 40) {
-            //              active(element);
-            //          }
-            //        });
             if (element === null) {
                 noSuggestions = true;
                 service.input.input = element;
@@ -169,10 +185,10 @@
         function predict(quess) {
             noSuggestions = false;
             current = -1;
-            service.suggestions.suggestions = null;
+            service.suggestions.suggestions = null              ;
             var deferred = $q.defer();
             $http.post("/predict", {
-                link: 'http://partners.api.skyscanner.net/apiservices/autosuggest/v1.0/UK/USD/en-GB/?query=' + quess
+                link:        'http://partners.api.skyscanner.net/apiservices/autosuggest/v1.0/UK/USD/en-GB/?query=' + quess
             }).success(function(result) {
                 service.suggestions.suggestions = service.suggestions.suggestions || [];
                 result.Places.forEach(function(place) {

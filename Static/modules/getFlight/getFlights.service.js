@@ -130,7 +130,6 @@
         service.flights = service.flights || [];
         service.flights[id] =  result.data.Itineraries || service.flights[id];
         service.flights[id] = service.flights[id].map(function(flight,index){
-            console.log(service.flights)
             var outboundId = flight.OutboundLegId;
             var inboundId = flight.InboundLegId;
             var arrival = legs[outboundId][0];
@@ -165,7 +164,6 @@
                 var carrierName = carriers[legs[outboundId][5]][1];
                 var carrierNameR = carriers[legs[inboundId][5]][1];
             } catch(err) {
-                console.log(err)
                 var carrierImage = 'http://s1.apideeplink.com/images/airlines/AA.png';
                 var carrierImageR = 'http://s1.apideeplink.com/images/airlines/AA.png';
                 var carrierName = 'American Airlines';

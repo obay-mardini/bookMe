@@ -38,10 +38,12 @@
         vm.origin = false;
         vm.destionation = false;
         vm.filter = false;
-        console.log(vm.currentPage  )
+        console.log('searchController')
+        
         // turn on the spinner
-        spinner.start();
-        autoComplete.call()
+            spinner.start();
+            autoComplete.call();
+        
     
         function currentInputElement(element) {
             if(element === '#destinationplace'){
