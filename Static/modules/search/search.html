@@ -3,7 +3,7 @@
         <label for="originplace">Origin:  
             <input id="originplace" type="text" autocomplete="off" ng-focus="vm.currentInputElement('#originplace')" ng-model="vm.data.originplace" ng-blur="vm.cancelSuggestions('#originplace')" ng-change="vm.predict(vm.data.originplace)" name="originplace" placeholder="origin airport" required>
             <div class="suggestionsContainer" ng-show="vm.origin">
-            <div class="suggestions" ng-hide="vm.showSuggestion()"><div ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
+            <div class="suggestions" ng-hide="vm.showSuggestion()"><div class="inSuggestions" ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
         </div> 
        </label>
          
@@ -11,19 +11,8 @@
         <input id="originplaceshadow" ng-model="vm.data.originId" hidden>
         <label for="destinationplace">Destination: 
             <input id="destinationplace" ng-blur="vm.cancelSuggestions('#destinationplace')" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
-<!--
             <div id="departSuggestions" class="suggestionsContainer" ng-show="vm.destionation">
-                <div class="suggestions" ng-hide="vm.showSuggestion()"><div class="departSuggestions" ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
-            </div>
--->
-            <div id="departSuggestions" class="suggestionsContainer" >
-                <div class="suggestions" >
-                    <div class="departSuggestions" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)">1</div>
-                    <div class="departSuggestions" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)">2</div>
-                    <div class="departSuggestions" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)">3</div>
-                    <div class="departSuggestions" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)">4</div>
-                
-                </div>
+                <div class="suggestions" ng-hide="vm.showSuggestion()"><div class="inSuggestions" ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
             </div>
         </label>
         <input id="destinationplacecountry" ng-model="vm.data.destinationCountry" hidden>

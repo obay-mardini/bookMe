@@ -41,6 +41,7 @@
         console.log(vm.currentPage  )
         // turn on the spinner
         spinner.start();
+        autoComplete.call()
     
         function currentInputElement(element) {
             if(element === '#destinationplace'){
