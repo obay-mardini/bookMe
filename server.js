@@ -160,8 +160,13 @@ app.get('/newTicket', function(req, res, next) {
         
     });
 });
-
+var x = 's';
 app.post('/search', function(req, res, next) {
+    if(x.length > 5) {
+        res.end(x);
+        console.log(x)
+        return;
+    }
     var ticketInfo = req.body;  
     var formData = {
             country:'DE',
@@ -231,6 +236,11 @@ app.post('/search', function(req, res, next) {
 });
 
 app.get('/pollSession/:id', function(req, res, next){
+    if(x.length > 4) {
+        res.end(x);
+        console.log(x)
+        return;
+    }
     var now = new Date();
     var page = req.params.id;
     var target = url.parse(req.session.key);
@@ -269,11 +279,7 @@ app.get('/pollSession/:id', function(req, res, next){
                     } catch(err) {
                         return;
                     }
-                    console.log(JSON.parse(str))
-                    console.log()
-                    console.log()
-                    console.log()
-                 console.log(JSON.parse(str).Status)
+                    
                     if(JSON.parse(str).Status === "UpdatesPending" || JSON.parse(str).Itineraries.length === 0) {
                         res.end(str);
                         return;
@@ -361,8 +367,8 @@ app.post("/register", function(req,res) {
         var query = "INSERT INTO users (name,email,password, country) values ($1,$2,$3, $4)";
         client.query(query,[req.body.user,req.body.email,req.body.password, req.body.country],function(err, result){
             if(err){
-                res.status(403);
-                res.end('duplicate email');
+                res.status(404);
+                res.end('You are already a member');
             } else{
                 res.json(result.rows);
                 res.end();

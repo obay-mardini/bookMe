@@ -38,7 +38,6 @@
       
     function checkDB(country, user) {
         var deferred = $q.defer();
-        console.log(country)
            var newUser = {
                 user: user.user,
                 email: user.email,
@@ -53,7 +52,7 @@
             deferred.reject();
         }
         }).error(function(error) {
-            service.error = error.data;
+            service.error = error;
             deferred.reject();
         });
         
@@ -71,7 +70,7 @@
 
     function logout(user) {
         var deferred = $q.defer();
-        
+        service.error = '';
         $http.get('/logout').success(function(result, status) {
             service.user = false;
             location.hash = 'register';
@@ -103,7 +102,7 @@
             }
         }).error(function(error) {
             service.user = false;
-            service.error = error.data;
+            service.error = error;
             deferred.reject();
         });
         

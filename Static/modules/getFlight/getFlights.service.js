@@ -17,7 +17,8 @@
        goToPage: goToPage,
        errors: {},
        journeyId: null,
-       loading : false
+       loading : false,
+       currency: 'U'
     };
 
     return service;
@@ -71,6 +72,12 @@
       
     function search(formData) {
         service.flights.currentPage = [];
+        if(formData.currency === "USD") {
+            service.currency = "$";
+        } else {
+             service.currency = "€";
+        }
+        
         $('.controller').hide();
         service.loading = true;
         data = formData;  
@@ -181,7 +188,7 @@
 
             var pricingOptions = {
                 'agent': agents[flight.PricingOptions[0].Agents[0]],
-                'price': Math.round(flight.PricingOptions[0].Price * 100)/100,
+                'price': service.currency + " " + Math.round(flight.PricingOptions[0].Price * 100)/100,
                 'DeeplinkUrl': flight.PricingOptions[0].DeeplinkUrl
             }
             service.loading = false;
@@ -208,11 +215,17 @@
                         originStops.push(places[start])
                         return originStops;
                     }, []),
+                    originStopsLength: originStops.length,
                     destinationStops: destinationStops.reduce(function(destinationStops, start){
                         destinationStops.push(places[start]);
                         return destinationStops;
-                    }, [])
+                    }, []),
+                    destinationStopsLength: destinationStops.length
                    };
+            originStops.reduce(function(originStops, start){
+                        originStops.push(places[start])
+                        return originStops;
+                    }, [])
             return result;
 
         });

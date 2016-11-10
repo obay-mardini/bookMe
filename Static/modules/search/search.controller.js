@@ -38,12 +38,24 @@
         vm.origin = false;
         vm.destionation = false;
         vm.filter = false;
-        console.log('searchController')
-        
+
         // turn on the spinner
             spinner.start();
             autoComplete.call();
         
+        vm.toolTip = function(event, stops) {
+            if(stops.length === 0) {
+                stops.push('No Stops'); 
+            } 
+            console.log(stops.join(', '))
+            $(event.currentTarget).next().addClass('tooltip')
+            $(event.currentTarget).next().attr('margin-left', '100px')
+            $(event.currentTarget).next().text(stops.join(' '));
+        }
+        vm.hideToolTip = function(event, stops) {
+            $(event.currentTarget).next().addClass('hidden')
+            $(event.currentTarget).next().removeClass('tooltip')
+        }
     
         function currentInputElement(element) {
             if(element === '#destinationplace'){

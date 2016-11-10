@@ -1,3 +1,4 @@
+<button ng-click="vm.selectTicket()">fdfdfdd</button>
 <div id="formContainer">
     <form id="vm.searchBox" class="searchBox" name="vm.searchBox" ng-model="vm.data" ng-submit="vm.searchBox.$valid && vm.selectTicket()" novalidate>
         <label for="originplace">Origin:  
@@ -92,8 +93,12 @@
                     <br>
                     <span>--------></span>
                     <br>
-                    <a ng-show="flight.originStops"  class="stops" ng-repeat="stop in flight.originStops">
+                    <a ng-show="flight.originStopsLength"  class="stops" ng-mouseover="vm.toolTip($event, flight.originStops)" ng-mouseleave = "vm.hideToolTip($event)">{{flight.originStopsLength}}. Stops
+                </a><p class="hidden"></p>
+<!--
+                    <a ng-show="flight.originStops"  class="stops" ng-repeat="stop in flight.originStops" >
                 stops:{{stop}}</a>
+-->
                 </div>
                 <div class="inlineBlock">
                     <span class="destination">{{flight.destination}}</span>
@@ -112,8 +117,9 @@
                     <span class="outboundDuration">{{flight.inboundDuration}} hr</span><br>
                     <span>--------></span>
                     <br>
-                    <span ng-show="flight.destinationStops" class="stops" ng-repeat="stop in flight.destinationStops">
-                        Stops:  {{stop}}</span>
+                    <a ng-show="flight.destinationStopsLength"  class="stops" ng-mouseover="vm.toolTip($event, flight.destinationStops)" ng-mouseleave = "vm.hideToolTip($event)">{{flight.destinationStopsLength}}. Stops
+                </a><p class="hidden"></p>
+                    
                 </div>
                 <div class="inlineBlock">
                     
@@ -130,7 +136,7 @@
         </div>  
         <div class="priceAndSelect">
             <div>
-                 <p class="price">{{flight.pricingOptions.price | currency: "$" }}</p>
+                 <p class="price">{{flight.pricingOptions.price}}</p>
             </div>
             <div>
                 <button class="select" href={{flight.pricingOptions.DeeplinkUrl}} ng-click="vm.deepUrl($event)" ticketId={{flight._id}}>Select</button>

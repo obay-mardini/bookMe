@@ -2,6 +2,7 @@
 body {
     margin: 0px;
     overflow-x: hidden;
+    background: beige;
 }
 
 a {
@@ -55,7 +56,9 @@ textarea{
     border: 2px solid green;
     display: inline-block;
     width: 100%;
-    padding-right: 50%;    
+    padding-right: 50%;  
+    background: mintcream;
+    border-radius: 0 0 0 20px;
 }
 
 .imageBox {
@@ -65,7 +68,6 @@ textarea{
     bottom: 0;
     left: 50%;
     height: 100%;
-    border: 2px solid blue;
     background-image: url("6998024-airplane-fly-heart.jpg");
     background-size: cover;
     background-position: center;
@@ -229,10 +231,33 @@ textarea{
     top: -15px;
 }
 
+/*tooltip*/
+
+.hidden {
+    display: none;
+}
+
+.tooltip {
+    color: red;
+    position: absolute;
+    display: block;
+    background-color: #795548;
+    z-index: 10;
+    /* min-height: 50px; */
+    margin-left: 0px;
+    left: 50px;
+    top: -25px;
+    min-width: 100px;
+    border: 2px black solid;
+}
 /*Media query*/
 @media (max-width: 300px) {
   body {
     font-size: xx-small;
+  }
+
+  .imageBox {
+        display: none;
   }
 }
 
