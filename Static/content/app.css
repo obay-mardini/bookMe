@@ -60,7 +60,7 @@ textarea{
 }
 
 .searchBox {
-    border: 2px solid green;
+    border: 2px solid #002780;
     display: inline-block;
     width: 100%;
     padding-right: 50%;  
@@ -213,7 +213,7 @@ textarea{
 }
 
 .currentSuggestion {
-    background-color: gray;
+    background-color: #d0cccc;
     color: #326E99;
 }
 
@@ -226,7 +226,8 @@ textarea{
     padding: 5px;
 }
 
-.infoBox {.searchBox select{
+    
+.searchBox select{
     margin: 10px; 
 }
     position: absolute;

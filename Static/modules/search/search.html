@@ -6,8 +6,8 @@
                 <div class="suggestions" ng-hide="vm.showSuggestion()"><div class="inSuggestions" ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
             </div> 
        </label>
-         
-        
+
+
         <input id="originplaceshadow" ng-model="vm.data.originId" hidden>
         <label for="destinationplace" class="ph-label">Destination: 
             <input id="destinationplace" class="ph-button ph-input" ng-blur="vm.cancelSuggestions('#destinationplace')" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
@@ -18,7 +18,7 @@
         <input id="destinationplacecountry" ng-model="vm.data.destinationCountry" hidden>
         <input id="destinationplaceshadow" ng-model="vm.data.destinationId" hidden></br><br>
         <label for="outboundDate" class="ph-label">Depart Date: </label>
-        <input ng-model="vm.data.outbounddate" id="outboundDate" class="ph-button ph-input" name="outbounddate" type="date"  date-check placeholder="departing"  required>
+        <input ng-model="vm.data.outbounddate" id="outboundDate" class="ph-button ph-input" name="outbounddate" type="date" date-check placeholder="departing" required>
         <div ng-show="vm.searchBox.$submitted">
             <p class="error" ng-show="vm.searchBox.inbounddate.$error.outGreaterThanIn ">Depart can not be greater that return, I think :)</p>
             <p class="error" ng-show="vm.searchBox.outbounddate.$error.dateCheck">Date can not be more than a year from now (you need to write a more costumised message)</p>
@@ -47,16 +47,17 @@
         <select id="selectCurrency" class="ph-button ph-input" ng-init="vm.data.currency = 'USD'" ng-model="vm.data.currency" name="selectCurrency">
             <option value="USD" >USD</option>
             <option value="EUR" >EURO</option>
-        </select></label></br></br>
+        </select></label></br>
+        </br>
         <button type="submit" class="search ph-button ph-btn-blue">Search</button>
         <p class="error" ng-show="vm.error" ng-bind="vm.error"></p>
         <div ng-show="vm.showMeError()">
             <p class="error" ng-repeat="error in vm.showMeError()">{{error}}</p>
         </div>
     </form>
- 
-<div class="imageBox">
-</div>
+
+    <div class="imageBox">
+    </div>
 </div>
 <div ng-hide="vm.showMeError()">
     <br>
@@ -70,15 +71,15 @@
 <!--<div class="suggestions" ng-hide="vm.showSuggestion()"><div ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>-->
 
 
-    <div class="results">
+<div class="results">
     <div class="ticket" ng-repeat="flight in vm.flights.currentPage">
         <div class="ticketLeft">
-            
+
         </div>
         <div class="agents">
             <div class="childbox">
                 <img class="carrier" src={{flight.carrierImage}}>
-            </div>     
+            </div>
         </div>
         <div class="ticketRight">
             <div class="top">
@@ -92,9 +93,10 @@
                     <br>
                     <span>--------></span>
                     <br>
-                    <a ng-show="flight.originStopsLength"  class="stops" ng-mouseover="vm.toolTip($event, flight.originStops)" ng-mouseleave = "vm.hideToolTip($event)">{{flight.originStopsLength}}. Stops
-                </a><p class="hidden"></p>
-<!--
+                    <a ng-show="flight.originStopsLength" class="stops" ng-mouseover="vm.toolTip($event, flight.originStops)" ng-mouseleave="vm.hideToolTip($event)">{{flight.originStopsLength}}. Stops
+                </a>
+                    <p class="hidden"></p>
+                    <!--
                     <a ng-show="flight.originStops"  class="stops" ng-repeat="stop in flight.originStops" >
                 stops:{{stop}}</a>
 -->
@@ -104,9 +106,9 @@
                     <br>
                     <span class="destination">{{flight.arrivalDate}} _ {{flight.arrivalTime}}</span>
                 </div>
-   
+
             </div>
-                
+
             <div class="down">
                 <div class="inlineBlock">
                     <span class="origin">{{flight.destination}}
@@ -116,39 +118,40 @@
                     <span class="outboundDuration">{{flight.inboundDuration}} hr</span><br>
                     <span>--------></span>
                     <br>
-                    <a ng-show="flight.destinationStopsLength"  class="stops" ng-mouseover="vm.toolTip($event, flight.destinationStops)" ng-mouseleave = "vm.hideToolTip($event)">{{flight.destinationStopsLength}}. Stops
-                </a><p class="hidden"></p>
-                    
+                    <a ng-show="flight.destinationStopsLength" class="stops" ng-mouseover="vm.toolTip($event, flight.destinationStops)" ng-mouseleave="vm.hideToolTip($event)">{{flight.destinationStopsLength}}. Stops
+                </a>
+                    <p class="hidden"></p>
+
                 </div>
                 <div class="inlineBlock">
-                    
+
                     <span class="destination">{{flight.origin}}<br>
                  {{flight.arrivalRDate}} _ {{flight.arrivalRTime}}</span>
-                    
+
                 </div>
-                
+
                 <br>
-                
-                
-                
+
+
+
             </div>
-        </div>  
+        </div>
         <div class="priceAndSelect">
             <div>
-                 <p class="price">{{flight.pricingOptions.price}}</p>
+                <p class="price">{{flight.pricingOptions.price}}</p>
             </div>
             <div>
                 <button class="select ph-button ph-btn-purple" href={{flight.pricingOptions.DeeplinkUrl}} ng-click="vm.deepUrl($event)" ticketId={{flight._id}}>Select</button>
             </div>
-                
-            </div>
-            <div class="ticketR">
-                
-            </div>
+
+        </div>
+        <div class="ticketR">
+
+        </div>
     </div>
 </div>
 
 <div class="controller">
-    <button ng-show="vm.currentPage" ng-click="vm.orderPreviousPage()"ph-button ph-btn-blue class="ph-button ph-btn-blue">Previous</button>
+    <button ng-show="vm.currentPage" ng-click="vm.orderPreviousPage()" ph-button ph-btn-blue class="ph-button ph-btn-blue">Previous</button>
     <button ng-click="vm.orderNextPage()" class="ph-button ph-btn-blue">Next</button>
 </div>

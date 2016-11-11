@@ -34,23 +34,24 @@
         var noSuggestions = true;
         var autoCompleteEvents = false;
         var current = -1;
-        
+
         function call() {
             var suggestions = document.getElementsByClassName('inSuggestions');
-            if(autoCompleteEvents) {
+            if (autoCompleteEvents) {
                 return;
             }
-            
+
             document.addEventListener('keydown', arrowTracker)
             autoCompleteEvents = true;
+
             function arrowTracker(e) {
                 var suggestions = document.getElementsByClassName('inSuggestions');
                 var suggestionsLength;
-                
-                if(e.keyCode === 13) {
-                    if(service.input.input !== null) {
+
+                if (e.keyCode === 13) {
+                    if (service.input.input !== null) {
                         e.preventDefault();
-                        if(service.input.input === '#originplace') {
+                        if (service.input.input === '#originplace') {
                             cancelSuggestions('#originplace');
                             $('#destinationplace').focus();
                         } else {
@@ -59,16 +60,16 @@
                         }
                         return false;
                     }
-                
+
                 }
                 if (e.keyCode === 38 || e.keyCode === 40) {
-                  
-                    if(service.input.input === null) {
+
+                    if (service.input.input === null) {
                         current = -1;
                         return;
                     }
 
-                    if (service.input.input === '#destinationplace'){
+                    if (service.input.input === '#destinationplace') {
                         suggestions = Array.prototype.slice.call(suggestions, suggestions.length / 2)
                     } else {
                         suggestions = Array.prototype.slice.call(suggestions, 0, suggestions.length / 2)
@@ -85,7 +86,7 @@
                     } else {
                         current = 0;
                     }
-      
+
                     active(suggestions[current]);
                 }
                 if (e.keyCode == 38) {
@@ -150,11 +151,11 @@
             if (element === '#destinationplace') {
                 suggestionsList = document.getElementsByClassName('suggestions')[1];
                 suggestionsList.style.left = inputElement.getBoundingClientRect().left + 'px';
-                suggestionsList.style.top =  inputElement.getBoundingClientRect().bottom - 10 + 'px';
+                suggestionsList.style.top = inputElement.getBoundingClientRect().bottom - 10 + 'px';
             } else {
                 suggestionsList = document.getElementsByClassName('suggestions')[0];
                 suggestionsList.style.left = inputElement.getBoundingClientRect().left + 'px';
-                suggestionsList.style.top =  inputElement.getBoundingClientRect().bottom - 10 + 'px'
+                suggestionsList.style.top = inputElement.getBoundingClientRect().bottom - 10 + 'px'
             }
 
             noSuggestions = false;
@@ -186,10 +187,10 @@
         function predict(quess) {
             noSuggestions = false;
             current = -1;
-            service.suggestions.suggestions = null              ;
+            service.suggestions.suggestions = null;
             var deferred = $q.defer();
             $http.post("/predict", {
-                link:        'http://partners.api.skyscanner.net/apiservices/autosuggest/v1.0/UK/USD/en-GB/?query=' + quess
+                link: 'http://partners.api.skyscanner.net/apiservices/autosuggest/v1.0/UK/USD/en-GB/?query=' + quess
             }).success(function(result) {
                 service.suggestions.suggestions = service.suggestions.suggestions || [];
                 result.Places.forEach(function(place) {
