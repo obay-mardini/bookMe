@@ -160,17 +160,17 @@ app.get('/newTicket', function(req, res, next) {
         
     });
 });
-var x = 's';
+
 app.post('/search', function(req, res, next) {
-    if(x.length > 5) {
-        res.end(x);
-        console.log(x)
-        return;
-    }
+//    if(x.length > 5) {
+//        res.end(x);
+//        console.log(x)
+//        return;
+//    }
     var ticketInfo = req.body;  
     var formData = {
             country:'DE',
-            currency:'USD',
+            currency:ticketInfo.currency,
             locale:'de-DE',
             locationSchema:'iata',
             apiKey:'prtl6749387986743898559646983194',
@@ -201,7 +201,7 @@ app.post('/search', function(req, res, next) {
                         'Content-Length': Buffer.byteLength(data)
                     }
         };
-    console.log(data)
+    
     var request = http.request(options, function(response){
         console.log(response.statusCode)
         if(response.statusCode != 200 && response.statusCode != 201 && response.statusCode != 304) {
@@ -236,11 +236,11 @@ app.post('/search', function(req, res, next) {
 });
 
 app.get('/pollSession/:id', function(req, res, next){
-    if(x.length > 4) {
-        res.end(x);
-        console.log(x)
-        return;
-    }
+//    if(x.length > 4) {
+//        res.end(x);
+//        console.log(x)
+//        return;
+//    }
     var now = new Date();
     var page = req.params.id;
     var target = url.parse(req.session.key);
@@ -275,7 +275,7 @@ app.get('/pollSession/:id', function(req, res, next){
                 setTimeout(redirect, 1000);
                 } else {
                     try {
-                        console.log(JSON.parse(str))
+                        console.log(JSON.parse(str));
                     } catch(err) {
                         return;
                     }
@@ -284,11 +284,9 @@ app.get('/pollSession/:id', function(req, res, next){
                         res.end(str);
                         return;
                     }
-                    console.log(JSON.parse(str).Itineraries.length);
                     console.log('setting the page to redis')
                     client.set(query, str);
                     client.expire(query, 300);
-                    x = str;
                     res.end(str);
                    
                     cashNextPage(target,parseInt(page,10) + 1);

@@ -40,15 +40,14 @@
             if(autoCompleteEvents) {
                 return;
             }
+            
             document.addEventListener('keydown', arrowTracker)
             autoCompleteEvents = true;
             function arrowTracker(e) {
-                console.log(current);
                 var suggestions = document.getElementsByClassName('inSuggestions');
                 var suggestionsLength;
                 
                 if(e.keyCode === 13) {
-                    console.log(service.input.input);
                     if(service.input.input !== null) {
                         e.preventDefault();
                         if(service.input.input === '#originplace') {
@@ -151,9 +150,11 @@
             if (element === '#destinationplace') {
                 suggestionsList = document.getElementsByClassName('suggestions')[1];
                 suggestionsList.style.left = inputElement.getBoundingClientRect().left + 'px';
+                suggestionsList.style.top =  inputElement.getBoundingClientRect().bottom - 10 + 'px';
             } else {
                 suggestionsList = document.getElementsByClassName('suggestions')[0];
                 suggestionsList.style.left = inputElement.getBoundingClientRect().left + 'px';
+                suggestionsList.style.top =  inputElement.getBoundingClientRect().bottom - 10 + 'px'
             }
 
             noSuggestions = false;

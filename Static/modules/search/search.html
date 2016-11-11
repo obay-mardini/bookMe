@@ -1,55 +1,54 @@
-<button ng-click="vm.selectTicket()">fdfdfdd</button>
 <div id="formContainer">
     <form id="vm.searchBox" class="searchBox" name="vm.searchBox" ng-model="vm.data" ng-submit="vm.searchBox.$valid && vm.selectTicket()" novalidate>
-        <label for="originplace">Origin:  
-            <input id="originplace" type="text" autocomplete="off" ng-focus="vm.currentInputElement('#originplace')" ng-model="vm.data.originplace" ng-blur="vm.cancelSuggestions('#originplace')" ng-change="vm.predict(vm.data.originplace)" name="originplace" placeholder="origin airport" required>
+        <label for="originplace" class="ph-label">Origin:  
+            <input id="originplace" class="ph-button ph-input" type="text" autocomplete="off" ng-focus="vm.currentInputElement('#originplace')" ng-model="vm.data.originplace" ng-blur="vm.cancelSuggestions('#originplace')" ng-change="vm.predict(vm.data.originplace)" name="originplace" placeholder="origin airport" required>
             <div class="suggestionsContainer" ng-show="vm.origin">
-            <div class="suggestions" ng-hide="vm.showSuggestion()"><div class="inSuggestions" ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
-        </div> 
+                <div class="suggestions" ng-hide="vm.showSuggestion()"><div class="inSuggestions" ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
+            </div> 
        </label>
          
         
         <input id="originplaceshadow" ng-model="vm.data.originId" hidden>
-        <label for="destinationplace">Destination: 
-            <input id="destinationplace" ng-blur="vm.cancelSuggestions('#destinationplace')" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
+        <label for="destinationplace" class="ph-label">Destination: 
+            <input id="destinationplace" class="ph-button ph-input" ng-blur="vm.cancelSuggestions('#destinationplace')" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
             <div id="departSuggestions" class="suggestionsContainer" ng-show="vm.destionation">
                 <div class="suggestions" ng-hide="vm.showSuggestion()"><div class="inSuggestions" ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
             </div>
         </label>
         <input id="destinationplacecountry" ng-model="vm.data.destinationCountry" hidden>
         <input id="destinationplaceshadow" ng-model="vm.data.destinationId" hidden></br><br>
-        <label for="outboundDate">Depart Date: </label>
-        <input ng-model="vm.data.outbounddate" id="outboundDate" name="outbounddate" type="date"  date-check placeholder="departing"  required>
+        <label for="outboundDate" class="ph-label">Depart Date: </label>
+        <input ng-model="vm.data.outbounddate" id="outboundDate" class="ph-button ph-input" name="outbounddate" type="date"  date-check placeholder="departing"  required>
         <div ng-show="vm.searchBox.$submitted">
             <p class="error" ng-show="vm.searchBox.inbounddate.$error.outGreaterThanIn ">Depart can not be greater that return, I think :)</p>
             <p class="error" ng-show="vm.searchBox.outbounddate.$error.dateCheck">Date can not be more than a year from now (you need to write a more costumised message)</p>
         </div>
-        <label for="inbounddate">Return Date: </label>
-        <input ng-model="vm.data.inbounddate" name="inbounddate" id="inbounddate" type="date" ng-show="vm.twoWays" out-greater-than-in date-check placeholder="arriving" required></br><br>
+        <label for="inbounddate" class="ph-label">Return Date: </label>
+        <input ng-model="vm.data.inbounddate" name="inbounddate" id="inbounddate" class="ph-button ph-input" type="date" ng-show="vm.twoWays" out-greater-than-in date-check placeholder="arriving" required></br><br>
         <div ng-show="vm.searchBox.$submitted">
             <p class="error" ng-show="vm.searchBox.inbounddate.$error.outGreaterThanIn && vm.twoWays">Depart can not be greater that return, I think :)</p>
             <p class="error" ng-show="vm.searchBox.inbounddate.$error.dateCheck && vm.twoWays">Date can not be more than a year from now</p>
         </div>
-        <label ng-bind="vm.ways" for="ways"></label>
+        <label class="ph-label" ng-bind="vm.ways" for="ways"></label>
         <input id="ways" type="checkbox" ng-click="vm.toggleWays()">
-        <label for="priceFilter">Price Filter</label>
+        <label class="ph-label" for="priceFilter">Price Filter</label>
         <input id="priceFilter" type="checkbox" ng-click="vm.toggleFilter()"></br><br>
-        <input ng-model="vm.data.adults" name="adults" type="number" placeholder="Adults" required>
-        <input ng-model="vm.data.children" name="children" type="number" placeholder="Children">
-        <input ng-model="vm.data.infants" name="infants" type="number" placeholder="Infants"><br><br>
-        <label for="selectclass">Class</label>
-        <select id="selectclass" ng-init="vm.data.class = 'Economy'" ng-model="vm.data.class" name="class">
+        <input class="ph-input" ng-model="vm.data.adults" name="adults" type="number" placeholder="Adults" required>
+        <input class="ph-input" ng-model="vm.data.children" name="children" type="number" placeholder="Children">
+        <input class="ph-input" ng-model="vm.data.infants" name="infants" type="number" placeholder="Infants"><br><br>
+        <label for="selectclass" class="ph-label">Class</label>
+        <select id="selectclass" class="ph-button ph-input" ng-init="vm.data.class = 'Economy'" ng-model="vm.data.class" name="class">
             <option value="Economy" >Economy</option>
             <option value="PremiumEconomy" >Premium Economy</option>
             <option value="Business" >Business</option>
             <option value="First">First Class</option>
         </select>
-        <label for="selectCurrency">Class</label>
-        <select id="selectCurrency" ng-init="vm.data.currency = 'USD'" ng-model="vm.data.currency" name="selectCurrency">
+        <label for="selectCurrency" class="ph-label">Currency
+        <select id="selectCurrency" class="ph-button ph-input" ng-init="vm.data.currency = 'USD'" ng-model="vm.data.currency" name="selectCurrency">
             <option value="USD" >USD</option>
             <option value="EUR" >EURO</option>
-        </select></br></br>
-        <button type="submit" >Search</button>
+        </select></label></br></br>
+        <button type="submit" class="search ph-button ph-btn-blue">Search</button>
         <p class="error" ng-show="vm.error" ng-bind="vm.error"></p>
         <div ng-show="vm.showMeError()">
             <p class="error" ng-repeat="error in vm.showMeError()">{{error}}</p>
@@ -139,7 +138,7 @@
                  <p class="price">{{flight.pricingOptions.price}}</p>
             </div>
             <div>
-                <button class="select" href={{flight.pricingOptions.DeeplinkUrl}} ng-click="vm.deepUrl($event)" ticketId={{flight._id}}>Select</button>
+                <button class="select ph-button ph-btn-purple" href={{flight.pricingOptions.DeeplinkUrl}} ng-click="vm.deepUrl($event)" ticketId={{flight._id}}>Select</button>
             </div>
                 
             </div>
@@ -150,6 +149,6 @@
 </div>
 
 <div class="controller">
-    <button ng-show="vm.currentPage" ng-click="vm.orderPreviousPage()">Previous</button>
-    <button ng-click="vm.orderNextPage()">Next</button>
+    <button ng-show="vm.currentPage" ng-click="vm.orderPreviousPage()"ph-button ph-btn-blue class="ph-button ph-btn-blue">Previous</button>
+    <button ng-click="vm.orderNextPage()" class="ph-button ph-btn-blue">Next</button>
 </div>

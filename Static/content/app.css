@@ -2,7 +2,6 @@
 body {
     margin: 0px;
     overflow-x: hidden;
-    background: beige;
 }
 
 a {
@@ -38,7 +37,14 @@ textarea{
     color: red;
 }
 
+#register {
+    text-align: center;
+}
+
 /*search*/
+.search {
+    padding: 5px;
+}
 #formContainer {
     min-height: 50vh;
     display: flex;
@@ -52,6 +58,7 @@ textarea{
 #destinationplace {
     width: 200px;
 }
+
 .searchBox {
     border: 2px solid green;
     display: inline-block;
@@ -60,6 +67,20 @@ textarea{
     background: mintcream;
     border-radius: 0 0 0 20px;
 }
+
+.searchBox label{
+    display: inline-block;
+    padding-top: 10px; 
+}
+
+.searchBox input{
+    margin: 10px; 
+}
+
+.searchBox select{
+    margin: 10px; 
+}
+
 
 .imageBox {
     position: absolute;
@@ -72,6 +93,8 @@ textarea{
     background-size: cover;
     background-position: center;
 }
+
+/*result*/
 .ticket {
     height: 150px;
     width: 90%;
@@ -93,7 +116,7 @@ textarea{
 
 .ticketRight {
     width: 100%;
-    background: gray;
+    background: #d0cccc;
     display: inline-block;
 }
 .agents {
@@ -103,6 +126,7 @@ textarea{
     display: inline-flex;
     border-top: 1px purple solid;
     border-bottom: 1px purple solid;
+    background-color: white;
 }
 
 .top {
@@ -118,6 +142,7 @@ textarea{
     border-top: 1px purple solid;
     border-bottom: 1px purple solid;
     text-align: center;
+    background-color: white;
 }
 .price {
     font-size: 25px;
@@ -174,7 +199,8 @@ textarea{
     border-bottom:1px black solid;
     width: 200px;
     position: fixed;
-    background: gray;
+    background: white;
+    margin-top: 10px;
 }
 
 .suggestionsContainer {
@@ -187,8 +213,8 @@ textarea{
 }
 
 .currentSuggestion {
-    background-color: green;
-    color: orange;
+    background-color: gray;
+    color: #326E99;
 }
 
 .controller {
@@ -196,7 +222,13 @@ textarea{
     display: none;
 }
 
-.infoBox {
+.controller button {
+    padding: 5px;
+}
+
+.infoBox {.searchBox select{
+    margin: 10px; 
+}
     position: absolute;
     left: 1px;
     top: -40px;
@@ -209,7 +241,7 @@ textarea{
 
 /*datepicker*/
 [type="date"] {
-  background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
+  background:white url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
 }
 [type="date"]::-webkit-inner-spin-button {
   display: none;
@@ -251,7 +283,7 @@ textarea{
     border: 2px black solid;
 }
 /*Media query*/
-@media (max-width: 300px) {
+@media only screen and (max-width: 350px) {
   body {
     font-size: xx-small;
   }
@@ -259,10 +291,34 @@ textarea{
   .imageBox {
         display: none;
   }
+    
+  .select {
+        width: 50px;
+    }
+    
+    .price {
+        font-size: 15px;
+    }
 }
 
-@media (max-width: 670px) and (min-width: 300px) {
+@media only screen and (max-width: 450px) {
+
+  .imageBox {
+        display: none;
+  }
+    
+}
+
+@media only screen and (max-width: 670px) and (min-width: 350px) {
   body {
     font-size: x-small;
   }
+  
+    .select {
+        width: 50px;
+    }
+    
+    .price {
+        font-size: 15px;
+    }
 }
