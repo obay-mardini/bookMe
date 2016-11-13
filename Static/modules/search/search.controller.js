@@ -104,8 +104,10 @@
             vm.twoWays = !vm.twoWays;
             if (vm.twoWays) {
                 vm.ways = 'One Way';
+               
             } else {
                 vm.ways = 'Return';
+                 vm.data.inbounddate = undefined;
             }
         }
 

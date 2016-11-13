@@ -26,11 +26,12 @@ var config = {
     max: 10,
     idleTimeoutMillis: 30000
 };
-console.log(config )
+
 var pool = new pg.Pool(config);
 
 client.on('error', function(err) {
     console.log(err);
+    return;
 });
 
 app.use(express.static(__dirname + '/Static'));
@@ -68,10 +69,10 @@ function cashNextPage(target, page) {
     var query = target.path + '?apikey=' + apiKey + '&pagesize=20&pageindex=' + page;
     client.get(query, function(err, data) {
         if (err) {
-            return console.log(err);
+            console.log(err);
+            return;
         }
         if (!data || data === {}) {
-            console.log('the page is not here anymore');
             var options = {
                 host: target.host,
                 path: target.path + '?apikey=' + apiKey + '&pagesize=20&pageindex=' + page,
@@ -85,7 +86,6 @@ function cashNextPage(target, page) {
 
                 response.on('end', function() {
                     if (response.statusCode === 304) {
-                        console.log('redirecting again!!');
 
                         function redirect() {
                             cashNextPage(target, page);
@@ -93,7 +93,6 @@ function cashNextPage(target, page) {
 
                         setTimeout(redirect, 1000);
                     } else {
-                        console.log('setting the next page to redis')
                         client.set(query, str);
                         client.expire(query, 300);
                         return;
@@ -104,11 +103,11 @@ function cashNextPage(target, page) {
 
             request.on('error', function(err) {
                 console.log(err);
+                return;
             });
 
             request.end();
         } else {
-            console.log('thank you redis')
             return;
         }
     });
@@ -129,6 +128,7 @@ app.post('/bookTicket', function(req, res, next) {
 
             if (error) {
                 console.log(error);
+                return;
             } else {
                 res.end('thanks for using our website!!');
                 done();
@@ -155,6 +155,7 @@ app.get('/newTicket', function(req, res, next) {
 
             if (error) {
                 console.log(error);
+                return;
             } else {
                 res.end(JSON.stringify(result.rows[0].ticketid))
                 done();
@@ -166,11 +167,6 @@ app.get('/newTicket', function(req, res, next) {
 });
 
 app.post('/search', function(req, res, next) {
-    //    if(x.length > 5) {
-    //        res.end(x);
-    //        console.log(x)
-    //        return;
-    //    }
     var ticketInfo = req.body;
     var formData = {
         country: 'DE',
@@ -207,7 +203,6 @@ app.post('/search', function(req, res, next) {
     };
 
     var request = http.request(options, function(response) {
-        console.log(response.statusCode)
         if (response.statusCode != 200 && response.statusCode != 201 && response.statusCode != 304) {
             response.on('data', function(chunks) {
                 res.status(400);
@@ -220,7 +215,6 @@ app.post('/search', function(req, res, next) {
             });
 
             response.on('end', function() {
-                console.log('end');
                 req.session.formData = ticketInfo;
                 setTimeout(function() {
                     res.redirect('/pollSession/0');
@@ -231,7 +225,6 @@ app.post('/search', function(req, res, next) {
 
     });
     request.on('error', function(err) {
-        console.log(err)
         res.status(500);
         res.end('oobs... server error can you search again in a moment');
     });
@@ -240,11 +233,6 @@ app.post('/search', function(req, res, next) {
 });
 
 app.get('/pollSession/:id', function(req, res, next) {
-    //    if(x.length > 4) {
-    //        res.end(x);
-    //        console.log(x)
-    //        return;
-    //    }
     var now = new Date();
     var page = req.params.id;
     var target = url.parse(req.session.key);
@@ -252,10 +240,10 @@ app.get('/pollSession/:id', function(req, res, next) {
     client.get(query, function(err, data) {
 
             if (err) {
-                return console.log(err);
+                console.log(err)
+                return;
             }
             if (!data || data === {}) {
-                console.log('the page is not here anymore');
                 var options = {
                     host: target.host,
                     path: target.path + '?apikey=' + apiKey + '&pagesize=20&pageindex=' + page,
@@ -269,8 +257,6 @@ app.get('/pollSession/:id', function(req, res, next) {
 
                     response.on('end', function() {
                         if (response.statusCode === 304) {
-                            console.log('redirecting again!!');
-
                             function redirect() {
                                 console.log(new Date() - now)
                                 res.redirect('/pollSession/' + page);
@@ -279,20 +265,19 @@ app.get('/pollSession/:id', function(req, res, next) {
                             setTimeout(redirect, 1000);
                         } else {
                             try {
-                                console.log(JSON.parse(str));
+                                var status = JSON.parse(str).Status;
                             } catch (err) {
                                 return;
                             }
 
-                            if (JSON.parse(str).Status === "UpdatesPending" || JSON.parse(str).Itineraries.length === 0) {
+                            if (status === "UpdatesPending" || JSON.parse(str).Itineraries.length === 0) {
                                 res.end(str);
                                 return;
                             }
-                            console.log('setting the page to redis')
+                            
                             client.set(query, str);
                             client.expire(query, 300);
                             res.end(str);
-
                             cashNextPage(target, parseInt(page, 10) + 1);
                         }
 
@@ -300,7 +285,6 @@ app.get('/pollSession/:id', function(req, res, next) {
                     });
                 });
                 request.on('error', function(err) {
-                    console.log(err);
                     res.status(500);
                     res.end('Server error please try again in a moment!');
                     return;
@@ -308,7 +292,6 @@ app.get('/pollSession/:id', function(req, res, next) {
 
                 request.end();
             } else {
-                console.log('thank you redis')
                 res.end(data)
                 cashNextPage(target, parseInt(page, 10) + 1);
             }
@@ -322,11 +305,12 @@ app.post('/predict', function(req, res, next) {
     var query = querystring.parse(target.query).query;
     client.hgetall('predictions', function(err, data) {
         if (err) {
-            return console.log(err);
+            console.log(err);
+            return;
         }
+        
         data = data || {};
         if (data[query] === undefined) {
-            console.log('send a request');
             var options = {
                 host: 'api.skyscanner.net',
                 path: target.path + '&apiKey=' + apiKey,
@@ -345,7 +329,6 @@ app.post('/predict', function(req, res, next) {
             });
 
             request.on('error', function(err) {
-                console.log(err)
                 res.status(500);
                 res.end('error in the sever');
             });
