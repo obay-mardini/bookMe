@@ -7,24 +7,26 @@ var pg = require('pg');
 var querystring = require('querystring');
 var URL = require("url-parse");
 var url = require('url');
-//var session = require('express-session');
-var dbUrl = process.env.DATABASE_URL || "postgres://spiced:spiced1@localhost:5432/bookMe";
+var fs = require('fs');
+var dbUrl = process.env.DATABASE_URL || Buffer(require('./passwords.json').postgres).toString();
+var apiKey = Buffer(require('./passwords.json').apiKey).toString();
 var redis = require('redis');
 var client = redis.createClient(process.env.REDIS_URL || {
     host: 'localhost',
     port: 6379
 });
 
-var herokuDb = new URL(process.env.DATABASE_URL) || null;
+var herokuDb = new URL(dbUrl) || null;
 var config = {
-    user: herokuDb.username || 'spiced',
-    database: herokuDb.pathname.slice(1) || 'bookMe',
-    password: herokuDb.password || 'spiced1',
-    host: herokuDb.hostname || 'localhost',
+    user: herokuDb.username,
+    database: herokuDb.pathname.slice(1),
+    password: herokuDb.password,
+    host: herokuDb.hostname,
     port: 5432,
     max: 10,
     idleTimeoutMillis: 30000
 };
+console.log(config )
 var pool = new pg.Pool(config);
 
 client.on('error', function(err) {
@@ -63,7 +65,7 @@ app.get('/isLoggedIn', isLoggedIn, function(req, res) {
 });
 
 function cashNextPage(target, page) {
-    var query = target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page;
+    var query = target.path + '?apikey=' + apiKey + '&pagesize=20&pageindex=' + page;
     client.get(query, function(err, data) {
         if (err) {
             return console.log(err);
@@ -72,7 +74,7 @@ function cashNextPage(target, page) {
             console.log('the page is not here anymore');
             var options = {
                 host: target.host,
-                path: target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page,
+                path: target.path + '?apikey=' + apiKey + '&pagesize=20&pageindex=' + page,
                 method: 'GET'
             };
             var request = http.request(options, function(response) {
@@ -175,7 +177,7 @@ app.post('/search', function(req, res, next) {
         currency: ticketInfo.currency,
         locale: 'de-DE',
         locationSchema: 'iata',
-        apiKey: 'prtl6749387986743898559646983194',
+        apiKey: apiKey,
         grouppricing: 'on',
         originplace: ticketInfo.originId,
         destinationplace: ticketInfo.destinationId,
@@ -195,7 +197,7 @@ app.post('/search', function(req, res, next) {
     var data = querystring.stringify(formData);
     var options = {
         host: 'api.skyscanner.net',
-        path: '/apiservices/pricing/v1.0?apikey=prtl6749387986743898559646983194',
+        path: '/apiservices/pricing/v1.0?apikey=' + apiKey,
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -246,7 +248,7 @@ app.get('/pollSession/:id', function(req, res, next) {
     var now = new Date();
     var page = req.params.id;
     var target = url.parse(req.session.key);
-    var query = target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page;
+    var query = target.path + '?apikey=' + apiKey + '&pagesize=20&pageindex=' + page;
     client.get(query, function(err, data) {
 
             if (err) {
@@ -256,7 +258,7 @@ app.get('/pollSession/:id', function(req, res, next) {
                 console.log('the page is not here anymore');
                 var options = {
                     host: target.host,
-                    path: target.path + '?apikey=prtl6749387986743898559646983194&pagesize=20&pageindex=' + page,
+                    path: target.path + '?apikey=' + apiKey + '&pagesize=20&pageindex=' + page,
                     method: 'GET'
                 };
                 var request = http.request(options, function(response) {
@@ -327,7 +329,7 @@ app.post('/predict', function(req, res, next) {
             console.log('send a request');
             var options = {
                 host: 'api.skyscanner.net',
-                path: target.path + '&apiKey=prtl6749387986743898559646983194',
+                path: target.path + '&apiKey=' + apiKey,
                 method: 'GET'
             };
             var request = http.request(options, function(response) {
