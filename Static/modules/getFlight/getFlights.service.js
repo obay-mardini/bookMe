@@ -191,7 +191,8 @@
                 var pricingOptions = {
                     'agent': agents[flight.PricingOptions[0].Agents[0]],
                     'price': service.currency + " " + Math.round(flight.PricingOptions[0].Price * 100) / 100,
-                    'DeeplinkUrl': flight.PricingOptions[0].DeeplinkUrl
+                    'DeeplinkUrl': flight.PricingOptions[0].DeeplinkUrl,
+                    priceNoCurrency: Math.round(flight.PricingOptions[0].Price * 100) / 100
                 }
                 service.loading = false;
                 var result = {
@@ -232,18 +233,18 @@
 
             });
 
-            // to use worker after the presentation
             setTimeout(showController, 50);
             if (id === 0) {
                 $http.get('/newTicket').then(function(result, err) {
+                    console.log(result);
                     service.journeyId = result.data;
+                    console.log(result.data)
                 }).catch(function(err) {
                     // you need to send a message to the admin to make sure the record is not lost
                     console.log(err);
                 });
             }
 
-            //you should set up the _id 
             service.flights.currentPage = service.flights[id];
             console.log(new Date)
         }

@@ -104,10 +104,10 @@
             vm.twoWays = !vm.twoWays;
             if (vm.twoWays) {
                 vm.ways = 'One Way';
-               
+
             } else {
                 vm.ways = 'Return';
-                 vm.data.inbounddate = undefined;
+                vm.data.inbounddate = undefined;
             }
         }
 
@@ -133,15 +133,8 @@
             vm.data.city = vm.city;
             vm.data.country = vm.country;
             return new Promise(function(resolve, reject) {
-                    resolve(getFlights.search(vm.data));
-                })
-                //                .then(function() {
-                //                console.log('update the scope')
-                //                //update the scoop 
-                //                vm.flights = getFlights.flights;
-                //                setTimeout($scope.$apply, 17)
-                //                //$scope.$apply();
-                //            })
+                resolve(getFlights.search(vm.data));
+            })
         }
 
         function deepUrl(url) {
@@ -149,12 +142,12 @@
             var id = url.attr('ticketId');
             var parentDiv = url.parent().parent();
             var ticket = vm.flights['currentPage'][id];
+            console.log(vm.flights)
             $http.post('/bookTicket', {
                 ticket: ticket,
                 journeyId: getFlights.journeyId
             });
             window.open(url.attr('href'), '_blank');
-            //$http.put("/deepLink")
         }
     }
 })();

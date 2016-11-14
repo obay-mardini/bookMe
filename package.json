@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "fs": "0.0.1-security"
   },
   "devDependencies": {},
