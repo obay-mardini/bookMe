@@ -93,7 +93,7 @@
         }).success(function(result,status) {
             if(status === 200 && result) {
                 service.loggedin = true;
-                service.user = result[0].name;
+                service.user = result.user;
                 location.hash = '';
                 deferred.resolve();
             } else {
