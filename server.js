@@ -28,7 +28,6 @@ app.use(cookieSession({
 app.post('/bookTicket', function(req, res, next) {
     var body = req.body;
     var query = "INSERT INTO purchases ( ticketid, price, carrier, agent) VALUES ($1, $2,$3,$4) returning *";
-    console.log(body);
     skyscanner.bookTicket(query, body, function(error, response) {
         if (error) {
             console.log(error);
@@ -43,13 +42,10 @@ app.post('/bookTicket', function(req, res, next) {
 });
 
 app.get('/newTicket', function(req, res, next) {
-    console.log('newTicket', req.session)
     var query = "INSERT INTO tickets (userId, origin, destination, location, depart, return, adult,children,infants,class, country, destinationcountry) VALUES ($1, $2,$3,$4, $5,$6,$7,$8,$9,$10, $11, $12) returning *";
 
     skyscanner.newTicket(query, req.session, function(err, response) {
         if (response) {
-            console.log(response);
-            console.log('ressss')
             res.end(JSON.stringify(response));
         }
     });
@@ -60,8 +56,6 @@ app.get('/newTicket', function(req, res, next) {
 app.post('/search', function(req, res, next) {
 
     skyscanner.search(req.body, function(err, header) {
-        console.log(err);
-        console.log(header)
         if (err === 500) {
             res.status(500);
             res.end('oobs... server error can you search again in a moment');

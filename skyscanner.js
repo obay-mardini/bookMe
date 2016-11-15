@@ -13,7 +13,7 @@ function bookTicket(query, body, callback) {
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        console.log(body.journeyId, parseInt(ticketInfo.pricingOptions.priceNoCurrency, 10), ticketInfo.carrierName, ticketInfo.pricingOptions.agent)
+
         client.query(query, [body.journeyId, parseInt(ticketInfo.pricingOptions.priceNoCurrency, 10), ticketInfo.carrierName, ticketInfo.pricingOptions.agent], function(error, result) {
 
             if (error) {
@@ -45,8 +45,6 @@ function newTicket(query, session, callback) {
             if (error) {
                 console.log(error);
             } else {
-                console.log('here')
-                console.log(result.rows[0]);
                 callback(null, result.rows[0].ticketid)
                 done();
             }
