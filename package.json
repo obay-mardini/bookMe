@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Mosafer provides a free of charge flight search service, using Skyscanner Api.     Users can search for flights all over the world. In addition to the frontend     interface Mosafer has an admin application which provides tools that makes     it easy to track and manage web traffic.",
   "main": "server.js",
-  "dependencies": {},
+  "dependencies": {
+    "bcrypt": "^0.8.7"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
