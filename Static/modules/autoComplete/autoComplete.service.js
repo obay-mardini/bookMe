@@ -36,75 +36,12 @@
         var current = -1;
 
         function call() {
-            var suggestions = document.getElementsByClassName('inSuggestions');
             if (autoCompleteEvents) {
                 return;
             }
 
             document.addEventListener('keydown', arrowTracker)
             autoCompleteEvents = true;
-
-            function arrowTracker(e) {
-                var suggestions = document.getElementsByClassName('inSuggestions');
-                var suggestionsLength;
-
-                if (e.keyCode === 13) {
-                    if (service.input.input !== null) {
-                        e.preventDefault();
-                        if (service.input.input === '#originplace') {
-                            cancelSuggestions('#originplace');
-                            $('#destinationplace').focus();
-                        } else {
-                            cancelSuggestions('#destinationplace');
-                            $('#outboundDate').focus();
-                        }
-                        return false;
-                    }
-
-                }
-                if (e.keyCode === 38 || e.keyCode === 40) {
-
-                    if (service.input.input === null) {
-                        current = -1;
-                        return;
-                    }
-
-                    if (service.input.input === '#destinationplace') {
-                        suggestions = Array.prototype.slice.call(suggestions, suggestions.length / 2)
-                    } else {
-                        suggestions = Array.prototype.slice.call(suggestions, 0, suggestions.length / 2)
-                    }
-                }
-                // down arrow
-                if (e.keyCode == 40) {
-                    if (current >= (suggestions.length) - 1) {
-                        $(suggestions[current]).removeClass('currentSuggestion');
-                        current = 0;
-                    } else if (current >= 0) {
-                        $(suggestions[current]).removeClass('currentSuggestion');
-                        current++;
-                    } else {
-                        current = 0;
-                    }
-
-                    active(suggestions[current]);
-                }
-                if (e.keyCode == 38) {
-
-                    if (current === 0) {
-                        $(suggestions[current]).removeClass('currentSuggestion');
-                        current = (suggestions.length) - 1;
-                    } else if (current > 0) {
-                        $(suggestions[current]).removeClass('currentSuggestion');
-                        current--;
-                    } else {
-                        current = 0;
-                        //return;
-                    }
-
-                    active(suggestions[current]);
-                }
-            }
         }
 
         function noS() {
@@ -136,7 +73,7 @@
                 $('#destinationplacecountry').val(skyId.CountryName);
             }
             noSuggestions = true;
-            return ''
+            return '';
         }
 
         function currentInputElement(element) {
@@ -206,6 +143,67 @@
             });
             return deferred.promise;
         }
-    }
+        
+        function arrowTracker(e) {
+            var suggestions = document.getElementsByClassName('inSuggestions');
+            var suggestionsLength;
 
+            if (e.keyCode === 13) {
+                if (service.input.input !== null) {
+                    e.preventDefault();
+                    if (service.input.input === '#originplace') {
+                        cancelSuggestions('#originplace');
+                        $('#destinationplace').focus();
+                    } else {
+                        cancelSuggestions('#destinationplace');
+                        $('#outboundDate').focus();
+                    }
+                    return false;
+                }
+
+            }
+            if (e.keyCode === 38 || e.keyCode === 40) {
+
+                if (service.input.input === null) {
+                    current = -1;
+                    return;
+                }
+
+                if (service.input.input === '#destinationplace') {
+                    suggestions = Array.prototype.slice.call(suggestions, suggestions.length / 2)
+                } else {
+                    suggestions = Array.prototype.slice.call(suggestions, 0, suggestions.length / 2)
+                }
+            }
+            // down arrow
+            if (e.keyCode == 40) {
+                if (current >= (suggestions.length) - 1) {
+                    $(suggestions[current]).removeClass('currentSuggestion');
+                    current = 0;
+                } else if (current >= 0) {
+                    $(suggestions[current]).removeClass('currentSuggestion');
+                    current++;
+                } else {
+                    current = 0;
+                }
+
+                active(suggestions[current]);
+            }
+            if (e.keyCode == 38) {
+
+                if (current === 0) {
+                    $(suggestions[current]).removeClass('currentSuggestion');
+                    current = (suggestions.length) - 1;
+                } else if (current > 0) {
+                    $(suggestions[current]).removeClass('currentSuggestion');
+                    current--;
+                } else {
+                    current = 0;
+                }
+
+                active(suggestions[current]);
+            }
+        }
+    }
+    
 })();

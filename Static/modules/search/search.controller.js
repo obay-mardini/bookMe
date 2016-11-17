@@ -5,7 +5,7 @@
         .module('app.search')
         .controller('SearchController', SearchController);
 
-    SearchController.$inject = ["$http", "autoComplete", "getFlights", "GeoLocationController", "spinner"]
+    SearchController.$inject = ["$http", "autoComplete", "getFlights", "GeoLocationController", "spinner", "$scope"]
 
     function SearchController($http, autoComplete, getFlights, GeoLocationController, spinner, $scope) {
         var vm = this;
@@ -128,6 +128,8 @@
             vm.data.country = vm.country;
             return new Promise(function(resolve, reject) {
                 resolve(getFlights.search(vm.data));
+            }).then(function() {
+                $scope.vm.searchBox.$setPristine();
             })
         }
 
