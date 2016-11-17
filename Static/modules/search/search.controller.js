@@ -5,10 +5,11 @@
         .module('app.search')
         .controller('SearchController', SearchController);
 
-    SearchController.$inject = ["$http", "$q", "$routeParams", "autoComplete", "getFlights", "GeoLocationController", "spinner", "$scope"]
+    SearchController.$inject = ["$http", "autoComplete", "getFlights", "GeoLocationController", "spinner"]
 
-    function SearchController($http, $q, $routeParams, autoComplete, getFlights, GeoLocationController, spinner, $scope) {
+    function SearchController($http, autoComplete, getFlights, GeoLocationController, spinner, $scope) {
         var vm = this;
+        
         vm.flights = getFlights.flights;
         vm.deepUrl = deepUrl;
         vm.selectTicket = selectTicket;
@@ -18,19 +19,16 @@
         vm.active = autoComplete.active;
         vm.inActive = autoComplete.inActive;
         vm.chooseSuggestion = autoComplete.chooseSuggestion;
-        vm.input = autoComplete.input;
         vm.currentInputElement = currentInputElement;
         vm.showSuggestion = showSuggestion;
         vm.error = null;
-        vm.today = new Date();
-        vm.toggleWays = toggleWays;
         vm.toggleFilter = toggleFilter;
+        vm.toggleWays = toggleWays;
         vm.twoWays = true;
         vm.ways = 'One Way';
         vm.orderNextPage = getFlights.orderNextPage;
         vm.orderPreviousPage = getFlights.orderPreviousPage;
-        vm.goToPage = getFlights.goToPage;
-        vm.currentPage = parseInt($routeParams.id, 10);
+        vm.currentPage = getFlights.page();
         vm.cancelSuggestions = cancelSuggestions;
         vm.spiner = spiner;
         vm.showMeError = showMeError;
@@ -47,7 +45,7 @@
             if (stops.length === 0) {
                 stops.push('No Stops');
             }
-            console.log(stops.join(', '))
+
             $(event.currentTarget).next().addClass('tooltip')
             $(event.currentTarget).next().attr('margin-left', '100px')
             $(event.currentTarget).next().text(stops.join(' '));
@@ -94,7 +92,7 @@
         }
 
         function cancelSuggestions(element) {
-            cancelSuggestions = autoComplete.cancelSuggestions(element);
+            var cancelSuggestions = autoComplete.cancelSuggestions(element);
             if (cancelSuggestions) {
                 vm.error = cancelSuggestions;
             }
@@ -125,7 +123,7 @@
         }
 
         function selectTicket() {
-            if (parseInt($routeParams.id, 10) !== 0) {
+            if (getFlights.page() !== 0) {
                 location.hash = '/search/0'
             }
 
@@ -142,7 +140,6 @@
             var id = url.attr('ticketId');
             var parentDiv = url.parent().parent();
             var ticket = vm.flights['currentPage'][id];
-            console.log(vm.flights)
             $http.post('/bookTicket', {
                 ticket: ticket,
                 journeyId: getFlights.journeyId
