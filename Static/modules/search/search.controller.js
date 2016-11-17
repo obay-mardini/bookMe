@@ -32,7 +32,7 @@
         vm.cancelSuggestions = cancelSuggestions;
         vm.spiner = spiner;
         vm.showMeError = showMeError;
-        vm.showInfoBox = showInfoBox;
+        vm.toolTip = toolTip;
         vm.origin = false;
         vm.destionation = false;
         vm.filter = false;
@@ -41,7 +41,7 @@
         spinner.start();
         autoComplete.call();
 
-        vm.toolTip = function(event, stops) {
+        function toolTip(event, stops) {
             if (stops.length === 0) {
                 stops.push('No Stops');
             }
@@ -67,10 +67,6 @@
             setTimeout(function() {
                 autoComplete.currentInputElement(element)
             }, 10);
-        }
-        //show info box when click stops
-        function showInfoBox(id, event) {
-            $(event.target).parent().append('<div class="infoBox">' + vm.flights[id].destinationStops + '</div>')
         }
 
         function spiner() {
