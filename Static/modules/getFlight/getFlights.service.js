@@ -44,9 +44,11 @@
 
         function showController() {
             $('.controller').show();
+            /*
             $("html, body").animate({
                 scrollTop: 300
             }, 900);
+            */
         }
 
         function orderPreviousPage() {
