@@ -122,15 +122,20 @@
             if (getFlights.page() !== 0) {
                 location.hash = '/search/0'
             }
-
+            
             vm.error = null
             vm.data.city = vm.city;
             vm.data.country = vm.country;
+            setTimeout(pristinve,2000)
+            console.log('here')
+            function pristinve(){
+                console.log('pristinve')
+                $scope.vm.searchBox.$setPristine();
+            }
             return new Promise(function(resolve, reject) {
                 resolve(getFlights.search(vm.data));
-            }).then(function() {
-                $scope.vm.searchBox.$setPristine();
-            })
+            });
+            
         }
 
         function deepUrl(url) {

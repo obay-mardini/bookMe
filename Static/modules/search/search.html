@@ -19,16 +19,9 @@
         <input id="destinationplaceshadow" ng-model="vm.data.destinationId" hidden></br><br>
         <label for="outboundDate" class="ph-label">Depart Date: </label>
         <input ng-model="vm.data.outbounddate" id="outboundDate" class="ph-button ph-input" name="outbounddate" type="date" date-check placeholder="departing" required>
-        <div ng-show="vm.searchBox.$submitted">
-            <p class="error" ng-show="vm.searchBox.inbounddate.$error.outGreaterThanIn ">Depart can not be greater that return, I think :)</p>
-            <p class="error" ng-show="vm.searchBox.outbounddate.$error.dateCheck">Date can not be more than a year from now (you need to write a more costumised message)</p>
-        </div>
+        
         <label for="inbounddate" class="ph-label">Return Date: </label>
         <input ng-model="vm.data.inbounddate" name="inbounddate" id="inbounddate" class="ph-button ph-input" type="date" ng-show="vm.twoWays" out-greater-than-in date-check placeholder="arriving" required></br><br>
-        <div ng-show="vm.searchBox.$submitted">
-            <p class="error" ng-show="vm.searchBox.inbounddate.$error.outGreaterThanIn && vm.twoWays">Depart can not be greater that return, I think :)</p>
-            <p class="error" ng-show="vm.searchBox.inbounddate.$error.dateCheck && vm.twoWays">Date can not be more than a year from now</p>
-        </div>
 <!--
         <label class="ph-label" ng-bind="vm.ways" for="ways"></label>
         <input id="ways" type="checkbox" ng-click="vm.toggleWays()">
@@ -52,15 +45,29 @@
         </select></label></br>
         </br>
         <button type="submit" class="search ph-button ph-btn-blue">Search</button>
-        <p class="error" ng-show="vm.error" ng-bind="vm.error"></p>
-        <div ng-show="vm.showMeError()">
-            <p class="error" ng-repeat="error in vm.showMeError()">{{error}}</p>
-        </div>
     </form>
 
     <div class="imageBox">
     </div>
 </div>
+
+<div>
+    <p class="error" ng-show="vm.error" ng-bind="vm.error"></p>
+        <div ng-show="vm.showMeError()">
+            <p class="error" ng-repeat="error in vm.showMeError()">{{error}}</p>
+        </div>
+
+        <div ng-show="vm.searchBox.$submitted">
+            
+            <p class="error" ng-show="vm.searchBox.outbounddate.$error.dateCheck">Date can not be more than a year from now (you need to write a more costumised message)</p>
+        </div>
+
+        <div ng-show="vm.searchBox.$submitted">
+            <p class="error" ng-show="vm.searchBox.inbounddate.$error.outGreaterThanIn || vm.searchBox.outbounddate.$error.outGreaterThanIn">Depart can not be greater that return, I think :)</p>
+            <p class="error" ng-show="vm.searchBox.inbounddate.$error.dateCheck && vm.twoWays">Date can not be more than a year from now</p>
+        </div>
+</div>
+
 <div ng-hide="vm.showMeError()">
     <br>
     <div ng-show="vm.spiner()" id='ticker'>
