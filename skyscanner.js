@@ -65,7 +65,7 @@ function search(ticketInfo, callback) {
         originplace: ticketInfo.originId,
         destinationplace: ticketInfo.destinationId,
         destinationCountry: ticketInfo.destinationplacecountry,
-        outbounddate: ticketInfo.outbounddate.split('T')[0],
+        outbounddate: ticketInfo.outbounddate.split('/').reverse().join('-'),
         inbounddate: ticketInfo.inbounddate && ticketInfo.inbounddate.split('T')[0],
         adults: ticketInfo.adults,
         children: ticketInfo.children,

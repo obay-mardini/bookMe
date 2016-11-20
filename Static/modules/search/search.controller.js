@@ -126,6 +126,7 @@
             vm.error = null
             vm.data.city = vm.city;
             vm.data.country = vm.country;
+            console.log(vm.data)
             setTimeout(pristinve,2000)
             console.log('here')
             function pristinve(){

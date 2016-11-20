@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html lang="en" ng-app="app">
 
 <head>
     <meta charset="utf-8">
@@ -8,12 +8,18 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="https://code.angularjs.org/1.5.0/angular-route.js"></script>
-
+    
     <!--  Stylesheets  -->
     <link rel="stylesheet" media="(min-width: 200px)" href="content/app.css" />
     <link rel="stylesheet" media="(min-width: 200px)" href="content/mainButton.css" />
     <link rel="stylesheet" type="text/css" href="content/mainButton.css">
     <link rel="stylesheet" type="text/css" href="content/app.css">
+    
+    <!--Bootstrap latest compiled and minified CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    
+    <!-- air datepicker    -->
+    <link rel="stylesheet" href="content/datepicker.css">
 </head>
 
 <body>
@@ -25,7 +31,11 @@
 
     <!-- Main Module -->
     <script src="modules/app.module.js"></script>
-
+    
+    <!-- air datepicker    -->
+    <script src="air-datepicker.js"></script>
+    <script src="datepicker.en.js"></script>
+    
     <!-- auth module-->
     <script src="modules/auth/auth.module.js"></script>
     <script src="modules/auth/auth.controller.js"></script>
