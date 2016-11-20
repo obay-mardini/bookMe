@@ -40,7 +40,8 @@
         // turn on the spinner
         spinner.start();
         autoComplete.call();
-
+        $('#outboundDate').datepicker();
+        
         function toolTip(event, stops) {
             if (stops.length === 0) {
                 stops.push('No Stops');
