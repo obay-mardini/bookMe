@@ -16,13 +16,18 @@
                 </div>
         </div>
         
+        
+        
         <input id="destinationplacecountry" ng-model="vm.data.destinationCountry" hidden>
         <input id="destinationplaceshadow" ng-model="vm.data.destinationId" hidden>
         <label for="outboundDate" class="ph-label">Depart Date: </label>
-        <input ng-model="vm.data.outbounddate" id="outboundDate" class="datepicker-here" data-position="right top" name="outbounddate" data-language='en' type="text" date-check placeholder="departing" required>
+        
+        <datepicker>
+  <input id="outboundDate" name="outbounddate" type="text"  date-check ng-model="vm.data.outbounddate" required>
+</datepicker>
         
         <label for="inbounddate" class="ph-label">Return Date: </label>
-        <input ng-model="vm.data.inbounddate" name="inbounddate" id="inbounddate" class="ph-button ph-input" type="date" ng-show="vm.twoWays" out-greater-than-in date-check placeholder="arriving" required></br><br>
+        <input ng-model="vm.data.inbounddate" name="inbounddate" id="inbounddate" class="ph-button ph-input" type="date" ng-show="vm.twoWays" out-greater-than-in date-check required></br><br>
 <!--
         <label class="ph-label" ng-bind="vm.ways" for="ways"></label>
         <input id="ways" type="checkbox" ng-click="vm.toggleWays()">

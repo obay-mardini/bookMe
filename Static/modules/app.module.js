@@ -10,7 +10,8 @@
       'app.autoComplete',
       'app.getFlights',
       'app.geoLocation',
-      'app.spinner'
+      'app.spinner',
+      'app.datepicker'
   ])
     .config(configFunction);
   
