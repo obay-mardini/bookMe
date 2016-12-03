@@ -36,11 +36,20 @@
         vm.origin = false;
         vm.destionation = false;
         vm.filter = false;
-
+        vm.today = new Date().toString();
+        vm.maxReturn =  maxReturn();
+        
         // turn on the spinner
         spinner.start();
         autoComplete.call();
 
+        function maxReturn() {
+            console.log('here')
+            var todayDate = new Date();
+            var currentYear = todayDate.getFullYear();
+            var maxReturn = todayDate.setFullYear(currentYear + 1);
+            return todayDate.toString();
+        }
         
         function toolTip(event, stops) {
             if (stops.length === 0) {

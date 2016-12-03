@@ -66,13 +66,14 @@ function search(ticketInfo, callback) {
         destinationplace: ticketInfo.destinationId,
         destinationCountry: ticketInfo.destinationplacecountry,
         outbounddate: ticketInfo.outbounddate.split('/').reverse().join('-'),
-        inbounddate: ticketInfo.inbounddate && ticketInfo.inbounddate.split('T')[0],
+        inbounddate: ticketInfo.inbounddate && ticketInfo.inbounddate.split('/').reverse().join('-'),
         adults: ticketInfo.adults,
         children: ticketInfo.children,
         infants: ticketInfo.infants,
         cabinclass: ticketInfo.class,
         groupPricing: true,
     };
+
     if (ticketInfo.filter) {
         formData.sortorder = 'asc'
         formData.sorttype = 'price'

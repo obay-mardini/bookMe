@@ -22,12 +22,15 @@
         <input id="destinationplaceshadow" ng-model="vm.data.destinationId" hidden>
         <label for="outboundDate" class="ph-label">Depart Date: </label>
         
-        <datepicker>
-  <input id="outboundDate" name="outbounddate" type="text"  date-check ng-model="vm.data.outbounddate" required>
-</datepicker>
+        <datepicker date-format="d/M/y" date-max-limit={{vm.maxReturn}} date-min-limit={{vm.today}}  date-set={{vm.today}}>
+            <input id="outboundDate" name="outbounddate" type="text"  date-check ng-model="vm.data.outbounddate" required>
+        </datepicker>
         
         <label for="inbounddate" class="ph-label">Return Date: </label>
-        <input ng-model="vm.data.inbounddate" name="inbounddate" id="inbounddate" class="ph-button ph-input" type="date" ng-show="vm.twoWays" out-greater-than-in date-check required></br><br>
+        <datepicker date-format="d/M/y" date-max-limit={{vm.maxReturn}} date-min-limit={{vm.today}}  date-set={{vm.today}}>
+            <input ng-model="vm.data.inbounddate" name="inbounddate" id="inbounddate" type="text" ng-show="vm.twoWays" out-greater-than-in date-check required>
+        </datepicker>
+        </br><br>
 <!--
         <label class="ph-label" ng-bind="vm.ways" for="ways"></label>
         <input id="ways" type="checkbox" ng-click="vm.toggleWays()">
