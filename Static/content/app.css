@@ -77,6 +77,10 @@ textarea{
     margin: 10px; 
 }
 
+.dateLabelHolder {
+    display: inline-block;
+}
+
 .searchBox select{
     margin: 10px; 
 }

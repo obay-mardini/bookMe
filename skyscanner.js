@@ -73,7 +73,7 @@ function search(ticketInfo, callback) {
         cabinclass: ticketInfo.class,
         groupPricing: true,
     };
-
+    
     if (ticketInfo.filter) {
         formData.sortorder = 'asc'
         formData.sorttype = 'price'

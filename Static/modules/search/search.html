@@ -16,19 +16,27 @@
                 </div>
         </div>
         
-        
-        
         <input id="destinationplacecountry" ng-model="vm.data.destinationCountry" hidden>
         <input id="destinationplaceshadow" ng-model="vm.data.destinationId" hidden>
-        <label for="outboundDate" class="ph-label">Depart Date: </label>
         
-        <datepicker date-format="d/M/y" date-max-limit={{vm.maxReturn}} date-min-limit={{vm.today}}  date-set={{vm.today}}>
-            <input id="outboundDate" name="outbounddate" type="text"  date-check ng-model="vm.data.outbounddate" required>
+        
+        <datepicker  date-format="dd/MM/y" date-max-limit={{vm.maxReturn}} date-min-limit={{vm.today}}  date-set={{vm.today}} selector="inputClass">
+            <div class="dateLabelHolder">
+                <label for="outboundDate" class="ph-label">Depart Date: </label>     
+                <input id="outboundDate" class="inputClass" name="outbounddate" type="text"   ng-model="vm.data.outbounddate" required>
+    <!--            date-check-->
+            </div>
+            
         </datepicker>
         
-        <label for="inbounddate" class="ph-label">Return Date: </label>
-        <datepicker date-format="d/M/y" date-max-limit={{vm.maxReturn}} date-min-limit={{vm.today}}  date-set={{vm.today}}>
-            <input ng-model="vm.data.inbounddate" name="inbounddate" id="inbounddate" type="text" ng-show="vm.twoWays" out-greater-than-in date-check required>
+        
+        <datepicker date-format="dd/MM/y" date-max-limit={{vm.maxReturn}} date-min-limit={{vm.today}}  date-set={{vm.today}} selector="inputClass">
+            <div class="dateLabelHolder">
+                <label for="inbounddate" class="ph-label">Return Date: </label>
+            <input ng-model="vm.data.inbounddate" name="inbounddate" class="inputClass" id="inbounddate" type="text" ng-show="vm.twoWays" required>
+<!--            out-greater-than-in date-check -->
+            </div>
+            
         </datepicker>
         </br><br>
 <!--
