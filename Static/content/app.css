@@ -75,6 +75,7 @@ textarea{
 
 .searchBox input{
     margin: 10px; 
+    max-width: 180px;
 }
 
 .dateLabelHolder {
@@ -201,14 +202,14 @@ textarea{
     border-left: 1px black solid;
     border-right:1px black solid;
     border-bottom:1px black solid;
-    width: 200px;
     position: fixed;
     background: white;
     margin-top: 10px;
+    z-index: 10;
 }
 
 .suggestionsContainer {
-    display: inherit;
+    display: inline-block;
 }
 .inlineBlock {
     display: inline-block;
@@ -270,11 +271,11 @@ textarea{
 
 /*tooltip*/
 
-.hidden {
+.hiddenCustom {
     display: none;
 }
 
-.tooltip {
+.tooltipStops {
     color: red;
     position: absolute;
     display: block;

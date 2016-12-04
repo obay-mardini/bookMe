@@ -51,9 +51,13 @@ app.get('/newTicket', function(req, res, next) {
     });
 
 });
-
+var x = '';
 // search for new routes
 app.post('/search', function(req, res, next) {
+    if(x) {
+        res.end(x);
+        return;
+    }
     skyscanner.search(req.body, function(err, header) {
         if (err === 500) {
             res.status(500);
@@ -87,6 +91,7 @@ app.get('/pollSession/:id', function(req, res, next) {
         } else if (response === 'notComplete') {
             res.end(str);
         } else {
+            x = str;
             res.end(str);
         }
 

@@ -1,20 +1,21 @@
 <div id="formContainer">
-<!--    vm.searchBox.$valid && -->
-    <form id="vm.searchBox" class="searchBox form-horizontal" role="form" name="vm.searchBox" ng-model="vm.data" ng-submit="vm.selectTicket()" novalidate>
-        <div class="form-group">
-            <label for="originplace" class="col-sm-2 control-label">Origin: </label> 
-            <input id="originplace" class="form-control col-md-3" type="text" autocomplete="off" ng-focus="vm.currentInputElement('#originplace')" ng-model="vm.data.originplace" ng-blur="vm.cancelSuggestions('#originplace')" ng-change="vm.predict(vm.data.originplace)" name="originplace" placeholder="origin airport" required>
+
+    <form id="vm.searchBox" class="searchBox form-horizontal" role="form" name="vm.searchBox" ng-model="vm.data" ng-submit="vm.searchBox.$valid && vm.selectTicket()" novalidate>
+         <label for="originplace" class="ph-label">Origin: </label> 
+            <input id="originplace" class="ph-button ph-input" type="text" autocomplete="off" ng-focus="vm.currentInputElement('#originplace')" ng-model="vm.data.originplace" ng-blur="vm.cancelSuggestions('#originplace')" ng-change="vm.predict(vm.data.originplace)" name="originplace" placeholder="origin airport" required>
             <div class="suggestionsContainer" ng-show="vm.origin">
                 <div class="suggestions" ng-hide="vm.showSuggestion()"><div class="inSuggestions" ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
             </div> 
-            
-            <input id="originplaceshadow" ng-model="vm.data.originId" hidden>
-            <label for="destinationplace" class="col-md-2 control-label">Destination: </label>
-                <input id="destinationplace" class="form-control col-sm-3" ng-blur="vm.cancelSuggestions('#destinationplace')" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
-                <div id="departSuggestions" class="suggestionsContainer" ng-show="vm.destionation">
-                    <div class="suggestions" ng-hide="vm.showSuggestion()"><div class="inSuggestions" ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
-                </div>
-        </div>
+       
+
+
+        <input id="originplaceshadow" ng-model="vm.data.originId" hidden>
+        <label for="destinationplace" class="ph-label">Destination: </label>
+            <input id="destinationplace" class="ph-button ph-input" ng-blur="vm.cancelSuggestions('#destinationplace')" ng-focus="vm.currentInputElement('#destinationplace')" ng-model="vm.data.destinationplace" ng-change="vm.predict(vm.data.destinationplace)" autocomplete="off" name="destinationplace" placeholder="destinationplace" required>
+            <div id="departSuggestions" class="suggestionsContainer" ng-show="vm.destionation">
+                <div class="suggestions" ng-hide="vm.showSuggestion()"><div class="inSuggestions" ng-repeat="suggest in vm.suggestions.suggestions track by $id($index)" ng-mouseleave="vm.inActive($event)" ng-mouseover="vm.active($event)" data-skyscannervalue ="{{suggest.PlaceId}}" countryName="{{suggest.CountryName}}">{{suggest.PlaceName}}</div></div>
+            </div>
+        
         
         <input id="destinationplacecountry" ng-model="vm.data.destinationCountry" hidden>
         <input id="destinationplaceshadow" ng-model="vm.data.destinationId" hidden>
@@ -23,7 +24,7 @@
         <datepicker  date-format="dd/MM/y" date-max-limit={{vm.maxReturn}} date-min-limit={{vm.today}}  date-set={{vm.today}} selector="inputClass">
             <div class="dateLabelHolder">
                 <label for="outboundDate" class="ph-label">Depart Date: </label>     
-                <input id="outboundDate" class="inputClass" name="outbounddate" type="text"   ng-model="vm.data.outbounddate" required>
+                <input id="outboundDate" class="inputClass ph-button ph-input" name="outbounddate" type="text"   ng-model="vm.data.outbounddate" required>
     <!--            date-check-->
             </div>
             
@@ -33,7 +34,7 @@
         <datepicker date-format="dd/MM/y" date-max-limit={{vm.maxReturn}} date-min-limit={{vm.today}}  date-set={{vm.today}} selector="inputClass">
             <div class="dateLabelHolder">
                 <label for="inbounddate" class="ph-label">Return Date: </label>
-            <input ng-model="vm.data.inbounddate" name="inbounddate" class="inputClass" id="inbounddate" type="text" ng-show="vm.twoWays" required>
+                <input ng-model="vm.data.inbounddate" name="inbounddate" class="inputClass ph-button ph-input" id="inbounddate" type="text" ng-show="vm.twoWays" required>
 <!--            out-greater-than-in date-check -->
             </div>
             
@@ -117,11 +118,7 @@
                     <br>
                     <a ng-show="flight.originStopsLength" class="stops" ng-mouseover="vm.toolTip($event, flight.originStops)" ng-mouseleave="vm.hideToolTip($event)">{{flight.originStopsLength}}. Stops
                 </a>
-                    <p class="hidden"></p>
-                    <!--
-                    <a ng-show="flight.originStops"  class="stops" ng-repeat="stop in flight.originStops" >
-                stops:{{stop}}</a>
--->
+                    <p class="hiddenCustom"></p>
                 </div>
                 <div class="inlineBlock">
                     <span class="destination">{{flight.destination}}</span>
@@ -142,7 +139,7 @@
                     <br>
                     <a ng-show="flight.destinationStopsLength" class="stops" ng-mouseover="vm.toolTip($event, flight.destinationStops)" ng-mouseleave="vm.hideToolTip($event)">{{flight.destinationStopsLength}}. Stops
                 </a>
-                    <p class="hidden"></p>
+                    <p class="hiddenCustom"></p>
 
                 </div>
                 <div class="inlineBlock">

@@ -89,10 +89,12 @@
                 suggestionsList = document.getElementsByClassName('suggestions')[1];
                 suggestionsList.style.left = inputElement.getBoundingClientRect().left + 'px';
                 suggestionsList.style.top = inputElement.getBoundingClientRect().bottom - 10 + 'px';
+                suggestionsList.style.width = inputElement.clientWidth + 'px';
             } else {
                 suggestionsList = document.getElementsByClassName('suggestions')[0];
                 suggestionsList.style.left = inputElement.getBoundingClientRect().left + 'px';
-                suggestionsList.style.top = inputElement.getBoundingClientRect().bottom - 10 + 'px'
+                suggestionsList.style.top = inputElement.getBoundingClientRect().bottom - 10 + 'px';
+                suggestionsList.style.width = inputElement.clientWidth + 'px';
             }
 
             noSuggestions = false;

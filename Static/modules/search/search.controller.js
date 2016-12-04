@@ -5,9 +5,9 @@
         .module('app.search')
         .controller('SearchController', SearchController);
 
-    SearchController.$inject = ["$http", "autoComplete", "getFlights", "GeoLocationController", "spinner", "$scope"]
+    SearchController.$inject = ["$http", "autoComplete", "getFlights", "GeoLocationController", "spinner"]
 
-    function SearchController($http, autoComplete, getFlights, GeoLocationController, spinner, $scope) {
+    function SearchController($http, autoComplete, getFlights, GeoLocationController, spinner) {
         var vm = this;
         
         vm.flights = getFlights.flights;
@@ -52,17 +52,19 @@
         }
         
         function toolTip(event, stops) {
+            console.log(stops)
             if (stops.length === 0) {
                 stops.push('No Stops');
             }
 
-            $(event.currentTarget).next().addClass('tooltip')
-            $(event.currentTarget).next().attr('margin-left', '100px')
+            $(event.currentTarget).next().addClass('tooltipStops');
+            $(event.currentTarget).next().attr('margin-left', '100px');
             $(event.currentTarget).next().text(stops.join(' '));
         }
+        
         vm.hideToolTip = function(event, stops) {
-            $(event.currentTarget).next().addClass('hidden')
-            $(event.currentTarget).next().removeClass('tooltip')
+            $(event.currentTarget).next().addClass('hiddenCustom')
+            $(event.currentTarget).next().removeClass('tooltipStops')
         }
 
         function currentInputElement(element) {
@@ -136,13 +138,7 @@
             vm.error = null
             vm.data.city = vm.city;
             vm.data.country = vm.country;
-            console.log(vm.data)
-            setTimeout(pristinve,2000)
-            console.log('here')
-            function pristinve(){
-                console.log('pristinve')
-                $scope.vm.searchBox.$setPristine();
-            }
+            
             return new Promise(function(resolve, reject) {
                 resolve(getFlights.search(vm.data));
             });
