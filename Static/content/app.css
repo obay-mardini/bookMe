@@ -47,7 +47,7 @@ textarea{
 }
 #formContainer {
     min-height: 50vh;
-    display: flex;
+    display: -webkit-flex;
     position: relative;
 }
 
@@ -80,6 +80,7 @@ textarea{
 
 .dateLabelHolder {
     display: inline-block;
+    position: relative;
 }
 
 .searchBox select{
@@ -108,7 +109,7 @@ textarea{
     margin-right: auto;
         border-radius: 60px 0px 0px 60px;
     position: relative;
-    display: flex;
+    display: -webkit-flex;
 }
 
 .ticketLeft {
@@ -128,7 +129,7 @@ textarea{
     height: 100%;
     width: 150px;
     text-align: center;
-    display: inline-flex;
+    display: -webkit-inline-flex;
     border-top: 1px purple solid;
     border-bottom: 1px purple solid;
     background-color: white;
